@@ -1,0 +1,28 @@
+# 716 UI
+
+Native components with shadcn as their visual and interaction reference.
+
+716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
+
+**Status: specification and project foundation. No native components, renderer, installable package or release is available yet.** Rust is the implementation direction; the native rendering toolkit remains to be selected through a working prototype.
+
+## Design commitments
+
+- Pin a concrete shadcn source revision, style and theme before implementing corresponding components.
+- Match appearance, keyboard/pointer behavior, focus, selection and animation against reproducible reference scenarios.
+- Make text editing, accessibility, scaling, clipboard support and reduced motion part of component correctness.
+- Keep behavior deterministic and local. Typed events let the host application decide what to do.
+- Ship reusable controls and design tokens with a standalone gallery, documentation and regression tests.
+- Preserve native responsiveness under application load.
+
+## Project documents
+
+- [Architecture and project boundaries](docs/ARCHITECTURE.md)
+- [Component parity specification](docs/COMPONENT-CONTRACT.md)
+- [Implementation and release roadmap](docs/ROADMAP.md)
+- [Contributing](CONTRIBUTING.md)
+- [Upstream references and notices](THIRD_PARTY.md)
+
+## License
+
+Original work is licensed under [Apache-2.0](LICENSE). Upstream code, assets and adapted material retain their applicable notices. This project is independent and is not an official shadcn project.
