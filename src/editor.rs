@@ -64,6 +64,24 @@ impl DocumentEditor {
         widget.append(&scroll);
         let notice = crate::text("Edits remain local until saved by the host", false);
         widget.append(&notice);
+        let overflow = notice.clone();
+        area.view
+            .buffer()
+            .connect_insert_text(move |buffer, _, text| {
+                let current = buffer.text(&buffer.start_iter(), &buffer.end_iter(), true);
+                if text.contains('\0')
+                    || current
+                        .len()
+                        .checked_add(text.len())
+                        .is_none_or(|size| size > 65536)
+                {
+                    buffer.stop_signal_emission_by_name("insert-text");
+                    overflow.set_text(
+                        "Document text is limited to 64 KiB; this insertion was not applied",
+                    );
+                }
+            });
+
         let (query, view, message) = (find.clone(), area.view.clone(), notice.clone());
         next.connect_clicked(move |_| {
             let query = query.text();

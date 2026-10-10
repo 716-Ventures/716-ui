@@ -90,6 +90,7 @@ fn main() {
                 editor.replacement.set_text("café");editor.replace.emit_clicked();assert_eq!(editor.area.value(),"café λ 日本語");
                 editor.replace_all.emit_clicked();assert_eq!(editor.area.value(),"café λ café");editor.area.view.buffer().undo();assert_eq!(editor.area.value(),"café λ 日本語");
                 editor.find.set_text(".*");editor.next.emit_clicked();assert_eq!(editor.notice.text(),"No literal match");
+                let before=editor.area.value();editor.area.view.buffer().insert_at_cursor(&"x".repeat(65536));assert_eq!(editor.area.value(),before);assert!(editor.notice.text().contains("64 KiB"));
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");
