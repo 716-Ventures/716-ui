@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.9
+
+Adds `Image@1` and bounded host-supplied PNG rendering with required alternative descriptions, strict encoded-byte/chunk/dimension limits and native decoding. ARM64 Linux CI 38034098961 passed four theme/scale gallery scenarios and independent AT-SPI Unicode editing, roles, disabled state and checkbox activation. Checkboxes expose a local assistive activation action. GTK 4.14 AT-SPI GrabFocus remains unsupported; physical screen-reader navigation and full reference appearance/motion parity remain unqualified.
+
 ## 0.1.0-alpha.8
 
 Adds `RichText@1` with bounded escaped plain/strong/emphasis/code runs and preserved selection. Adds `Chart@1` with 1–128 uniquely keyed finite values, a native bar plot and exact accessible data table. ARM64 Linux CI 38032311971 passed gallery checks across both themes, scales 1/2 and reduced motion. Full reference chart/typography, tooltips, physical assistive input and motion parity remain unqualified.
