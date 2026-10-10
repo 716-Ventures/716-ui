@@ -68,11 +68,18 @@ fn main() {
         let rich=seven_sixteen_ui::RichText::new(&[seven_sixteen_ui::RichRun{text:"Literal <b>日本語</b> & λ".into(),style:"strong".into()}]).unwrap();content.append(&rich.widget);
         let mut chart=seven_sixteen_ui::BoundedChart::new("Measured comparison",&[seven_sixteen_ui::ChartPoint{id:"loss".into(),label:"Loss".into(),value:-12.5},seven_sixteen_ui::ChartPoint{id:"gain".into(),label:"Gain".into(),value:25.0}]).unwrap();content.append(&chart.widget);
         let image=seven_sixteen_ui::ImageView::new("Blue pixel fixture",include_bytes!("../../tests/pixel.png")).unwrap();content.append(&image.widget);
+        let reference=seven_sixteen_ui::ReferenceView::new("Open related view").unwrap();
+        let opened=Rc::new(RefCell::new(0));let observed=opened.clone();reference.on_open(move ||*observed.borrow_mut()+=1);content.append(&reference.widget);
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
         let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");let paintable=gtk::WidgetPaintable::new(Some(&content));window.present();primary.grab_focus();
         let quit=app.clone();let capture=capture.clone();
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
+                assert!(seven_sixteen_ui::ReferenceView::new("").is_err());
+                reference.widget.emit_clicked();assert_eq!(*opened.borrow(),1);
+                reference.reconcile("View unavailable",false).unwrap();assert!(!reference.widget.is_sensitive());
+                assert!(reference.reconcile("",true).is_err());assert!(!reference.widget.is_sensitive());
+                reference.reconcile("Open related view",true).unwrap();assert!(reference.widget.is_sensitive());
                 assert_eq!(reading.layout().unknown_glyphs_count(),0,"Missing Unicode fallback font");
                 assert_eq!(heading.accessible_role(),gtk::AccessibleRole::Heading);
                 assert_eq!(section.widget.accessible_role(),gtk::AccessibleRole::Group);

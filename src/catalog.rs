@@ -163,7 +163,14 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "reference"],
     );
     image.minimum_size = [160, 240];
+    let reference = component(
+        "button",
+        vec![("label", Kind(String)), ("target", Kind(String))],
+        vec!["label", "target"],
+    );
     BTreeMap::from([
+        ("DocumentReference@1", reference.clone()),
+        ("ApplicationReference@1", reference),
         ("Image@1", image),
         ("RichText@1", rich),
         ("Chart@1", chart),
@@ -252,7 +259,7 @@ mod tests {
     #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 20);
+        assert_eq!(catalog.len(), 22);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));

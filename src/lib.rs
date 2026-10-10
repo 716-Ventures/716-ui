@@ -36,3 +36,8 @@ pub use reading::{BoundedChart, RichText};
 mod image;
 #[cfg(feature = "native")]
 pub use image::ImageView;
+
+#[cfg(feature = "native")]
+mod reference;
+#[cfg(feature = "native")]
+pub use reference::ReferenceView;
