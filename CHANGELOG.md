@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.2
+
+Adds a typed, versioned component catalog usable without the native feature or GTK. Adds labeled multiline text editing with local undo, Unicode selection/IME support supplied by GTK, Ctrl+Enter submission, and protection against external reconciliation while focused. Long unbroken text wraps within its reading surface.
+
+ARM64 Linux CI run 38017369881 passed metadata-only tests, native tests and light/dark scale 1/2 scenarios including multiline draft preservation. Screen-reader journeys, physical IME/clipboard workflows and full shadcn reference parity remain unqualified. Rust 1.85.1 is the verified toolchain.
+
 ## 0.1.0-alpha.1
 
 First experimental GTK 4 release: semantic light/dark tokens, buttons, selectable Unicode text, status, progress, safe links and a labeled single-line text field. Editing, focus, selection and typed events remain local to the application. Focused field reconciliation preserves in-progress edits.
