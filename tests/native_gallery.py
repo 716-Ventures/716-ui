@@ -26,6 +26,16 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if appearance=='dark':command.append('--dark')
                     if scale==2:command.append('--reduced-motion')
                     subprocess.run(command,env=env,check=True,timeout=30)
+            # Keep a gallery alive for an independent assistive-client journey.
+            with (OUTPUT/'accessibility.log').open('w') as accessible_log:
+                gallery=subprocess.Popen([str(ROOT/'target/debug/gallery')],env=env,stdout=accessible_log,stderr=subprocess.STDOUT,start_new_session=True)
+                try:
+                    import accessibility
+                    accessibility.verify()
+                finally:
+                    if gallery.poll() is None:os.killpg(gallery.pid,signal.SIGTERM)
+                    try:gallery.wait(timeout=5)
+                    except subprocess.TimeoutExpired:os.killpg(gallery.pid,signal.SIGKILL);gallery.wait(timeout=5)
         finally:
             os.killpg(compositor.pid,signal.SIGTERM) if compositor.poll() is None else None
             try:compositor.wait(timeout=5)
