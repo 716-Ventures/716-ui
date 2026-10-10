@@ -24,3 +24,10 @@ pub use layout::{ScrollRegion, Section, SplitView, Tabs};
 mod selection;
 #[cfg(feature = "native")]
 pub use selection::{Choice, Toggle};
+
+pub mod content;
+pub use content::{ChartPoint, RichRun};
+#[cfg(feature = "native")]
+mod reading;
+#[cfg(feature = "native")]
+pub use reading::{BoundedChart, RichText};

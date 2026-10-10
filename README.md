@@ -44,3 +44,5 @@ ARM64 Linux CI 38031633481 verified keyed tab reorder/removal, label reconciliat
 Version 0.1.0-alpha.7: `Choice@1` and `Toggle@1` provide labeled native form values. Choices have 1–32 distinct bounded options and an exact selected value; toggles emit booleans. Focused controls retain local values during reconciliation. These controls carry no commit or system-action authority; hosts own draft persistence and deliberate submission. Physical input and reference appearance/motion parity remain unqualified.
 
 ARM64 Linux CI 38032103678 passed typed choice/toggle changes, invalid option rejection and focused value preservation across both themes, scales 1/2 and reduced motion.
+
+Development: `RichText@1` uses up to 256 inert runs (plain/strong/emphasis/code, 64 KiB total) with escaped native text and preserved selection. `Chart@1` uses 1–128 uniquely keyed, finite bounded values, a native bar plot with a zero baseline, and an exact accessible data table. Invalid updates preserve content. Physical assistive input and reference chart/typography parity remain unqualified.

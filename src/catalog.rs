@@ -9,6 +9,8 @@ pub enum PropertyKind {
     Number,
     StringList,
     KeyedRows,
+    RichRuns,
+    ChartPoints,
 }
 #[derive(Clone, Debug, Serialize)]
 #[serde(untagged)]
@@ -148,7 +150,16 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec![("label", Kind(String)), ("value", Kind(Boolean))],
         vec!["label", "value"],
     );
+    let rich = component("text", vec![("runs", Kind(RichRuns))], vec!["runs"]);
+    let mut chart = component(
+        "figure",
+        vec![("label", Kind(String)), ("points", Kind(ChartPoints))],
+        vec!["label", "points"],
+    );
+    chart.minimum_size = [240, 240];
     BTreeMap::from([
+        ("RichText@1", rich),
+        ("Chart@1", chart),
         ("Choice@1", choice),
         ("Toggle@1", toggle),
         ("Split@1", split),
@@ -234,7 +245,7 @@ mod tests {
     #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 17);
+        assert_eq!(catalog.len(), 19);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));

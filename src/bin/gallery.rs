@@ -65,6 +65,8 @@ fn main() {
         let choice=seven_sixteen_ui::Choice::new("Reading density", &["Compact".into(),"Comfortable".into()], "Comfortable").unwrap();
         let choices=Rc::new(RefCell::new(Vec::new()));let observed=choices.clone();choice.on_changed(move |value|observed.borrow_mut().push(value));content.append(&choice.widget);
         let toggle=seven_sixteen_ui::Toggle::new("Wrap text",true).unwrap();let toggles=Rc::new(RefCell::new(Vec::new()));let observed=toggles.clone();toggle.on_changed(move |value|observed.borrow_mut().push(value));content.append(&toggle.widget);
+        let rich=seven_sixteen_ui::RichText::new(&[seven_sixteen_ui::RichRun{text:"Literal <b>日本語</b> & λ".into(),style:"strong".into()}]).unwrap();content.append(&rich.widget);
+        let mut chart=seven_sixteen_ui::BoundedChart::new("Measured comparison",&[seven_sixteen_ui::ChartPoint{id:"loss".into(),label:"Loss".into(),value:-12.5},seven_sixteen_ui::ChartPoint{id:"gain".into(),label:"Gain".into(),value:25.0}]).unwrap();content.append(&chart.widget);
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
         let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");let paintable=gtk::WidgetPaintable::new(Some(&content));window.present();primary.grab_focus();
         let quit=app.clone();let capture=capture.clone();
@@ -94,6 +96,11 @@ fn main() {
                 assert!(seven_sixteen_ui::Choice::new("Invalid", &["A".into()], "B").is_err());
                 toggle.control.set_active(false);assert_eq!(*toggles.borrow(),vec![false]);toggle.control.grab_focus();assert!(!toggle.reconcile(true));assert!(!toggle.control.is_active());
                 assert_eq!(toggle.control.accessible_role(),gtk::AccessibleRole::Checkbox);
+                assert_eq!(rich.widget.text(),"Literal <b>日本語</b> & λ");rich.widget.select_region(0,-1);
+                assert!(!rich.reconcile(&[seven_sixteen_ui::RichRun{text:"Replacement".into(),style:"plain".into()}]).unwrap());assert_eq!(rich.widget.text(),"Literal <b>日本語</b> & λ");
+                assert_eq!(chart.data.row_count(),2);assert!(chart.plot.height()>0);assert!(chart.plot.width()>0);
+                assert!(chart.update("Invalid",&[seven_sixteen_ui::ChartPoint{id:"a".into(),label:"A".into(),value:f64::NAN}]).is_err());assert_eq!(chart.data.row_count(),2);
+                chart.update("Updated measured comparison",&[seven_sixteen_ui::ChartPoint{id:"gain".into(),label:"Gain".into(),value:0.0}]).unwrap();assert_eq!(chart.data.row_count(),1);
                 assert_eq!(primary.accessible_role(),gtk::AccessibleRole::Button);assert!(!disabled.is_sensitive());
                 primary.emit_clicked();assert_eq!(*clicks.borrow(),1);
                 reading.select_region(0,-1);assert!(reading.selection_bounds().is_some());
