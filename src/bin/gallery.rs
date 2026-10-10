@@ -162,6 +162,7 @@ fn main() {
                 // GTK 4.14 deletes selection at preedit-start, potentially
                 // many main-loop turns before the eventual commit arrives.
                 let composing=seven_sixteen_ui::DocumentEditor::new("Separated composition","Original").unwrap();
+                assert_eq!(composing.area.view.wrap_mode(),gtk::WrapMode::None);
                 let buffer=composing.area.view.buffer();
                 buffer.select_range(&buffer.start_iter(),&buffer.iter_at_offset(3));
                 buffer.begin_user_action();buffer.delete_selection(true,true);buffer.end_user_action();

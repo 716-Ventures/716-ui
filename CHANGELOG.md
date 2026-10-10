@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.18
+
+Uses horizontal scrolling for plain-text documents instead of soft wrapping. This avoids expensive reflow of a maximum-sized single line during composition. The agentOS GTK text-input-v3 integration exercised a 64 KiB single-line document, observed preedit processing before commit, rejected overflow, and preserved exact text, selection, durable draft and saved value.
+
 ## 0.1.0-alpha.17
 
 Keeps the selected-deletion receipt alive across IME preedit main-loop turns. A rejected or cancelled composition restores the original selection through native undo; accepted commits and intervening edits invalidate restoration. Native regression checks reproduce GTK 4.14 preedit deletion followed by delayed rejection, cancellation, acceptance and intervening edits.

@@ -53,6 +53,7 @@ impl DocumentEditor {
         widget.append(&tools);
         let area = crate::TextArea::new(label, value);
         area.view.set_monospace(true);
+        area.view.set_wrap_mode(gtk::WrapMode::None);
         area.view.set_vexpand(true);
         let scroll = gtk::ScrolledWindow::builder()
             .hscrollbar_policy(gtk::PolicyType::Automatic)
