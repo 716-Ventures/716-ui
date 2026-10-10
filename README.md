@@ -67,4 +67,4 @@ Button background motion follows the pinned reference default of 150 ms cubic-be
 
 Default text-only Button dimensions are checked against measured pinned browser widths within 1px, with exact 36px height and Inter Medium 14px in both themes. State captures use verified 190×40 border boxes. Other sizes, icons and full typography parity remain unqualified.
 
-Input backgrounds now follow the pinned dark input/30 tint and 50% disabled opacity. Six painted endpoints check default/disabled/focused backgrounds across both themes; the browser harness exercises Unicode editing, keyboard focus and disabled semantics. Stronger native borders and native focus presentation remain deliberate differences.
+Input placeholders use the pinned muted foreground in both themes, with explicit opacity rather than a theme-dependent fade. Input backgrounds now follow the pinned dark input/30 tint and 50% disabled opacity. Ten painted endpoints check default/disabled/focused backgrounds across both themes; the browser harness exercises Unicode editing, keyboard focus and disabled semantics. Stronger native borders and native focus presentation remain deliberate differences.

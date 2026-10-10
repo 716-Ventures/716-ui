@@ -3,6 +3,19 @@ use gtk::{gdk, glib, prelude::*};
 use seven_sixteen_ui::{gtk, Appearance, TextField};
 use std::time::Duration;
 
+fn placeholder(parent: &gtk::Widget) -> Option<gtk::Widget> {
+    if parent.css_name() == "placeholder" {
+        return Some(parent.clone());
+    }
+    let mut child = parent.first_child();
+    while let Some(node) = child {
+        if let Some(found) = placeholder(&node) {
+            return Some(found);
+        }
+        child = node.next_sibling();
+    }
+    None
+}
 fn main() {
     let dark = std::env::args().any(|arg| arg == "--dark");
     let directory = std::env::var("INPUT_STATE_OUTPUT").ok();
@@ -15,6 +28,7 @@ fn main() {
         assert_eq!(expected["profile_revision"],profile["revision"]);
         assert_eq!(expected["component_sha256"],profile["files"]["input.tsx"]);
         let colors=expected["backgrounds"][if dark{"dark"}else{"light"}].clone();
+        let placeholder_rgb=expected["placeholder_rgb"][if dark{"dark"}else{"light"}].clone();
         let rgb=|value:&serde_json::Value| -> [u8;3] {std::array::from_fn(|i|value[i].as_u64().unwrap() as u8)};
         let bg=rgb(&colors["page"]);
         let display = gdk::Display::default().unwrap();
@@ -29,13 +43,13 @@ fn main() {
         // Keep automatic window focus away from the endpoint samples.
         let sink=gtk::Button::with_label("Focus sink");row.append(&sink);
         let mut samples = Vec::new();
-        for state in ["default", "disabled", "focus"] {
-            let field = TextField::new(state, "Placeholder", "Unicode λ");
+        for state in ["default", "disabled", "focus", "placeholder", "placeholder-disabled"] {
+            let field = TextField::new(state, "Placeholder", if state.starts_with("placeholder"){""}else{"Unicode λ"});
             field.entry.set_hexpand(false);
             field.entry.set_width_chars(0);
             field.entry.set_max_width_chars(0);
             field.entry.set_size_request(190, 36);
-            field.entry.set_sensitive(state != "disabled");
+            field.entry.set_sensitive(!state.ends_with("disabled"));
             if state == "focus" {
                 field.entry.set_state_flags(gtk::StateFlags::FOCUSED | gtk::StateFlags::FOCUS_VISIBLE, false);
             }
@@ -52,7 +66,16 @@ fn main() {
             for (state, entry) in samples {
                 let bounds = entry.compute_bounds(&entry).unwrap();
                 assert_eq!((bounds.width(), bounds.height()), (190.0, 36.0));
-                let expected=rgb(&colors[if state=="disabled"{"disabled"}else{"default"}]);
+                let expected=rgb(&colors[if state.ends_with("disabled"){"disabled"}else{"default"}]);
+                let placeholder_color = if state.starts_with("placeholder") {
+                    let node=placeholder(entry.upcast_ref()).expect("Visible GTK placeholder node");
+                    assert!(node.is_visible());
+                    let color=node.color();let expected=rgb(&placeholder_rgb);
+                    let actual=[color.red(),color.green(),color.blue()].map(|c|(c*255.).round() as u8);
+                    assert_eq!(actual,expected,"{state}: placeholder color");
+                    assert!((color.alpha()-1.).abs()<0.001,"{state}: placeholder alpha {}",color.alpha());
+                    Some(actual)
+                }else{None};
                 let snapshot = gtk::Snapshot::new();
                 snapshot.append_color(&gdk::RGBA::new(bg[0] as f32 / 255., bg[1] as f32 / 255., bg[2] as f32 / 255., 1.),
                     &gtk::graphene::Rect::new(0., 0., bounds.width(), bounds.height()));
@@ -68,7 +91,7 @@ fn main() {
                     texture.save_to_png(format!("{directory}/{state}.png")).unwrap();
                 }
                 assert!(actual.iter().zip(expected).all(|(a, e)| a.abs_diff(e) <= 2), "{state}: painted {actual:?}, reference {expected:?}");
-                checks.push(serde_json::json!({"state":state,"painted_rgb":actual,"expected_rgb":expected,"width":bounds.width(),"height":bounds.height()}));
+                checks.push(serde_json::json!({"state":state,"painted_rgb":actual,"expected_rgb":expected,"width":bounds.width(),"height":bounds.height(),"placeholder_rgb":placeholder_color}));
             }
             println!("{}", serde_json::json!({"result":"pass","appearance":if dark{"dark"}else{"light"},"checks":checks,"scope":"default desktop Input backgrounds and disabled opacity; native border/focus differences retained"}));
             quit.quit();

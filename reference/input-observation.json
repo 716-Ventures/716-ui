@@ -61,5 +61,17 @@
     "mobile responsive font behavior",
     "invalid/file input variants",
     "physical presentation timing"
-  ]
+  ],
+  "placeholder_rgb": {
+    "light": [
+      113,
+      113,
+      122
+    ],
+    "dark": [
+      161,
+      161,
+      170
+    ]
+  }
 }
