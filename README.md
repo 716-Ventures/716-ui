@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.18` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.20` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -61,4 +61,4 @@ The optional `terminal` feature provides `TerminalView` for `PtySession@1` using
 
 `DocumentEditor@1` and `DocumentEditor` edit a bounded shared plain-text document with horizontally scrolling monospace native text, literal Unicode find/replace and grouped undo. Replacement growth is checked before allocation. Editing is local; persistence, save/discard, revisions and optional file import/export are host responsibilities. File paths and commands are never inferred from its text.
 
-Document transfers are bounded before editing: clipboard and primary selection reads have a three-second deadline and a 64 KiB cap. Text drops copy at the drop location; moving text by drop is deliberately unsupported so rejected drops cannot delete their source. Rejected synchronous selected IME replacements restore the selection through native undo while retaining earlier history. Physical IME engines, host middle-click delivery and complete drag-and-drop journeys still require qualification.
+Document transfers are bounded before editing: clipboard and primary selection reads have a three-second deadline and a 64 KiB cap. Text drops copy at the drop location; moving text by drop is deliberately unsupported so rejected drops cannot delete their source. Rejected synchronous selected IME replacements restore the selection through native undo while retaining earlier history. Blank-area paste/drop positions retain GTK’s nearest iterator instead of discarding non-glyph hits. Physical IME engines and host input delivery require host qualification; the standalone gallery does not establish complete compositor/client drag handoffs.
