@@ -77,6 +77,21 @@ impl Toggle {
         let widget = crate::column(6);
         let control = gtk::CheckButton::with_label(title);
         control.set_active(value);
+        // GTK 4.14 exposes generic widget actions over AT-SPI, but does not
+        // supply a CheckButton activation action. Keep this local to the
+        // control and use a weak reference so the action cannot retain it.
+        let actions = gtk::gio::SimpleActionGroup::new();
+        let toggle = gtk::gio::SimpleAction::new("toggle", None);
+        let weak_control = control.downgrade();
+        toggle.connect_activate(move |_, _| {
+            if let Some(control) = weak_control.upgrade() {
+                if control.is_sensitive() {
+                    control.emit_activate();
+                }
+            }
+        });
+        actions.add_action(&toggle);
+        control.insert_action_group("control", Some(&actions));
         control.update_property(&[gtk::accessible::Property::Label(title)]);
         widget.append(&control);
         Ok(Self { widget, control })
