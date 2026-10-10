@@ -158,7 +158,17 @@ pub fn row(spacing: i32) -> gtk::Box {
     gtk::Box::new(gtk::Orientation::Horizontal, spacing.clamp(0, 64))
 }
 pub fn text(value: &str, heading: bool) -> gtk::Label {
-    let label = gtk::Label::new(Some(value));
+    let label = gtk::Label::builder()
+        .label(value)
+        .accessible_role(if heading {
+            gtk::AccessibleRole::Heading
+        } else {
+            gtk::AccessibleRole::Label
+        })
+        .build();
+    if heading {
+        label.update_property(&[gtk::accessible::Property::Level(1)]);
+    }
     label.set_selectable(true);
     label.set_wrap(true);
     label.set_wrap_mode(gtk::pango::WrapMode::WordChar);

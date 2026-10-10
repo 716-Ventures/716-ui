@@ -49,6 +49,10 @@ fn main() {
         list.update(&list_rows).unwrap();content.append(&list.widget);
         let mut pairs=seven_sixteen_ui::DataList::new("Resource metadata",true).unwrap();
         pairs.update(&[seven_sixteen_ui::TableRow{id:"kind".into(),cells:vec!["Kind".into(),"File".into()]},seven_sixteen_ui::TableRow{id:"mode".into(),cells:vec!["Permissions".into(),"0644".into()]}]).unwrap();content.append(&pairs.widget);
+        let section=seven_sixteen_ui::Section::new("Reading section").unwrap();
+        let region=seven_sixteen_ui::ScrollRegion::new("Long reading region").unwrap();
+        for i in 0..100 {region.content.append(&seven_sixteen_ui::text(&format!("Reading line {i} · 日本語"),false));}
+        section.content.append(&region.widget);content.append(&section.widget);
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -57,6 +61,13 @@ fn main() {
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
                 assert_eq!(reading.layout().unknown_glyphs_count(),0,"Missing Unicode fallback font");
+                assert_eq!(heading.accessible_role(),gtk::AccessibleRole::Heading);
+                assert_eq!(section.widget.accessible_role(),gtk::AccessibleRole::Group);
+                assert_eq!(section.heading.accessible_role(),gtk::AccessibleRole::Heading);
+                assert!(region.widget.vadjustment().upper()>region.widget.vadjustment().page_size());
+                region.widget.vadjustment().set_value(100.0);assert!(region.widget.vadjustment().value()>0.0);
+                section.set_label("Updated section").unwrap();assert_eq!(section.heading.text(),"Updated section");
+                assert!(section.set_label(" ").is_err());
                 assert_eq!(primary.accessible_role(),gtk::AccessibleRole::Button);assert!(!disabled.is_sensitive());
                 primary.emit_clicked();assert_eq!(*clicks.borrow(),1);
                 reading.select_region(0,-1);assert!(reading.selection_bounds().is_some());
