@@ -102,6 +102,8 @@ pub fn install_theme(
 .seven-ui button label {{color:inherit;}}
 .seven-ui button:focus-visible,.seven-ui entry:focus-visible,.seven-ui textview:focus-visible {{outline:3px solid {muted};outline-offset:2px;}}
 .seven-ui entry,.seven-ui textview {{background:{bg};color:{fg};border:1px solid {border};border-radius:6px;min-height:{height}px;padding:{pad_y}px {input_x}px;box-shadow:none;caret-color:{fg};}}
+.seven-ui entry {{background:{outline_bg};}}
+.seven-ui entry:disabled {{opacity:.5;}}
 .seven-ui selection {{background:{selected};color:{on_selected};}}
 .seven-ui progressbar {{color:{fg};}}
 .seven-ui progressbar text {{color:{fg};}}

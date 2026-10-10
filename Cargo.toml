@@ -1,6 +1,6 @@
 [package]
 name = "seven-sixteen-ui"
-version = "0.1.0-alpha.21"
+version = "0.1.0-alpha.22"
 edition = "2021"
 rust-version = "1.85"
 license = "Apache-2.0"
@@ -30,6 +30,11 @@ required-features = ["native"]
 [[bin]]
 name = "button-metrics"
 path = "src/bin/button_metrics.rs"
+required-features = ["native"]
+
+[[bin]]
+name = "input-states"
+path = "src/bin/input_states.rs"
 required-features = ["native"]
 
 [dependencies]

@@ -1,4 +1,4 @@
-# Pinned Button browser harness
+# Pinned Button and Input browser harness
 
 This developer-only harness bundles the actual checksum-verified `reference/button.tsx` with the pinned Zinc tokens, default Tailwind spacing/radius and Inter font files supplied by the tester. It does not reproduce the upstream website's global styles, theme generator or responsive application overrides. In particular, the unqualified light outline border inherits Tailwind's current-color default. Consumer-global border rules must be assessed separately.
 
@@ -9,3 +9,5 @@ The 2026-10-10 local in-app browser inspection exercised activation, keyboard fo
 The native library's existing 50 painted Button state endpoints are a separate GTK check. Native destructive contrast, stronger borders and native focus presentation remain documented differences. Native background motion now uses the observed reference default of 150ms cubic-bezier(0.4, 0, 0.2, 1). The Motion observer records actual pointer enter/leave computed-style samples over animation frames; the local browser inspection exercised light entry/reversal and dark entry. Frame callback offsets are clipped at zero for an event arriving after the current frame timestamp. Neither this harness nor derived color expectations establish full shadcn parity. It adds no browser dependency to the Rust library or native consumers.
 
 The measured natural widths and 36px height for the five default text-only variants are retained in `reference/button-metrics.json`. Native `button-metrics` checks those border-box dimensions within 1px using Inter Medium 14px; GTK content-box dimensions are recorded separately. These measurements exclude upstream website globals and do not qualify other sizes or icons.
+
+The Input section imports the checksum-verified upstream component unchanged. `reference/input-observation.json` records the scoped desktop observation, actual controlled Unicode editing, keyboard focus and disabled checks. It does not establish full input parity, mobile styles, invalid/file variants or physical timing.

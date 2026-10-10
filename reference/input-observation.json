@@ -1,0 +1,65 @@
+{
+  "measured_at": "2026-10-10",
+  "profile_revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+  "component_sha256": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+  "environment": "Codex in-app browser, 1280px viewport; engine version not collected",
+  "scope": "Pinned Input + Zinc + Inter + default Tailwind; excludes upstream website globals",
+  "allocation": {
+    "width": 190,
+    "height": 36
+  },
+  "font_size_px": 14,
+  "font_weight": 400,
+  "padding": "4px 12px",
+  "radius_px": 6,
+  "disabled_opacity": 0.5,
+  "transition": "color and box-shadow, 150ms cubic-bezier(0.4,0,0.2,1)",
+  "backgrounds": {
+    "light": {
+      "page": [
+        255,
+        255,
+        255
+      ],
+      "default": [
+        255,
+        255,
+        255
+      ],
+      "disabled": [
+        255,
+        255,
+        255
+      ]
+    },
+    "dark": {
+      "page": [
+        9,
+        9,
+        11
+      ],
+      "default": [
+        18,
+        18,
+        20
+      ],
+      "disabled": [
+        14,
+        14,
+        16
+      ]
+    }
+  },
+  "checks": [
+    "controlled Unicode edit visible in output",
+    "Tab reaches next Input with focus-visible ring",
+    "disabled Input is not enabled",
+    "light/dark appearance inspected"
+  ],
+  "unqualified": [
+    "full pixel/typography parity",
+    "mobile responsive font behavior",
+    "invalid/file input variants",
+    "physical presentation timing"
+  ]
+}

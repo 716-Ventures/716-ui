@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.21` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.22` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -66,3 +66,5 @@ Document transfers are bounded before editing: clipboard and primary selection r
 Button background motion follows the pinned reference default of 150 ms cubic-bezier(0.4, 0, 0.2, 1), with immediate reduced-motion feedback. Four painted native traces cover light/dark hover, reversal and interruption; a separate browser observer captures actual reference pointer trajectories. These checks do not establish frame-for-frame or physical presentation parity.
 
 Default text-only Button dimensions are checked against measured pinned browser widths within 1px, with exact 36px height and Inter Medium 14px in both themes. State captures use verified 190×40 border boxes. Other sizes, icons and full typography parity remain unqualified.
+
+Input backgrounds now follow the pinned dark input/30 tint and 50% disabled opacity. Six painted endpoints check default/disabled/focused backgrounds across both themes; the browser harness exercises Unicode editing, keyboard focus and disabled semantics. Stronger native borders and native focus presentation remain deliberate differences.
