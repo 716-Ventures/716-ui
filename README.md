@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.2` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.3` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -31,4 +31,4 @@ Build with Rust 1.85.1 and GTK ≥4.12: `cargo build --locked`. Run `cargo run -
 
 Version 0.1.0-alpha.2 adds renderer-independent, typed component metadata (`default-features = false`) and native multiline text editing. The host may consume the same catalog without linking GTK. ARM64 Linux CI verifies both metadata-only builds and native single/multiline edit preservation.
 
-Development toward alpha.3 adds `Table@1` metadata and `DataTable`, a GTK ColumnView with stable row keys, native column headers, keyboard selection and virtualized cells. Columns and cells are bounded, duplicate keys are rejected, and selection follows the row key across updates and reordering. These additions await ARM64 gallery verification before release.
+Version 0.1.0-alpha.3 adds `Table@1` metadata and `DataTable`, a GTK ColumnView with stable row keys, native column headers, keyboard selection and virtualized cells. Columns and cells are bounded, duplicate keys are rejected, and selection follows the row key across updates and reordering. ARM64 Linux gallery verification covers 4,000 rows with allocated visible cells, selection across reordering, duplicate-key rejection, both themes, both tested text scales and reduced motion. Physical assistive-input and shadcn visual/motion parity remain unqualified.
