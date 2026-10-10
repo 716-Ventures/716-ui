@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.12
+
+Adds optional `terminal` feature, `TerminalView` and `PtySession@1` schema using VTE 0.8 GTK4 bindings. Native terminal rendering accepts 16 KiB host chunks and bounded scrollback, emits local input, exposes grid/interaction state and starts with input disabled. ARM64 Linux CI 38035243208 passed all-feature builds, mapped theme/scale terminal scenarios and the assistive probe. Attachment, transport, authority and child lifecycle belong to the host; physical terminal input, IME and full reference parity remain unqualified.
+
 ## 0.1.0-alpha.11
 
 Adds `Result@1`, `Error@1` and `OutcomeView` with selectable literal content, status/alert roles, preserved selections and deliberate local recovery intent. ARM64 Linux CI 38034749537 passed four mapped theme/scale scenarios and the independent assistive probe. Recovery callbacks, assessment and source revisions belong to the host. Alert reference source is pinned; announcement timing, physical assistive recovery and full visual/motion parity remain unqualified.
