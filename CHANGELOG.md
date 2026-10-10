@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.10
+
+Adds `DocumentReference@1`, `ApplicationReference@1` and `ReferenceView` with bounded accessible labels, local navigation intent and explicit unavailable state. ARM64 Linux CI 38034354273 passed mapped gallery intent/state checks across themes/scales and the independent assistive probe. Resolving identities, authorization, target revisions, placement and application lifecycle belong to the host; references do not launch processes or open URLs. Full reference appearance/motion and physical assistive navigation remain unqualified.
+
 ## 0.1.0-alpha.9
 
 Adds `Image@1` and bounded host-supplied PNG rendering with required alternative descriptions, strict encoded-byte/chunk/dimension limits and native decoding. ARM64 Linux CI 38034098961 passed four theme/scale gallery scenarios and independent AT-SPI Unicode editing, roles, disabled state and checkbox activation. Checkboxes expose a local assistive activation action. GTK 4.14 AT-SPI GrabFocus remains unsupported; physical screen-reader navigation and full reference appearance/motion parity remain unqualified.
