@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.4` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.5` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -35,4 +35,4 @@ Version 0.1.0-alpha.3 adds `Table@1` metadata and `DataTable`, a GTK ColumnView 
 
 Version 0.1.0-alpha.4: `List@1` and `KeyValue@1` use bounded, stable keyed rows in GTK ListView. `DataList::new(label, false)` accepts one string cell per row; `true` accepts key/value pairs. Rows are read-only, updates preserve selection by key, and deleted keys clear selection. The pinned shadcn Item reference supplies the visual/semantic comparison baseline; item actions/media and full physical input/motion parity are not qualified. ARM64 Linux CI run 38030789105 passed 4,000-row virtualization, keyed reorder/removal and native accessibility roles in both themes, text scales 1/2 and reduced motion.
 
-Development: `Section@1` and `Scroll@1` add labeled grouping and bounded native vertical scrolling. `Section` exposes a native accessible heading and content box; `ScrollRegion` exposes its content box within a 160–480 pixel natural-height viewport. Headings now expose the native Heading role and level. The gallery checks group/heading roles, actual scroll ranges and label updates; complete screen-reader and reference motion journeys remain unqualified.
+Version 0.1.0-alpha.5: `Section@1` and `Scroll@1` add labeled grouping and bounded native vertical scrolling. `Section` exposes a native accessible heading and content box; `ScrollRegion` exposes its content box within a 160–480 pixel natural-height viewport. Headings now expose the native Heading role and level. The gallery checks group/heading roles, actual scroll ranges and label updates; ARM64 Linux CI 38031215921 passed these checks across both themes, scales 1/2 and reduced motion. Complete screen-reader and reference motion journeys remain unqualified.

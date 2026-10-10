@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.5
+
+Adds `Section@1` and `Scroll@1` schemas, labeled native sections and bounded vertical scroll regions. Text headings expose the Heading role and level. ARM64 Linux CI 38031215921 passed native allocation, actual scroll-range, group/heading role and label reconciliation checks across both appearances, scales 1/2 and reduced motion. Complete screen-reader journeys and reference appearance/motion parity remain unqualified.
+
 ## 0.1.0-alpha.4
 
 Adds read-only `List@1` and `KeyValue@1` schemas and `DataList`, with stable keyed selection, cleared selection after removal and native virtualized rows. Accessible collection labels are required. The shadcn Item source is pinned alongside the existing profile. ARM64 Linux CI 38030789105 passed pure/native checks and mapped 4,000-row gallery scenarios across both appearances, scales 1/2 and reduced motion. Physical assistive input and full reference appearance/motion parity remain unqualified.
