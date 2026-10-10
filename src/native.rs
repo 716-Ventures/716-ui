@@ -87,7 +87,7 @@ pub fn install_theme(
 .seven-ui label {{color:{fg};}}
 .seven-ui label.heading {{font-size:{heading}px;font-weight:600;}}
 .seven-ui label.muted {{color:{muted};}}
-.seven-ui button {{border-radius:6px;min-height:{height}px;padding:{pad_y}px {pad_x}px;border:1px solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms ease-out;}}
+.seven-ui button {{border-radius:6px;min-height:{height}px;padding:{pad_y}px {pad_x}px;border:1px solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms cubic-bezier(.4,0,.2,1);}}
 .seven-ui button.primary {{background:{primary};color:{on_primary};}}
 .seven-ui button.secondary {{background:{secondary};color:{fg};}}
 .seven-ui button.outline {{background:{outline_bg};color:{fg};border-color:{border};}}
@@ -131,7 +131,7 @@ pub fn install_theme(
         pad_y = 8.0 * scale,
         pad_x = 16.0 * scale,
         input_x = 12.0 * scale,
-        motion = if reduced_motion { 0 } else { 120 },
+        motion = if reduced_motion { 0 } else { 150 },
         link = if appearance == Appearance::Light {
             "#0e7490"
         } else {

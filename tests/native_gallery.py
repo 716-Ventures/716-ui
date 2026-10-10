@@ -24,6 +24,14 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 command=[str(ROOT/'target/debug/button-states')]
                 if appearance=='dark':command.append('--dark')
                 subprocess.run(command,env={**env,'BUTTON_STATE_OUTPUT':str(OUTPUT/('button-states-'+appearance))},check=True,timeout=15)
+                for reduced in (False,True):
+                    motion=[str(ROOT/'target/debug/button-motion')]
+                    if appearance=='dark':motion.append('--dark')
+                    if reduced:motion.append('--reduced-motion')
+                    result=subprocess.run(motion,env=env,capture_output=True,text=True,timeout=15)
+                    (OUTPUT/('button-motion-'+appearance+('-reduced' if reduced else '')+'.json')).write_text(result.stdout)
+                    if result.stderr:print(result.stderr)
+                    result.check_returncode()
                 for scale in (1,2):
                     command=[str(ROOT/'target/debug/gallery'),'--self-test','--capture',str(OUTPUT/(appearance+'-'+str(scale)+'.png')),'--scale',str(scale)]
                     if appearance=='dark':command.append('--dark')

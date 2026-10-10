@@ -31,7 +31,7 @@ const css=`@import "tailwindcss";
 .dark {${tokens.map(token=>`--${token}:hsl(${zinc.cssVars.dark[token]});`).join("")}}
 ${[400,500,600].map(weight=>`@font-face{font-family:"716 Reference Inter";font-style:normal;font-weight:${weight};src:url("fonts/Inter-${weight}.otf") format("opentype");}`).join("\n")}
 body{background:var(--background);color:var(--foreground);font-family:"716 Reference Inter",sans-serif;margin:0;padding:28px;}
-main{max-width:1100px;}h1{font-size:24px;font-weight:600;}h2{font-size:18px;font-weight:600;margin-bottom:16px;}header p,section p{font-size:14px;max-width:900px;margin:12px 0;}section{margin:28px 0;}.samples{display:flex;gap:12px;flex-wrap:wrap;}output{font-size:14px;}header label{display:flex;align-items:center;gap:8px;}
+main{max-width:1100px;}h1{font-size:24px;font-weight:600;}h2{font-size:18px;font-weight:600;margin-bottom:16px;}header p,section p{font-size:14px;max-width:900px;margin:12px 0;}section{margin:28px 0;}.samples{display:flex;gap:12px;flex-wrap:wrap;}output{font-size:14px;}header label{display:flex;align-items:center;gap:8px;}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:200px;overflow:auto;font-size:12px;}
 `
 await writeFile(`${here}generated.css`,css)
 try{execFileSync(`${here}node_modules/.bin/tailwindcss`,["-i",`${here}generated.css`,"-o",`${out}/style.css`,"--minify"],{cwd:here,stdio:"inherit"})}finally{await import("node:fs/promises").then(fs=>fs.unlink(`${here}generated.css`))}
