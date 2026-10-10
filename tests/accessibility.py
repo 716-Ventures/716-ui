@@ -21,7 +21,10 @@ def find(name,role=None):
 def verify():
     field=find('Your draft',pyatspi.ROLE_TEXT)
     assert field.queryEditableText().setTextContents('AT-SPI draft λ 日本語')
-    assert field.queryText().getText(0,-1)=='AT-SPI draft λ 日本語'
+    deadline=time.monotonic()+3
+    while field.queryText().getText(0,-1)!='AT-SPI draft λ 日本語':
+        if time.monotonic()>deadline:raise AssertionError('AT-SPI edit observed '+repr(field.queryText().getText(0,-1)))
+        time.sleep(.05)
     assert field.queryComponent().grabFocus()
     disabled=find('Unavailable',pyatspi.ROLE_PUSH_BUTTON)
     assert not disabled.getState().contains(pyatspi.STATE_ENABLED)
