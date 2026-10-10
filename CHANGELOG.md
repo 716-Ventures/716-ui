@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.20
+
+Primary paste and text drops retain GTK’s nearest insertion iterator when the pointer is in blank space below or right of the text. Previously the high-level wrapper discarded that iterator whenever the point was not directly over a glyph. A mapped gallery regression reproduces the lost blank-area paste on alpha.19, then verifies exact Unicode append and grouped undo across appearance/text-scale profiles.
+
 ## 0.1.0-alpha.19
 
 Button hover changes variant backgrounds without fading labels. Pressed buttons retain the pinned reference hover endpoint rather than introducing a whole-widget opacity change. Dark outline backgrounds use the pinned input alpha. A rendered GTK regression samples all five variants in default, hover, pressed, disabled and focus states in both appearances (50 endpoints, two-channel-value tolerance). The old pressed-button behavior fails this regression. These endpoint checks do not establish physical pointer delivery, motion or full reference parity.

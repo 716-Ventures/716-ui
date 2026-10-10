@@ -1,4 +1,5 @@
 //! Bounded asynchronous text transfers. Preflight before changing the buffer.
+use glib::translate::{ToGlibPtr, ToGlibPtrMut};
 use gtk::{gio, glib, prelude::*};
 use std::{cell::Cell, future::Future, rc::Rc, time::Duration};
 const LIMIT: usize = 65536;
@@ -48,9 +49,25 @@ fn focused(view: &gtk::TextView) -> bool {
         .is_some_and(|focus| focus == *view.upcast_ref::<gtk::Widget>() || focus.is_ancestor(view))
 }
 fn position(view: &gtk::TextView, x: f64, y: f64) -> Option<i32> {
+    if !x.is_finite() || !y.is_finite() {
+        return None;
+    }
     let (x, y) = view.window_to_buffer_coords(gtk::TextWindowType::Widget, x as i32, y as i32);
-    view.iter_at_location(x, y).map(|iter| iter.offset())
+    let mut iter = view.buffer().start_iter();
+    // GTK always fills the nearest iterator. Its boolean only says whether
+    // the point is over text; the high-level Option discards blank-area hits.
+    // https://docs.gtk.org/gtk4/method.TextView.get_iter_at_location.html
+    unsafe {
+        gtk::ffi::gtk_text_view_get_iter_at_location(
+            view.to_glib_none().0,
+            iter.to_glib_none_mut().0,
+            x,
+            y,
+        );
+    }
+    Some(iter.offset())
 }
+
 fn transfer(
     view: &gtk::TextView,
     notice: &gtk::Label,

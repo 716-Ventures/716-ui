@@ -133,6 +133,19 @@ fn main() {
                     while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
                 }
                 buffer.undo();assert_eq!(editor.area.value(),before);
+                // GTK returns a nearest iterator even when the pointer is in
+                // blank space below/right of the last line. Such paste/drop
+                // targets must append instead of silently doing nothing.
+                buffer.place_cursor(&buffer.start_iter());
+                editor.area.view.primary_clipboard().set_text(" End λ");
+                let (blank_x,blank_y)=((editor.area.view.width()-5) as f64,(editor.area.view.height()-5) as f64);
+                primary_paste.emit_by_name::<()>("pressed",&[&1i32,&blank_x,&blank_y]);
+                let deadline=std::time::Instant::now()+Duration::from_secs(2);
+                while editor.area.value()!=format!("{before} End λ") {
+                    assert!(std::time::Instant::now()<deadline,"Primary paste into blank editor space was lost: {}",editor.area.value());
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                }
+                buffer.undo();assert_eq!(editor.area.value(),before);
                 assert!((0..controllers.n_items()).all(|i|!controllers.item(i).unwrap().is::<gtk::DropTarget>()));
                 let drop=(0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::DropTargetAsync>()).collect::<Vec<_>>();
                 assert_eq!(drop.len(),1);assert_eq!(drop[0].actions(),gtk::gdk::DragAction::COPY);
