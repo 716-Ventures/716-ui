@@ -69,13 +69,12 @@ impl BoundedChart {
             if values.is_empty() {
                 return;
             }
-            let min = values.iter().map(|p| p.value).fold(0.0, f64::min);
-            let max = values.iter().map(|p| p.value).fold(0.0, f64::max);
-            let range = (max - min).max(1.0);
+            let Some((min, max)) = crate::content::chart_domain(&values) else { return; };
+            let range = max - min;
             let height = f64::from(height.max(1));
             let width = f64::from(width.max(1));
-            let baseline = height * max / range;
-            let color = area.style_context().color();
+            let baseline = height * (max / range);
+            let color = area.color();
             context.set_source_rgba(
                 f64::from(color.red()),
                 f64::from(color.green()),
@@ -84,7 +83,7 @@ impl BoundedChart {
             );
             let slot = width / values.len() as f64;
             for (i, point) in values.iter().enumerate() {
-                let top = height * (max - point.value) / range;
+                let top = height * ((max - point.value) / range);
                 context.rectangle(
                     i as f64 * slot + slot * 0.1,
                     top.min(baseline),

@@ -21,6 +21,13 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 if time.monotonic()>deadline:raise RuntimeError('Nested display startup timed out')
                 time.sleep(.05)
             for appearance in ('light','dark'):
+                for case in ('positive','negative','mixed','zero','tiny','subnormal','integer'):
+                    chart=[str(ROOT/'target/debug/chart-states')]
+                    if appearance=='dark':chart.append('--dark')
+                    result=subprocess.run(chart,env={**env,'CHART_STATE_OUTPUT':str(OUTPUT/('chart-states-'+appearance)), 'CHART_CASE':case},capture_output=True,text=True,timeout=15)
+                    (OUTPUT/('chart-states-'+appearance+'-'+case+'.json')).write_text(result.stdout)
+                    if result.stderr:print(result.stderr)
+                    result.check_returncode()
                 tabs=[str(ROOT/'target/debug/tabs-states')]
                 if appearance=='dark':tabs.append('--dark')
                 result=subprocess.run(tabs,env={**env,'TABS_STATE_OUTPUT':str(OUTPUT/('tabs-states-'+appearance))},capture_output=True,text=True,timeout=15)

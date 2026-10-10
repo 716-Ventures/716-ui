@@ -41,6 +41,14 @@ pub fn valid_points(points: &[ChartPoint]) -> bool {
                 && point.value.abs() <= 1e12
         })
 }
+/// Zero-inclusive domain; only all-zero data needs a synthetic unit span.
+#[cfg(any(feature = "native", test))]
+pub(crate) fn chart_domain(points: &[ChartPoint]) -> Option<(f64, f64)> {
+    if !valid_points(points) { return None; }
+    let min = points.iter().map(|p| p.value).fold(0.0, f64::min);
+    let max = points.iter().map(|p| p.value).fold(0.0, f64::max);
+    Some((min, if min == max { 1.0 } else { max }))
+}
 pub fn valid_literal(kind: &str, value: &serde_json::Value) -> bool {
     match kind {
         "richruns" => serde_json::from_value::<Vec<RichRun>>(value.clone())
@@ -54,6 +62,21 @@ pub fn valid_literal(kind: &str, value: &serde_json::Value) -> bool {
 mod tests {
     use super::*;
     use serde_json::json;
+    #[test]
+    fn chart_domain_preserves_fractional_and_tiny_values() {
+        let points = |values: &[f64]| values.iter().enumerate().map(|(i, value)| ChartPoint {
+            id: format!("point-{i}"), label: format!("Measured {i}"), value: *value,
+        }).collect::<Vec<_>>();
+        for (values, expected) in [
+            ([0.1, 0.2], (0.0, 0.2)), ([-0.1, -0.2], (-0.2, 0.0)),
+            ([-0.1, 0.2], (-0.1, 0.2)), ([0.0, 0.0], (0.0, 1.0)),
+            ([1e-12, 2e-12], (0.0, 2e-12)), ([-1e12, 1e12], (-1e12, 1e12)),
+            ([f64::from_bits(1), f64::from_bits(2)], (0.0, f64::from_bits(2))),
+        ] { assert_eq!(chart_domain(&points(&values)), Some(expected)); }
+        for values in [vec![], vec![f64::NAN], vec![f64::INFINITY], vec![1e13]] {
+            assert_eq!(chart_domain(&points(&values)), None);
+        }
+    }
     #[test]
     fn reading_literals_bound_keys_values_styles_and_unknown_fields() {
         assert!(valid_literal(
