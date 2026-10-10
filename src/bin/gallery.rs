@@ -71,6 +71,10 @@ fn main() {
         let outcome=seven_sixteen_ui::OutcomeView::new("Completed work","Exact result 日本語",false).unwrap();content.append(&outcome.widget);
         let failure=seven_sixteen_ui::OutcomeView::new("Work unavailable","Literal <retry> & λ",true).unwrap();content.append(&failure.widget);
         failure.set_recovery("Retry assessed work",true).unwrap();let recovered=Rc::new(RefCell::new(0));let observed=recovered.clone();failure.on_recover(move||*observed.borrow_mut()+=1);
+        #[cfg(feature="terminal")]
+        let terminal=seven_sixteen_ui::TerminalView::new("Embedded terminal fixture").unwrap();
+        #[cfg(feature="terminal")]
+        {terminal.feed(b"\x1b[32mTerminal output\x1b[0m\r\nUnicode: \xce\xbb",false).unwrap();content.append(&terminal.widget);}
         let reference=seven_sixteen_ui::ReferenceView::new("Open related view").unwrap();
         let opened=Rc::new(RefCell::new(0));let observed=opened.clone();reference.on_open(move ||*observed.borrow_mut()+=1);content.append(&reference.widget);
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -78,6 +82,8 @@ fn main() {
         let quit=app.clone();let capture=capture.clone();
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
+                #[cfg(feature="terminal")]
+                {assert!(!terminal.terminal.is_input_enabled());assert!(terminal.feed(&vec![0;16385],false).is_err());let (rows,cols)=terminal.grid();assert!(rows>0 && cols>0);terminal.set_attached(true);assert!(terminal.terminal.is_input_enabled());terminal.set_attached(false);}
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");

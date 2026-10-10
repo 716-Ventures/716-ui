@@ -10,6 +10,7 @@ repository = "https://github.com/716-Ventures/716-ui"
 [features]
 default = ["native"]
 native = ["dep:gtk"]
+terminal = ["native", "dep:vte"]
 
 [[bin]]
 name = "gallery"
@@ -20,6 +21,8 @@ required-features = ["native"]
 serde = {version="1",features=["derive"]}
 serde_json = "1"
 gtk = { package = "gtk4", version = "=0.9.7", features = ["v4_12"], optional = true }
+
+vte = { package="vte4", version="=0.8.0", optional=true }
 
 [profile.dev]
 debug = 0

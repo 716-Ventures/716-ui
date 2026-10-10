@@ -46,3 +46,8 @@ pub use reference::ReferenceView;
 mod outcome;
 #[cfg(feature = "native")]
 pub use outcome::OutcomeView;
+
+#[cfg(feature = "terminal")]
+mod terminal;
+#[cfg(feature = "terminal")]
+pub use terminal::TerminalView;
