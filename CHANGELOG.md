@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.0-alpha.16
+
+Preserves selected text when a synchronous GTK IME replacement exceeds 64 KiB, retaining earlier undo and removing the rejected deletion from redo. Primary paste and text drops now use bounded asynchronous preflight. Text drops copy at the insertion point; MOVE drops are no longer accepted. ARM64 Debian guest tests cover native replacement ordering, prior undo/redo, oversized and valid primary paste through the controller, bounded Unicode streams and mapped theme/scale/assistive journeys. Physical IME engines and complete drag-source/destination handoffs remain unqualified.
+
+## 0.1.0-alpha.15
+
+Preflights asynchronous clipboard paste before deleting a document selection, with bounded reads, timeout, focus and revision guards.
+
+## 0.1.0-alpha.14
+
+Rejects oversized document insertions at the native buffer boundary.
+
 ## 0.1.0-alpha.13
 
 Adds `DocumentEditor@1` and shared plain-text editing with monospace native text, bounded literal Unicode find/replace, selection replacement and grouped undo. Replacement growth is preflighted before allocation. ARM64 Linux CI 38036067038 passed all-feature builds, mapped Unicode editing/undo scenarios across themes/scales and the independent assistive probe. Persistence, save/discard, revisions and file import/export belong to the host; physical IME/clipboard and full visual/motion parity remain unqualified.

@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.15` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.16` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -60,3 +60,5 @@ Development: `Image@1` declares a host-owned resource reference and bounded alte
 The optional `terminal` feature provides `TerminalView` for `PtySession@1` using VTE 0.8 GTK4 bindings (MIT) and the system VTE library (LGPL). It accepts bounded 16 KiB display chunks, keeps 1,000 scrollback lines and disables input until the host explicitly attaches. It never spawns a child or resolves a source. Attachment, input ownership, retries, resize and cleanup belong to the host. Enable this feature with the system `libvte-2.91-gtk4-dev` development package.
 
 `DocumentEditor@1` and `DocumentEditor` edit a bounded shared plain-text document with monospace native text, literal Unicode find/replace and grouped undo. Replacement growth is checked before allocation. Editing is local; persistence, save/discard, revisions and optional file import/export are host responsibilities. File paths and commands are never inferred from its text.
+
+Document transfers are bounded before editing: clipboard and primary selection reads have a three-second deadline and a 64 KiB cap. Text drops copy at the drop location; moving text by drop is deliberately unsupported so rejected drops cannot delete their source. Rejected synchronous selected IME replacements restore the selection through native undo while retaining earlier history. Physical IME engines, host middle-click delivery and complete drag-and-drop journeys still require qualification.

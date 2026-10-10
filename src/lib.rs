@@ -55,6 +55,8 @@ pub use terminal::TerminalView;
 #[cfg(feature = "native")]
 mod editor;
 #[cfg(feature = "native")]
+mod editor_bounds;
+#[cfg(feature = "native")]
 pub use editor::DocumentEditor;
 
 #[cfg(feature = "native")]

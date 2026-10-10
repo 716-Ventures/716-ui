@@ -109,6 +109,56 @@ fn main() {
                     std::thread::sleep(Duration::from_millis(5));
                 }
                 buffer.undo();assert_eq!(editor.area.value(),before);
+                editor.notice.set_text("Waiting for primary clipboard");
+                buffer.select_range(&buffer.start_iter(),&buffer.end_iter());
+                editor.area.view.primary_clipboard().set_text(&"x".repeat(65537));
+                let primary_selection=buffer.selection_bounds().map(|(a,b)|(a.offset(),b.offset()));
+                let controllers=editor.area.view.observe_controllers();
+                let primary_paste=(0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::GestureClick>()).find(|gesture|gesture.button()==2).unwrap();
+                primary_paste.emit_by_name::<()>("pressed",&[&1i32,&5f64,&5f64]);
+                let deadline=std::time::Instant::now()+Duration::from_secs(2);
+                while !editor.notice.text().contains("selection was preserved") {
+                    assert!(std::time::Instant::now()<deadline,"{}",editor.notice.text());
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                }
+                assert_eq!(editor.area.value(),before);assert_eq!(buffer.selection_bounds().map(|(a,b)|(a.offset(),b.offset())),primary_selection);
+                editor.area.view.primary_clipboard().set_text("Primary λ ");
+                let (px,py)=editor.area.view.window_to_buffer_coords(gtk::TextWindowType::Widget,5,5);
+                let offset=editor.area.view.iter_at_location(px,py).unwrap().offset();
+                let expected=format!("{}Primary λ {}",before.chars().take(offset as usize).collect::<String>(),before.chars().skip(offset as usize).collect::<String>());
+                primary_paste.emit_by_name::<()>("pressed",&[&1i32,&5f64,&5f64]);
+                let deadline=std::time::Instant::now()+Duration::from_secs(2);
+                while editor.area.value()!=expected {
+                    assert!(std::time::Instant::now()<deadline,"{}",editor.notice.text());
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                }
+                buffer.undo();assert_eq!(editor.area.value(),before);
+                assert!((0..controllers.n_items()).all(|i|!controllers.item(i).unwrap().is::<gtk::DropTarget>()));
+                let drop=(0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::DropTargetAsync>()).collect::<Vec<_>>();
+                assert_eq!(drop.len(),1);assert_eq!(drop[0].actions(),gtk::gdk::DragAction::COPY);
+                // Reproduce GTK's selected IME replacement ordering, including
+                // its separate history group for multi-character selections.
+                for selected in [1, 3] {
+                    let guarded=seven_sixteen_ui::DocumentEditor::new("Bounded replacement","Original").unwrap();
+                    let buffer=guarded.area.view.buffer();buffer.place_cursor(&buffer.end_iter());
+                    buffer.begin_user_action();buffer.insert_at_cursor(" prior ");buffer.end_user_action();
+                    let original=guarded.area.value();
+                    buffer.select_range(&buffer.iter_at_offset(selected),&buffer.start_iter());
+                    buffer.begin_user_action();buffer.delete_selection(true,true);
+                    if selected>1 {buffer.end_user_action();buffer.begin_user_action();}
+                    buffer.insert_at_cursor(&"日本語".repeat(8000));buffer.end_user_action();
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    assert_eq!(guarded.area.value(),original,"Rejected replacement deleted selection");
+                    assert_eq!(buffer.selection_bounds().map(|(a,b)|(a.offset(),b.offset())),Some((0,selected)));
+                    assert!(!buffer.can_redo(),"Rejected deletion must not remain redoable");
+                    buffer.undo();assert_eq!(guarded.area.value(),"Original","Earlier undo history was lost");
+                    buffer.redo();assert_eq!(guarded.area.value(),original);
+                    buffer.select_range(&buffer.iter_at_offset(selected),&buffer.start_iter());
+                    buffer.begin_user_action();buffer.delete_selection(true,true);buffer.insert_at_cursor("Valid λ");buffer.end_user_action();
+                    let valid=guarded.area.value();
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    assert_eq!(guarded.area.value(),valid,"Valid replacement was rolled back");
+                }
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");
