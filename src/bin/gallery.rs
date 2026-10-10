@@ -36,7 +36,7 @@ fn main() {
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
-        let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");window.present();
+        let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");let paintable=gtk::WidgetPaintable::new(Some(&content));window.present();
         let quit=app.clone();let capture=capture.clone();
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
@@ -52,8 +52,8 @@ fn main() {
                 println!("PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes");
             }
             if let Some(path)=capture {
-                let paintable=gtk::WidgetPaintable::new(Some(&window));let snapshot=gtk::Snapshot::new();
-                paintable.snapshot(&snapshot,window.width() as f64,window.height() as f64);
+                let snapshot=gtk::Snapshot::new();
+                paintable.snapshot(&snapshot,content.width() as f64,content.height() as f64);
                 let node=snapshot.to_node().expect("A rendered scene");
                 let texture=window.renderer().unwrap().render_texture(&node,None);texture.save_to_png(&path).expect("Save native capture");
                 println!("CAPTURE: {path}");
