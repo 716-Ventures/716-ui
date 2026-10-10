@@ -82,7 +82,10 @@ impl Toggle {
         Ok(Self { widget, control })
     }
     pub fn reconcile(&self, value: bool) -> bool {
-        if self.control.has_focus() {
+        if self.control.has_focus()
+            || self.control.is_focus()
+            || self.control.focus_child().is_some()
+        {
             return false;
         }
         self.control.set_active(value);
