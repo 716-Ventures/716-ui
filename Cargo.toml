@@ -1,0 +1,17 @@
+[package]
+name = "seven-sixteen-ui"
+version = "0.1.0-alpha.1"
+edition = "2021"
+rust-version = "1.80"
+license = "Apache-2.0"
+description = "Experimental native GTK 4 controls with a pinned shadcn reference"
+repository = "https://github.com/716-Ventures/716-ui"
+
+[dependencies]
+gtk = { package = "gtk4", version = "=0.9.7", features = ["v4_12"] }
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+debug = 0

@@ -1,0 +1,258 @@
+//! Deterministic native controls. Events carry user data, never application authority.
+pub use gtk;
+use gtk::{gdk, prelude::*};
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Appearance {
+    Light,
+    Dark,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ButtonVariant {
+    Primary,
+    Secondary,
+    Outline,
+    Ghost,
+    Destructive,
+}
+#[derive(Clone, Debug, PartialEq)]
+pub enum InputEvent {
+    Changed(String),
+    Submitted(String),
+}
+#[derive(Clone, Copy, Debug)]
+pub struct Tokens {
+    pub background: &'static str,
+    pub foreground: &'static str,
+    pub muted: &'static str,
+    pub border: &'static str,
+    pub primary: &'static str,
+    pub on_primary: &'static str,
+}
+impl Appearance {
+    pub fn tokens(self) -> Tokens {
+        match self {
+            Self::Light => Tokens {
+                background: "#ffffff",
+                foreground: "#09090b",
+                muted: "#71717a",
+                border: "#e4e4e7",
+                primary: "#18181b",
+                on_primary: "#fafafa",
+            },
+            Self::Dark => Tokens {
+                background: "#09090b",
+                foreground: "#fafafa",
+                muted: "#a1a1aa",
+                border: "#3f3f46",
+                primary: "#fafafa",
+                on_primary: "#18181b",
+            },
+        }
+    }
+}
+
+pub fn install_theme(
+    display: &gdk::Display,
+    appearance: Appearance,
+    text_scale: f64,
+    reduced_motion: bool,
+) {
+    let t = appearance.tokens();
+    let scale = if text_scale.is_finite() {
+        text_scale.clamp(1.0, 3.0)
+    } else {
+        1.0
+    };
+    let secondary = if appearance == Appearance::Light {
+        "#f4f4f5"
+    } else {
+        "#27272a"
+    };
+    let selected = if appearance == Appearance::Light {
+        "#18181b"
+    } else {
+        "#fafafa"
+    };
+    let on_selected = if appearance == Appearance::Light {
+        "#fafafa"
+    } else {
+        "#18181b"
+    };
+    let css = format!(
+        r#"
+.seven-ui {{background:{bg};color:{fg};font-family:Inter,sans-serif;font-size:{font}px;}}
+.seven-ui label {{color:{fg};}}
+.seven-ui label.heading {{font-size:{heading}px;font-weight:600;}}
+.seven-ui label.muted {{color:{muted};}}
+.seven-ui button {{border-radius:6px;min-height:{height}px;padding:{pad_y}px {pad_x}px;border:1px solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms ease-out;}}
+.seven-ui button.primary {{background:{primary};color:{on_primary};}}
+.seven-ui button.secondary {{background:{secondary};color:{fg};}}
+.seven-ui button.outline {{background:{bg};color:{fg};border-color:{border};}}
+.seven-ui button.ghost {{background:transparent;color:{fg};}}
+.seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
+.seven-ui button:hover {{opacity:.9;}}
+.seven-ui button:active {{opacity:.8;}}
+.seven-ui button:disabled {{opacity:.5;}}
+.seven-ui button label {{color:inherit;}}
+.seven-ui button:focus-visible,.seven-ui entry:focus-visible,.seven-ui textview:focus-visible {{outline:3px solid {muted};outline-offset:2px;}}
+.seven-ui entry,.seven-ui textview {{background:{bg};color:{fg};border:1px solid {border};border-radius:6px;min-height:{height}px;padding:{pad_y}px {input_x}px;box-shadow:none;caret-color:{fg};}}
+.seven-ui selection {{background:{selected};color:{on_selected};}}
+.seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
+.seven-ui progressbar progress {{min-height:8px;background:{primary};border-radius:6px;}}
+"#,
+        bg = t.background,
+        fg = t.foreground,
+        muted = t.muted,
+        border = t.border,
+        primary = t.primary,
+        on_primary = t.on_primary,
+        font = 14.0 * scale,
+        heading = 20.0 * scale,
+        height = 18.0 * scale,
+        pad_y = 8.0 * scale,
+        pad_x = 16.0 * scale,
+        input_x = 12.0 * scale,
+        motion = if reduced_motion { 0 } else { 120 }
+    );
+    let provider = gtk::CssProvider::new();
+    provider.load_from_data(&css);
+    gtk::style_context_add_provider_for_display(
+        display,
+        &provider,
+        gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
+    );
+    if let Some(settings) = gtk::Settings::for_display(display) {
+        settings.set_gtk_enable_animations(!reduced_motion);
+        settings.set_gtk_application_prefer_dark_theme(appearance == Appearance::Dark);
+    }
+}
+
+pub fn column(spacing: i32) -> gtk::Box {
+    gtk::Box::new(gtk::Orientation::Vertical, spacing.clamp(0, 64))
+}
+pub fn row(spacing: i32) -> gtk::Box {
+    gtk::Box::new(gtk::Orientation::Horizontal, spacing.clamp(0, 64))
+}
+pub fn text(value: &str, heading: bool) -> gtk::Label {
+    let label = gtk::Label::new(Some(value));
+    label.set_selectable(true);
+    label.set_wrap(true);
+    label.set_xalign(0.0);
+    label.set_natural_wrap_mode(gtk::NaturalWrapMode::Word);
+    label.set_hexpand(true);
+    if heading {
+        label.add_css_class("heading");
+    }
+    label
+}
+pub fn button(label: &str, variant: ButtonVariant, disabled: bool) -> gtk::Button {
+    let button = gtk::Button::with_label(label);
+    button.add_css_class(match variant {
+        ButtonVariant::Primary => "primary",
+        ButtonVariant::Secondary => "secondary",
+        ButtonVariant::Outline => "outline",
+        ButtonVariant::Ghost => "ghost",
+        ButtonVariant::Destructive => "destructive",
+    });
+    button.set_sensitive(!disabled);
+    button
+}
+pub fn link(label: &str, url: &str) -> Result<gtk::LinkButton, &'static str> {
+    if !(url.starts_with("https://") || url.starts_with("http://") || url.starts_with("mailto:"))
+        || url.chars().any(char::is_control)
+    {
+        return Err("Unsupported link scheme");
+    }
+    let link = gtk::LinkButton::with_label(url, label);
+    link.update_property(&[gtk::accessible::Property::Label(label)]);
+    Ok(link)
+}
+pub fn status(value: &str) -> gtk::Label {
+    let label = text(value, false);
+    label.add_css_class("muted");
+    label.set_property("accessible-role", gtk::AccessibleRole::Status);
+    label
+}
+pub fn progress(label: &str, value: Option<f64>) -> gtk::ProgressBar {
+    let progress = gtk::ProgressBar::new();
+    progress.set_show_text(true);
+    progress.set_text(Some(label));
+    progress.update_property(&[gtk::accessible::Property::Label(label)]);
+    if let Some(value) = value.filter(|v| v.is_finite()) {
+        progress.set_fraction(value.clamp(0.0, 1.0));
+    } else {
+        progress.pulse();
+    }
+    progress
+}
+#[derive(Clone)]
+pub struct TextField {
+    pub widget: gtk::Box,
+    pub entry: gtk::Entry,
+}
+impl TextField {
+    pub fn new(label: &str, placeholder: &str, value: &str) -> Self {
+        let widget = column(6);
+        let name = text(label, false);
+        name.set_selectable(false);
+        widget.append(&name);
+        let entry = gtk::Entry::new();
+        entry.set_placeholder_text(Some(placeholder));
+        entry.set_text(value);
+        entry.set_hexpand(true);
+        entry.update_property(&[gtk::accessible::Property::Label(label)]);
+        widget.append(&entry);
+        Self { widget, entry }
+    }
+    pub fn on_event(&self, callback: impl Fn(InputEvent) + 'static) {
+        let callback = std::rc::Rc::new(callback);
+        let changed = callback.clone();
+        self.entry
+            .connect_changed(move |entry| changed(InputEvent::Changed(entry.text().to_string())));
+        self.entry.connect_activate(move |entry| {
+            callback(InputEvent::Submitted(entry.text().to_string()))
+        });
+    }
+    /// Domain updates must never replace an actively edited draft.
+    pub fn reconcile(&self, value: &str) -> bool {
+        if self.entry.has_focus() {
+            return false;
+        }
+        if self.entry.text() != value {
+            self.entry.set_text(value);
+        }
+        true
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn luminance(hex: &str) -> f64 {
+        let channels = (0..3)
+            .map(|i| u8::from_str_radix(&hex[1 + i * 2..3 + i * 2], 16).unwrap() as f64 / 255.0)
+            .map(|v| {
+                if v <= 0.04045 {
+                    v / 12.92
+                } else {
+                    ((v + 0.055) / 1.055).powf(2.4)
+                }
+            })
+            .collect::<Vec<_>>();
+        channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+    }
+    fn contrast(a: &str, b: &str) -> f64 {
+        let (a, b) = (luminance(a), luminance(b));
+        (a.max(b) + 0.05) / (a.min(b) + 0.05)
+    }
+    #[test]
+    fn reading_tokens_pass_both_appearances() {
+        for appearance in [Appearance::Light, Appearance::Dark] {
+            let t = appearance.tokens();
+            assert!(contrast(t.foreground, t.background) >= 4.5);
+            assert!(contrast(t.muted, t.background) >= 4.5);
+            assert!(contrast(t.primary, t.on_primary) >= 4.5);
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+  "upstream": "https://github.com/shadcn-ui/ui",
+  "revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+  "style": "new-york-v4",
+  "theme": "zinc",
+  "font": {
+    "family": "Inter",
+    "source": "Debian/Ubuntu fonts-inter package, exact installed version recorded by verification",
+    "fallback": "system sans-serif; fallback is not typography parity"
+  },
+  "icons": {
+    "reference": "lucide-react/0.474.0",
+    "shipped": false
+  },
+  "primitives": {
+    "button_slot": "radix-ui/1.4.3 (reference only)",
+    "input": "native HTML input in reference; GTK Entry in implementation"
+  },
+  "files": {
+    "LICENSE.shadcn": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+    "button.tsx": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
+    "input.tsx": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+    "zinc.json": "d2366e81d347beb69dbb04c93432a35769215792c4e1a56e5593d4ffa0c321d5"
+  },
+  "parity_status": "experimental; native scenarios and reference comparisons must pass before declaring conformance",
+  "deliberate_differences": [
+    "GTK native accessibility, IME and clipboard",
+    "destructive button darkened for text contrast",
+    "native focus ring does not depend on browser selectors"
+  ]
+}
