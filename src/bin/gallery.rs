@@ -159,6 +159,32 @@ fn main() {
                     while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
                     assert_eq!(guarded.area.value(),valid,"Valid replacement was rolled back");
                 }
+                // GTK 4.14 deletes selection at preedit-start, potentially
+                // many main-loop turns before the eventual commit arrives.
+                let composing=seven_sixteen_ui::DocumentEditor::new("Separated composition","Original").unwrap();
+                let buffer=composing.area.view.buffer();
+                buffer.select_range(&buffer.start_iter(),&buffer.iter_at_offset(3));
+                buffer.begin_user_action();buffer.delete_selection(true,true);buffer.end_user_action();
+                composing.area.view.emit_by_name::<()>("preedit-changed",&[&"にほん"]);
+                while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                composing.area.view.emit_by_name::<()>("preedit-changed",&[&""]);
+                buffer.begin_user_action();buffer.insert_at_cursor(&"日本語".repeat(8000));buffer.end_user_action();
+                while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                assert_eq!(composing.area.value(),"Original","Delayed rejected composition deleted original selection");
+                assert_eq!(buffer.selection_bounds().map(|(a,b)|(a.offset(),b.offset())),Some((0,3)));
+                for scenario in ["cancel", "accept", "intervene"] {
+                    let editor=seven_sixteen_ui::DocumentEditor::new("Composition lifecycle","Original").unwrap();
+                    let buffer=editor.area.view.buffer();
+                    buffer.select_range(&buffer.start_iter(),&buffer.iter_at_offset(3));
+                    buffer.begin_user_action();buffer.delete_selection(true,true);buffer.end_user_action();
+                    editor.area.view.emit_by_name::<()>("preedit-changed",&[&"にほん"]);
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    if scenario=="intervene" {buffer.insert_at_cursor("Human ");}
+                    editor.area.view.emit_by_name::<()>("preedit-changed",&[&""]);
+                    if scenario=="accept" {buffer.insert_at_cursor("Valid λ");}
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    assert_eq!(editor.area.value(),match scenario {"cancel"=>"Original","accept"=>"Valid λginal",_=>"Human ginal"});
+                }
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");

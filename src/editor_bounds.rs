@@ -17,7 +17,52 @@ struct Deletion {
     rejected: bool,
 }
 
-pub(crate) fn install(buffer: &gtk::TextBuffer, notice: &gtk::Label) {
+fn settle(
+    buffer: &gtk::TextBuffer,
+    receipt: Rc<RefCell<Option<Deletion>>>,
+    epoch: Rc<Cell<u64>>,
+    applying: Rc<Cell<bool>>,
+    composing: Rc<Cell<bool>>,
+) {
+    let weak = buffer.downgrade();
+    // GTK closes its history group after end-user-action emission. Run
+    // after that stack unwinds, before another input event can intervene.
+    glib::idle_add_local_full(glib::Priority::HIGH, move || {
+        if composing.get() {
+            return glib::ControlFlow::Break;
+        }
+        let Some(item) = receipt.borrow_mut().take() else {
+            return glib::ControlFlow::Break;
+        };
+        let Some(buffer) = weak.upgrade() else {
+            return glib::ControlFlow::Break;
+        };
+        if item.rejected
+            && epoch.get() == item.revision
+            && buffer.can_undo()
+            && buffer.text(&buffer.start_iter(), &buffer.end_iter(), true) == item.after
+        {
+            applying.set(true);
+            buffer.undo();
+            if buffer.text(&buffer.start_iter(), &buffer.end_iter(), true) == item.before {
+                buffer.select_range(
+                    &buffer.iter_at_offset(item.insert),
+                    &buffer.iter_at_offset(item.bound),
+                );
+                // An empty user action discards the rejected deletion's
+                // redo entry while retaining all earlier undo history.
+                buffer.begin_user_action();
+                buffer.end_user_action();
+            }
+            applying.set(false);
+        }
+        glib::ControlFlow::Break
+    });
+}
+
+pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
+    let buffer = view.buffer();
+    let composing = Rc::new(Cell::new(false));
     let revision = Rc::new(Cell::new(0u64));
     let action_start = Rc::new(Cell::new(None));
     let pending = Rc::new(RefCell::new(None::<Deletion>));
@@ -43,6 +88,7 @@ pub(crate) fn install(buffer: &gtk::TextBuffer, notice: &gtk::Label) {
         pending.clone(),
         replay.clone(),
     );
+    let active = composing.clone();
     buffer.connect_delete_range(move |buffer, a, b| {
         receipt.borrow_mut().take();
         if applying.get() || start.get() != Some(epoch.get()) || !buffer.enables_undo() {
@@ -75,42 +121,37 @@ pub(crate) fn install(buffer: &gtk::TextBuffer, notice: &gtk::Label) {
             revision: next,
             rejected: false,
         });
-        let (weak, receipt, epoch, applying) = (
-            buffer.downgrade(),
+        settle(
+            buffer,
             receipt.clone(),
             epoch.clone(),
             applying.clone(),
+            active.clone(),
         );
-        // GTK closes its history group after end-user-action emission. Run
-        // after that stack unwinds, before another input event can intervene.
-        glib::idle_add_local_full(glib::Priority::HIGH, move || {
-            let Some(item) = receipt.borrow_mut().take() else {
-                return glib::ControlFlow::Break;
-            };
-            let Some(buffer) = weak.upgrade() else {
-                return glib::ControlFlow::Break;
-            };
-            if item.rejected
-                && epoch.get() == item.revision
-                && buffer.can_undo()
-                && buffer.text(&buffer.start_iter(), &buffer.end_iter(), true) == item.after
-            {
-                applying.set(true);
-                buffer.undo();
-                if buffer.text(&buffer.start_iter(), &buffer.end_iter(), true) == item.before {
-                    buffer.select_range(
-                        &buffer.iter_at_offset(item.insert),
-                        &buffer.iter_at_offset(item.bound),
-                    );
-                    // An empty user action discards the rejected deletion's
-                    // redo entry while retaining all earlier undo history.
-                    buffer.begin_user_action();
-                    buffer.end_user_action();
-                }
-                applying.set(false);
+    });
+    let (receipt, epoch, applying, active) = (
+        pending.clone(),
+        revision.clone(),
+        replay.clone(),
+        composing.clone(),
+    );
+    view.connect_preedit_changed(move |view, text| {
+        let ended = active.replace(!text.is_empty()) && text.is_empty();
+        if ended {
+            // Cancellation has no insertion signal. Restore a still-isolated
+            // preedit deletion unless an accepted commit clears the receipt
+            // before the idle callback runs.
+            if let Some(item) = receipt.borrow_mut().as_mut() {
+                item.rejected = true;
             }
-            glib::ControlFlow::Break
-        });
+            settle(
+                &view.buffer(),
+                receipt.clone(),
+                epoch.clone(),
+                applying.clone(),
+                active.clone(),
+            );
+        }
     });
     let message = notice.downgrade();
     buffer.connect_insert_text(move |buffer, location, text| {
@@ -127,6 +168,13 @@ pub(crate) fn install(buffer: &gtk::TextBuffer, notice: &gtk::Label) {
                     && item.offset == location.offset()
                     && current == item.after;
             }
+            settle(
+                buffer,
+                pending.clone(),
+                revision.clone(),
+                replay.clone(),
+                composing.clone(),
+            );
             if let Some(notice) = message.upgrade() {
                 notice
                     .set_text("Document text is limited to 64 KiB; this insertion was not applied");

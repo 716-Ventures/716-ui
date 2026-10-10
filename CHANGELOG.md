@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.17
+
+Keeps the selected-deletion receipt alive across IME preedit main-loop turns. A rejected or cancelled composition restores the original selection through native undo; accepted commits and intervening edits invalidate restoration. Native regression checks reproduce GTK 4.14 preedit deletion followed by delayed rejection, cancellation, acceptance and intervening edits.
+
 ## 0.1.0-alpha.16
 
 Preserves selected text when a synchronous GTK IME replacement exceeds 64 KiB, retaining earlier undo and removing the rejected deletion from redo. Primary paste and text drops now use bounded asynchronous preflight. Text drops copy at the insertion point; MOVE drops are no longer accepted. ARM64 Debian guest tests cover native replacement ordering, prior undo/redo, oversized and valid primary paste through the controller, bounded Unicode streams and mapped theme/scale/assistive journeys. Physical IME engines and complete drag-source/destination handoffs remain unqualified.

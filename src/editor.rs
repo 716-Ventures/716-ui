@@ -64,7 +64,7 @@ impl DocumentEditor {
         widget.append(&scroll);
         let notice = crate::text("Edits remain local until saved by the host", false);
         widget.append(&notice);
-        crate::editor_bounds::install(&area.view.buffer(), &notice);
+        crate::editor_bounds::install(&area.view, &notice);
 
         crate::clipboard::install(&area.view, &notice);
 
