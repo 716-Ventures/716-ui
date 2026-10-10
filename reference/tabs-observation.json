@@ -22,7 +22,8 @@
     "font_weight": 500,
     "line_height": 20,
     "transition_ms": 150,
-    "disabled_opacity": 0.5
+    "disabled_opacity": 0.5,
+    "account_trigger_width": 74.046875
   },
   "list_rgb": {
     "light": [

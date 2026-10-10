@@ -55,4 +55,22 @@ def verify():
     assert text(heading)=='Reading section'
     rich=find('Literal <b>日本語</b> & λ')
     assert text(rich)=='Literal <b>日本語</b> & λ'
+    first=find('First',pyatspi.ROLE_PAGE_TAB)
+    second=find('Second',pyatspi.ROLE_PAGE_TAB)
+    assert first.getState().contains(pyatspi.STATE_SELECTED)
+    tabs=first.parent
+    assert tabs.getRole()==pyatspi.ROLE_PAGE_TAB_LIST
+    # Notebook exports Selection on the tab list, not a tab Action.
+    # https://github.com/GNOME/gtk/blob/4.18.6/gtk/a11y/gtkatspiselection.c
+    selection=tabs.querySelection()
+    for target,other in ((second,first),(first,second)):
+        assert selection.selectChild(target.getIndexInParent())
+        deadline=time.monotonic()+3
+        while not target.getState().contains(pyatspi.STATE_SELECTED):
+            if time.monotonic()>deadline:raise AssertionError('AT-SPI tab action did not select page')
+            time.sleep(.05)
+        assert not other.getState().contains(pyatspi.STATE_SELECTED)
+        assert selection.nSelectedChildren==1
+        assert selection.getSelectedChild(0).name==target.name
+    print('PASS: AT-SPI tab roles, Selection interface and mutually exclusive pages')
     print('PASS: AT-SPI names/roles, Unicode editable text, disabled state and toggle action')

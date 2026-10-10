@@ -121,6 +121,7 @@ impl Tabs {
     pub fn new(title: &str) -> Result<Self, String> {
         label(title)?;
         let widget = gtk::Notebook::builder().scrollable(true).build();
+        widget.add_css_class("seven-tabs");
         widget.update_property(&[gtk::accessible::Property::Label(title)]);
         Ok(Self {
             widget,

@@ -111,7 +111,23 @@ pub fn install_theme(
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
 .seven-ui progressbar progress {{min-width:2px;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
+.seven-ui notebook.seven-tabs {{background:transparent;border:0;box-shadow:none;}}
+.seven-ui notebook.seven-tabs > header {{background:{secondary};background-image:none;border:0;box-shadow:none;border-radius:8px;padding:{tabs_pad}px;min-height:{tabs_strip}px;}}
+.seven-ui notebook.seven-tabs > header tabs {{background:transparent;border:0;min-height:{tabs_strip}px;}}
+.seven-ui notebook.seven-tabs > header tabs tab {{background:transparent;background-image:none;border:1px solid transparent;border-radius:6px;box-shadow:none;margin:0 0 {tabs_y}px 0;padding:{tabs_y}px {tabs_x}px;min-width:0;min-height:{tabs_height}px;color:{tabs_inactive};}}
+.seven-ui notebook.seven-tabs > header tabs tab label {{color:inherit;font-weight:500;}}
+.seven-ui notebook.seven-tabs > header tabs tab:hover {{color:{fg};}}
+.seven-ui notebook.seven-tabs > header tabs tab:checked {{background:{outline_bg};border-color:{tabs_border};color:{fg};}}
+.seven-ui notebook.seven-tabs > stack {{background:transparent;border:0;margin-top:{tabs_gap}px;}}
 "#,
+        tabs_pad = 3.0 * scale,
+        tabs_strip = 30.0 * scale,
+        tabs_x = 8.0 * scale,
+        tabs_y = 4.0 * scale,
+        tabs_height = 19.0 * scale,
+        tabs_gap = 8.0 * scale,
+        tabs_inactive = if appearance == Appearance::Light { "alpha(#09090b,.6)" } else { t.muted },
+        tabs_border = if appearance == Appearance::Light { "transparent" } else { secondary },
         outline_bg = if appearance == Appearance::Light {
             t.background
         } else {

@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.22` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.23` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -70,3 +70,5 @@ Default text-only Button dimensions are checked against measured pinned browser 
 Input placeholders use the pinned muted foreground in both themes, with explicit opacity rather than a theme-dependent fade. Input backgrounds now follow the pinned dark input/30 tint and 50% disabled opacity. Ten painted endpoints check default/disabled/focused backgrounds across both themes; the browser harness exercises Unicode editing, keyboard focus and disabled semantics. Stronger native borders and native focus presentation remain deliberate differences.
 
 Native Entry focus uses `:focus-within` to follow its text delegate. A real control-focus probe verifies the painted native ring outside the border in both themes; forced CSS flags alone no longer count as focus-ring evidence.
+
+The default horizontal Tabs strip now uses the pinned muted palette and measured 36px/29px strip/trigger heights. The native probe compares actual paint, natural Account width, typography and active/inactive text in both appearances; its scope is documented in the component contract. The GTK Notebook still fills its allocation and retains native keyboard/focus behavior; full Tabs parity remains unqualified.
