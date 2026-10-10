@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.11
+
+Adds `Result@1`, `Error@1` and `OutcomeView` with selectable literal content, status/alert roles, preserved selections and deliberate local recovery intent. ARM64 Linux CI 38034749537 passed four mapped theme/scale scenarios and the independent assistive probe. Recovery callbacks, assessment and source revisions belong to the host. Alert reference source is pinned; announcement timing, physical assistive recovery and full visual/motion parity remain unqualified.
+
 ## 0.1.0-alpha.10
 
 Adds `DocumentReference@1`, `ApplicationReference@1` and `ReferenceView` with bounded accessible labels, local navigation intent and explicit unavailable state. ARM64 Linux CI 38034354273 passed mapped gallery intent/state checks across themes/scales and the independent assistive probe. Resolving identities, authorization, target revisions, placement and application lifecycle belong to the host; references do not launch processes or open URLs. Full reference appearance/motion and physical assistive navigation remain unqualified.
