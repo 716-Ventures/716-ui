@@ -100,8 +100,11 @@ pub fn install_theme(
 .seven-ui button:focus-visible,.seven-ui entry:focus-visible,.seven-ui textview:focus-visible {{outline:3px solid {muted};outline-offset:2px;}}
 .seven-ui entry,.seven-ui textview {{background:{bg};color:{fg};border:1px solid {border};border-radius:6px;min-height:{height}px;padding:{pad_y}px {input_x}px;box-shadow:none;caret-color:{fg};}}
 .seven-ui selection {{background:{selected};color:{on_selected};}}
+.seven-ui progressbar {{color:{fg};}}
+.seven-ui progressbar text {{color:{fg};}}
+.seven-ui button.link {{background:transparent;color:{link};border:none;}}
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
-.seven-ui progressbar progress {{min-height:8px;background:{primary};border-radius:6px;}}
+.seven-ui progressbar progress {{min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
 "#,
         bg = t.background,
         fg = t.foreground,
@@ -115,7 +118,12 @@ pub fn install_theme(
         pad_y = 8.0 * scale,
         pad_x = 16.0 * scale,
         input_x = 12.0 * scale,
-        motion = if reduced_motion { 0 } else { 120 }
+        motion = if reduced_motion { 0 } else { 120 },
+        link = if appearance == Appearance::Light {
+            "#0e7490"
+        } else {
+            "#67e8f9"
+        }
     );
     let provider = gtk::CssProvider::new();
     provider.load_from_string(&css);

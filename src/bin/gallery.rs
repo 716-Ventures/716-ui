@@ -16,7 +16,7 @@ fn main() {
         .build();
     app.connect_activate(move|app|{
         let display=gdk::Display::default().expect("A native display is required");
-        seven_sixteen_ui::install_theme(&display,if dark{Appearance::Dark}else{Appearance::Light},1.0,false);
+        seven_sixteen_ui::install_theme(&display,if dark{Appearance::Dark}else{Appearance::Light},scale,reduced);
         let content=seven_sixteen_ui::column(20);content.add_css_class("seven-ui");
         for side in [gtk::PositionType::Top,gtk::PositionType::Bottom,gtk::PositionType::Left,gtk::PositionType::Right] {match side{
             gtk::PositionType::Top=>content.set_margin_top(28),gtk::PositionType::Bottom=>content.set_margin_bottom(28),gtk::PositionType::Left=>content.set_margin_start(28),_=>content.set_margin_end(28)
@@ -36,10 +36,11 @@ fn main() {
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
-        let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");let paintable=gtk::WidgetPaintable::new(Some(&content));window.present();
+        let window=gtk::ApplicationWindow::builder().application(app).title("716 UI component gallery").default_width(820).default_height(560).child(&scroll).build();window.add_css_class("seven-ui");let paintable=gtk::WidgetPaintable::new(Some(&content));window.present();primary.grab_focus();
         let quit=app.clone();let capture=capture.clone();
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
+                assert_eq!(reading.layout().unknown_glyphs_count(),0,"Missing Unicode fallback font");
                 assert_eq!(primary.accessible_role(),gtk::AccessibleRole::Button);assert!(!disabled.is_sensitive());
                 primary.emit_clicked();assert_eq!(*clicks.borrow(),1);
                 reading.select_region(0,-1);assert!(reading.selection_bounds().is_some());
