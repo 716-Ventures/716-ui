@@ -102,7 +102,7 @@ fn main() {
                 assert_eq!(chart.data.row_count(),2);assert!(chart.plot.height()>0);assert!(chart.plot.width()>0);
                 assert!(chart.update("Invalid",&[seven_sixteen_ui::ChartPoint{id:"a".into(),label:"A".into(),value:f64::NAN}]).is_err());assert_eq!(chart.data.row_count(),2);
                 chart.update("Updated measured comparison",&[seven_sixteen_ui::ChartPoint{id:"gain".into(),label:"Gain".into(),value:0.0}]).unwrap();assert_eq!(chart.data.row_count(),1);
-                assert!(image.picture.paintable().is_some());assert!(image.picture.height()>0 && image.picture.height()<=240);
+                assert!(image.picture.paintable().is_some());
                 image.set_label("Updated image alternative").unwrap();assert_eq!(image.caption.text(),"Updated image alternative");assert!(image.set_label(" ").is_err());
                 assert!(seven_sixteen_ui::ImageView::new("Invalid",b"not an image").is_err());
                 assert_eq!(primary.accessible_role(),gtk::AccessibleRole::Button);assert!(!disabled.is_sensitive());
@@ -116,6 +116,7 @@ fn main() {
                 area.view.grab_focus();area.view.buffer().set_text("Multiline λ\nSecond line");assert!(!area.reconcile("External replacement"));assert_eq!(area.value(),"Multiline λ\nSecond line");assert_eq!(area.view.accessible_role(),gtk::AccessibleRole::TextBox);
                 scroll.vadjustment().set_value(scroll.vadjustment().upper());
                 for _ in 0..32 {if glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}else{break;}}
+                assert!(image.picture.height()>0 && image.picture.height()<=240,"Visible image height {}",image.picture.height());
                 assert!(table.live_cell_count()>0);assert!(table.view.height()>0);
                 assert_eq!(table.row_count(),4000);assert!(table.live_cell_count()<1000,"Collection widgets must be virtualized");
                 assert!(table.select_key("row-7"));table_rows.reverse();table_rows[3992].cells[1]="Updated".into();table.update(&table_rows).unwrap();
