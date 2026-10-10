@@ -1,5 +1,5 @@
 //! Bounded asynchronous plain-text paste. Preflight before deleting any selection.
-use gtk::{gio, glib, prelude::*};
+use gtk::{glib, prelude::*};
 use std::{cell::Cell, rc::Rc, time::Duration};
 const LIMIT: usize = 65536;
 async fn text(clipboard: gtk::gdk::Clipboard) -> Result<String, String> {
@@ -55,7 +55,7 @@ pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
     let message = notice.downgrade();
     view.connect_paste_clipboard(move |view| {
         view.stop_signal_emission_by_name("paste-clipboard");
-        if !view.is_editable() || !view.is_sensitive() || !focused(view) {
+        if !view.is_editable() || !view.is_sensitive() || !focused(&view) {
             return;
         }
         let buffer = view.buffer();
@@ -85,7 +85,7 @@ pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
             }
             let buffer = view.buffer();
             if !view.is_mapped()
-                || !focused(view)
+                || !focused(&view)
                 || !view.is_editable()
                 || !view.is_sensitive()
                 || epoch.get() != revision
