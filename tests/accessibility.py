@@ -39,8 +39,11 @@ def verify():
         if error.code!=1:raise
         print('LIMITATION: GTK 4.14 AT-SPI GrabFocus is unsupported; native keyboard focus is checked separately')
     disabled=find('Unavailable',pyatspi.ROLE_PUSH_BUTTON)
-    assert not disabled.getState().contains(pyatspi.STATE_ENABLED)
+    # GTK 4.14 uses SENSITIVE for disabled=false; ENABLED is not emitted.
+    # https://github.com/GNOME/gtk/blob/4.14.5/gtk/a11y/gtkatspicontext.c
+    assert not disabled.getState().contains(pyatspi.STATE_SENSITIVE)
     toggle=find('Wrap text',pyatspi.ROLE_CHECK_BOX)
+    assert toggle.getState().contains(pyatspi.STATE_SENSITIVE)
     before=toggle.getState().contains(pyatspi.STATE_CHECKED)
     action=toggle.queryAction();assert action.nActions>0
     assert action.doAction(0)
