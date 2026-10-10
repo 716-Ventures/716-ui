@@ -18,12 +18,18 @@ def find(name,role=None):
     raise AssertionError('Accessible control missing: '+name)
 
 
+def text(node):
+    interface=node.queryText()
+    # GTK 4.14 clamps negative end offsets to zero for Entry/Label.
+    return interface.getText(0,interface.characterCount)
+
+
 def verify():
     field=find('Your draft',pyatspi.ROLE_TEXT)
     assert field.queryEditableText().setTextContents('AT-SPI draft λ 日本語')
     deadline=time.monotonic()+3
-    while field.queryText().getText(0,-1)!='AT-SPI draft λ 日本語':
-        if time.monotonic()>deadline:raise AssertionError('AT-SPI edit observed '+repr(field.queryText().getText(0,-1)))
+    while text(field)!='AT-SPI draft λ 日本語':
+        if time.monotonic()>deadline:raise AssertionError('AT-SPI edit observed '+repr(text(field)))
         time.sleep(.05)
     assert field.queryComponent().grabFocus()
     disabled=find('Unavailable',pyatspi.ROLE_PUSH_BUTTON)
@@ -37,7 +43,7 @@ def verify():
         if time.monotonic()>deadline:raise AssertionError('AT-SPI toggle action did not change native state')
         time.sleep(.05)
     heading=find('Reading section',pyatspi.ROLE_HEADING)
-    assert heading.queryText().getText(0,-1)=='Reading section'
+    assert text(heading)=='Reading section'
     rich=find('Literal <b>日本語</b> & λ')
-    assert rich.queryText().getText(0,-1)=='Literal <b>日本語</b> & λ'
+    assert text(rich)=='Literal <b>日本語</b> & λ'
     print('PASS: AT-SPI names/roles, Unicode editable text, native focus, disabled state and toggle action')
