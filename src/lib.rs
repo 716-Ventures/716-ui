@@ -41,3 +41,8 @@ pub use image::ImageView;
 mod reference;
 #[cfg(feature = "native")]
 pub use reference::ReferenceView;
+
+#[cfg(feature = "native")]
+mod outcome;
+#[cfg(feature = "native")]
+pub use outcome::OutcomeView;

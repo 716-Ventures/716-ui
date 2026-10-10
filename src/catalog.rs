@@ -163,12 +163,31 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "reference"],
     );
     image.minimum_size = [160, 240];
+    let mut outcome = component(
+        "status",
+        vec![("label", Kind(String)), ("value", Kind(String))],
+        vec!["label", "value"],
+    );
+    outcome.bindable = vec!["value"];
+    let mut failure = component(
+        "alert",
+        vec![
+            ("label", Kind(String)),
+            ("message", Kind(String)),
+            ("recovery_label", Kind(String)),
+        ],
+        vec!["label", "message"],
+    );
+    failure.bindable = vec!["message"];
+    failure.events = vec!["recover"];
     let reference = component(
         "button",
         vec![("label", Kind(String)), ("target", Kind(String))],
         vec!["label", "target"],
     );
     BTreeMap::from([
+        ("Result@1", outcome),
+        ("Error@1", failure),
         ("DocumentReference@1", reference.clone()),
         ("ApplicationReference@1", reference),
         ("Image@1", image),
@@ -259,7 +278,7 @@ mod tests {
     #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 22);
+        assert_eq!(catalog.len(), 24);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));

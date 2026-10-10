@@ -68,6 +68,9 @@ fn main() {
         let rich=seven_sixteen_ui::RichText::new(&[seven_sixteen_ui::RichRun{text:"Literal <b>日本語</b> & λ".into(),style:"strong".into()}]).unwrap();content.append(&rich.widget);
         let mut chart=seven_sixteen_ui::BoundedChart::new("Measured comparison",&[seven_sixteen_ui::ChartPoint{id:"loss".into(),label:"Loss".into(),value:-12.5},seven_sixteen_ui::ChartPoint{id:"gain".into(),label:"Gain".into(),value:25.0}]).unwrap();content.append(&chart.widget);
         let image=seven_sixteen_ui::ImageView::new("Blue pixel fixture",include_bytes!("../../tests/pixel.png")).unwrap();content.append(&image.widget);
+        let outcome=seven_sixteen_ui::OutcomeView::new("Completed work","Exact result 日本語",false).unwrap();content.append(&outcome.widget);
+        let failure=seven_sixteen_ui::OutcomeView::new("Work unavailable","Literal <retry> & λ",true).unwrap();content.append(&failure.widget);
+        failure.set_recovery("Retry assessed work",true).unwrap();let recovered=Rc::new(RefCell::new(0));let observed=recovered.clone();failure.on_recover(move||*observed.borrow_mut()+=1);
         let reference=seven_sixteen_ui::ReferenceView::new("Open related view").unwrap();
         let opened=Rc::new(RefCell::new(0));let observed=opened.clone();reference.on_open(move ||*observed.borrow_mut()+=1);content.append(&reference.widget);
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -75,6 +78,14 @@ fn main() {
         let quit=app.clone();let capture=capture.clone();
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
+                assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
+                assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
+                assert_eq!(failure.message.text(),"Literal <retry> & λ");
+                failure.message.select_region(0,7);assert!(!failure.reconcile("Changed","Other").unwrap());assert_eq!(failure.message.text(),"Literal <retry> & λ");
+                failure.message.select_region(0,0);assert!(failure.reconcile("Recovery needed","Updated reason").unwrap());
+                failure.recovery.emit_clicked();assert_eq!(*recovered.borrow(),1);
+                failure.set_recovery("Retry assessed work",false).unwrap();assert!(!failure.recovery.is_sensitive());
+                assert!(failure.set_recovery("",true).is_err());assert!(!failure.recovery.is_sensitive());
                 assert!(seven_sixteen_ui::ReferenceView::new("").is_err());
                 reference.widget.emit_clicked();assert_eq!(*opened.borrow(),1);
                 reference.reconcile("View unavailable",false).unwrap();assert!(!reference.widget.is_sensitive());
