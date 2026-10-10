@@ -1,5 +1,8 @@
 name: Native GTK verification
 on: [push, pull_request, workflow_dispatch]
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

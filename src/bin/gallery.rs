@@ -11,6 +11,13 @@ fn main() {
         .and_then(|i| args.get(i + 1))
         .cloned();
     let dark = args.iter().any(|s| s == "--dark");
+    let reduced = args.iter().any(|s| s == "--reduced-motion");
+    let scale = args
+        .iter()
+        .position(|s| s == "--scale")
+        .and_then(|i| args.get(i + 1))
+        .and_then(|s| s.parse::<f64>().ok())
+        .unwrap_or(1.0);
     let app = gtk::Application::builder()
         .application_id("com.sevensixteen.Components")
         .build();
