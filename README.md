@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 implementation under verification. No release or parity conformance is declared yet.** Rust controls and a standalone native gallery are being validated on Linux/Wayland.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.1` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
