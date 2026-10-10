@@ -18,4 +18,4 @@ pub use lists::DataList;
 #[cfg(feature = "native")]
 mod layout;
 #[cfg(feature = "native")]
-pub use layout::{ScrollRegion, Section};
+pub use layout::{ScrollRegion, Section, SplitView, Tabs};

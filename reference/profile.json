@@ -23,7 +23,9 @@
     "zinc.json": "d2366e81d347beb69dbb04c93432a35769215792c4e1a56e5593d4ffa0c321d5",
     "table.tsx": "bd1a9fc83a5a2149e504038e274bb7e5a0351af59f6896df52ac4d5b439695ac",
     "item.tsx": "9ade8136f010284b7ec0142f52606616dd4b23798012e75a9fc6aac1fb2d792e",
-    "scroll-area.tsx": "8b73bb9be51300079c7f561bafbe43ee10f6f464cf39c8c1b25123cd4edb94dd"
+    "scroll-area.tsx": "8b73bb9be51300079c7f561bafbe43ee10f6f464cf39c8c1b25123cd4edb94dd",
+    "tabs.tsx": "e1df6e2f95ece373ca909c1d54b8ba8cf4c47dd425c1784bbb9a01c38dd0936b",
+    "resizable.tsx": "aaf3ea20e8060c75dd86e06fedfca053d49f81071123ba647b5699efcbc010ea"
   },
   "parity_status": "experimental; native scenarios and reference comparisons must pass before declaring conformance",
   "deliberate_differences": [
@@ -36,6 +38,7 @@
     "List and key/value groups use GTK ListView with stable keyed selection and virtualized rows; item actions/media are not supported",
     "List and key/value reference geometry, physical input and motion remain unqualified",
     "Scroll regions use GTK native vertical scrollbars and bounded natural heights; horizontal scrollbars and Radix motion are not implemented",
-    "Sections use native heading/group accessibility semantics; browser layout and full visual parity are not qualified"
+    "Sections use native heading/group accessibility semantics; browser layout and full visual parity are not qualified",
+    "Tabs and split panes use native GTK Notebook/Paned interaction; stable keys retain local tab choice and divider movement stays local. Physical keyboard/pointer and reference visual/motion parity remain unqualified."
   ]
 }

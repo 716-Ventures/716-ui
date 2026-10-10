@@ -53,6 +53,13 @@ fn main() {
         let region=seven_sixteen_ui::ScrollRegion::new("Long reading region").unwrap();
         for i in 0..100 {region.content.append(&seven_sixteen_ui::text(&format!("Reading line {i} · 日本語"),false));}
         section.content.append(&region.widget);content.append(&section.widget);
+        let tabs=seven_sixteen_ui::Tabs::new("Inspection pages").unwrap();
+        let page_a=seven_sixteen_ui::text("First page 日本語",false).upcast::<gtk::Widget>();
+        let page_b=seven_sixteen_ui::text("Second page λ",false).upcast::<gtk::Widget>();
+        tabs.set_pages(&[("first".into(),"First".into(),page_a.clone()),("second".into(),"Second".into(),page_b.clone())]).unwrap();content.append(&tabs.widget);
+        let split=seven_sixteen_ui::SplitView::new("Comparison panes",false).unwrap();
+        let left=seven_sixteen_ui::text("Left comparison",false).upcast::<gtk::Widget>();let right=seven_sixteen_ui::text("Right comparison",false).upcast::<gtk::Widget>();
+        split.set_children(&left,&right).unwrap();content.append(&split.widget);
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -68,6 +75,16 @@ fn main() {
                 region.widget.vadjustment().set_value(100.0);assert!(region.widget.vadjustment().value()>0.0);
                 section.set_label("Updated section").unwrap();assert_eq!(section.heading.text(),"Updated section");
                 assert!(section.set_label(" ").is_err());
+                assert!(tabs.select_key("second"));
+                tabs.set_pages(&[("second".into(),"Renamed second".into(),page_b.clone()),("first".into(),"First".into(),page_a.clone())]).unwrap();
+                assert_eq!(tabs.selected_key().as_deref(),Some("second"));assert_eq!(tabs.widget.tab_label_text(&page_b).as_deref(),Some("Renamed second"));
+                assert!(tabs.set_pages(&[("same".into(),"A".into(),page_a.clone()),("same".into(),"B".into(),page_b.clone())]).is_err());
+                assert_eq!(tabs.selected_key().as_deref(),Some("second"));
+                tabs.set_pages(&[("first".into(),"First".into(),page_a.clone())]).unwrap();assert_eq!(tabs.selected_key().as_deref(),Some("first"));
+                assert!(tabs.set_pages(&[("foreign".into(),"Foreign".into(),left.clone())]).is_err());
+                split.widget.set_position(120);let position=split.widget.position();split.set_children(&left,&right).unwrap();assert_eq!(split.widget.position(),position);
+                split.clear();split.set_children(&right,&left).unwrap();assert_eq!(split.children(),vec![right.clone(),left.clone()]);
+                assert!(split.set_children(&left,&left).is_err());assert_eq!(split.children(),vec![right.clone(),left.clone()]);
                 assert_eq!(primary.accessible_role(),gtk::AccessibleRole::Button);assert!(!disabled.is_sensitive());
                 primary.emit_clicked();assert_eq!(*clicks.borrow(),1);
                 reading.select_region(0,-1);assert!(reading.selection_bounds().is_some());
