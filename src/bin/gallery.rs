@@ -41,6 +41,9 @@ fn main() {
         let events=Rc::new(RefCell::new(Vec::new()));let recorded=events.clone();let live=status.clone();
         field.on_event(move|event|{live.set_text(match &event{InputEvent::Changed(_)=>"Editing locally",InputEvent::Submitted(_)=>"Submitted to the gallery"});recorded.borrow_mut().push(event);});
         let clicks=Rc::new(RefCell::new(0));let counted=clicks.clone();primary.connect_clicked(move |_|*counted.borrow_mut()+=1);
+        let mut table=seven_sixteen_ui::DataTable::new("Observed resources",&["Resource".into(),"Status".into()]).unwrap();
+        let mut table_rows=(0..4000).map(|i|seven_sixteen_ui::TableRow{id:format!("row-{i}"),cells:vec![format!("Resource {i} · 日本語"),"Observed".into()]}).collect::<Vec<_>>();
+        table.update(&table_rows).unwrap();content.append(&table.widget);
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -58,6 +61,10 @@ fn main() {
                 assert_eq!(field.entry.text(),"Unicode draft λ 日本語");assert!(window.width()>0 && primary.height()>0);
                 assert_eq!(field.entry.accessible_role(),gtk::AccessibleRole::TextBox);
                 area.view.grab_focus();area.view.buffer().set_text("Multiline λ\nSecond line");assert!(!area.reconcile("External replacement"));assert_eq!(area.value(),"Multiline λ\nSecond line");assert_eq!(area.view.accessible_role(),gtk::AccessibleRole::TextBox);
+                assert_eq!(table.row_count(),4000);assert!(table.live_cell_count()<1000,"Collection widgets must be virtualized");
+                assert!(table.select_key("row-7"));table_rows.reverse();table_rows[3992].cells[1]="Updated".into();table.update(&table_rows).unwrap();
+                assert_eq!(table.selected_key().as_deref(),Some("row-7"));
+                let previous=table.row_count();let mut duplicate=table_rows.clone();duplicate[0].id=duplicate[1].id.clone();assert!(table.update(&duplicate).is_err());assert_eq!(table.row_count(),previous);
                 assert!(seven_sixteen_ui::link("Unsafe","javascript:run()").is_err());
                 println!("PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes");
             }

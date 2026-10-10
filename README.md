@@ -30,3 +30,5 @@ Original work is licensed under [Apache-2.0](LICENSE). Upstream code, assets and
 Build with Rust 1.85.1 and GTK ≥4.12: `cargo build --locked`. Run `cargo run --bin gallery`; the gallery has no agent, accounts or network dependency. `dbus-run-session -- python3 tests/native_gallery.py` runs native interaction scenarios and captures both appearances in a private Weston display. See `reference/profile.json` for the pinned reference and declared differences.
 
 Version 0.1.0-alpha.2 adds renderer-independent, typed component metadata (`default-features = false`) and native multiline text editing. The host may consume the same catalog without linking GTK. ARM64 Linux CI verifies both metadata-only builds and native single/multiline edit preservation.
+
+Development toward alpha.3 adds `Table@1` metadata and `DataTable`, a GTK ColumnView with stable row keys, native column headers, keyboard selection and virtualized cells. Columns and cells are bounded, duplicate keys are rejected, and selection follows the row key across updates and reordering. These additions await ARM64 gallery verification before release.

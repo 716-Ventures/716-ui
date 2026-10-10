@@ -7,6 +7,8 @@ pub enum PropertyKind {
     String,
     Boolean,
     Number,
+    StringList,
+    KeyedRows,
 }
 #[derive(Clone, Debug, Serialize)]
 #[serde(untagged)]
@@ -88,7 +90,18 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "value"],
     );
     progress.bindable = vec!["value"];
+    let mut table = component(
+        "table",
+        vec![
+            ("label", Kind(String)),
+            ("columns", Kind(StringList)),
+            ("rows", Kind(KeyedRows)),
+        ],
+        vec!["label", "columns", "rows"],
+    );
+    table.minimum_size = [240, 200];
     BTreeMap::from([
+        ("Table@1", table),
         ("Stack@1", stack.clone()),
         ("Row@1", stack),
         ("Text@1", text),
@@ -99,13 +112,73 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         ("Progress@1", progress),
     ])
 }
+/// Validate collection literals before a renderer allocates model objects.
+pub fn valid_collection(kind: &str, value: &serde_json::Value) -> bool {
+    match kind {
+        "stringlist" => value.as_array().is_some_and(|values| {
+            !values.is_empty()
+                && values.len() <= 32
+                && values.iter().all(|value| {
+                    value
+                        .as_str()
+                        .is_some_and(|s| !s.is_empty() && s.len() <= 256 && !s.contains('\0'))
+                })
+        }),
+        "keyedrows" => {
+            let mut keys = std::collections::BTreeSet::new();
+            value.as_array().is_some_and(|rows| {
+                rows.len() <= 10000
+                    && rows.iter().all(|row| {
+                        row.as_object().is_some_and(|object| {
+                            object.len() == 2
+                                && row["id"].as_str().is_some_and(|id| {
+                                    !id.is_empty()
+                                        && id.len() <= 128
+                                        && id.bytes().all(|b| {
+                                            b.is_ascii_alphanumeric() || b"-_:".contains(&b)
+                                        })
+                                        && keys.insert(id.to_string())
+                                })
+                                && row["cells"].as_array().is_some_and(|cells| {
+                                    !cells.is_empty()
+                                        && cells.len() <= 32
+                                        && cells.iter().all(|cell| {
+                                            cell.as_str().is_some_and(|s| {
+                                                s.len() <= 4096 && !s.contains('\0')
+                                            })
+                                        })
+                                })
+                        })
+                    })
+            })
+        }
+        _ => false,
+    }
+}
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
+    fn table_literals_have_unique_keys_bounded_cells_and_no_extra_fields() {
+        use serde_json::json;
+        assert!(valid_collection("stringlist", &json!(["Name", "Status"])));
+        assert!(valid_collection(
+            "keyedrows",
+            &json!([{"id":"row-a","cells":["日本語","Ready"]}])
+        ));
+        for value in [
+            json!([{"id":"a","cells":["Ready"]},{"id":"a","cells":["Other"]}]),
+            json!([{"id":"a","cells":[1]}]),
+            json!([{"id":"a","cells":["Ready"],"code":"run"}]),
+        ] {
+            assert!(!valid_collection("keyedrows", &value));
+        }
+        assert!(!valid_collection("stringlist", &json!([])));
+    }
+    #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 8);
+        assert_eq!(catalog.len(), 9);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));

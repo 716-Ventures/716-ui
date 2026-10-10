@@ -4,3 +4,8 @@ pub mod catalog;
 mod native;
 #[cfg(feature = "native")]
 pub use native::*;
+
+#[cfg(feature = "native")]
+mod collections;
+#[cfg(feature = "native")]
+pub use collections::{DataTable, TableRow};
