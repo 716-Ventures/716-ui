@@ -1,0 +1,64 @@
+{
+  "profile_revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+  "component_sha256": "ba0ac64064e2d8fa7299d53e9e84b9a4772fef8dd4cf6170c56d3030a1d69941",
+  "observed_at": "2026-10-10",
+  "environment": "Codex in-app browser, 1280px viewport; engine version not collected",
+  "metrics": {
+    "width": 16,
+    "height": 16,
+    "radius": 4,
+    "border_width": 1,
+    "shadow_transition_ms": 150,
+    "disabled_opacity": 0.5
+  },
+  "light": {
+    "unchecked_background": "transparent",
+    "unchecked_border_rgb": [
+      228,
+      228,
+      231
+    ],
+    "checked_rgb": [
+      24,
+      24,
+      27
+    ],
+    "check_rgb": [
+      250,
+      250,
+      250
+    ]
+  },
+  "dark": {
+    "unchecked_background": "input/30 over #09090b",
+    "unchecked_border_rgb": [
+      39,
+      39,
+      42
+    ],
+    "checked_rgb": [
+      250,
+      250,
+      250
+    ],
+    "check_rgb": [
+      24,
+      24,
+      27
+    ]
+  },
+  "observed_behavior": [
+    "pointer toggles controlled value",
+    "Space toggles controlled value in both themes",
+    "disabled checked control is not enabled"
+  ],
+  "unqualified": [
+    "indeterminate and invalid variants",
+    "focus paint",
+    "assistive announcements",
+    "transition trajectories",
+    "physical input",
+    "other browser engines",
+    "native parity"
+  ]
+}

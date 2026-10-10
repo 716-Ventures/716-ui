@@ -1,11 +1,13 @@
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 import { Button } from "../../reference/button"
+import { Checkbox } from "../../reference/checkbox"
 import { Input } from "../../reference/input"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../reference/tabs"
 const variants = ["default", "secondary", "outline", "ghost", "destructive"] as const
 function App() {
   const [inputValue,setInputValue] = React.useState("Unicode λ")
+  const [checked,setChecked] = React.useState(false)
   const [tab,setTab] = React.useState("account")
   const [dark, setDark] = React.useState(false)
   const [clicks, setClicks] = React.useState<string[]>([])
@@ -26,13 +28,14 @@ function App() {
   }
   React.useEffect(() => {document.documentElement.classList.toggle("dark",dark)}, [dark])
   return <main>
-    <header><h1>Pinned shadcn Button, Input and Tabs reference</h1><p>New York v4 component, Zinc tokens, Inter from the native qualification environment. Native accessibility and documented contrast differences require separate assessment.</p><label><input aria-label="Dark appearance" type="checkbox" checked={dark} onChange={event=>setDark(event.target.checked)}/> Dark appearance</label></header>
+    <header><h1>Pinned shadcn Button, Input, Tabs and Checkbox reference</h1><p>New York v4 component, Zinc tokens, Inter from the native qualification environment. Native accessibility and documented contrast differences require separate assessment.</p><label><input aria-label="Dark appearance" type="checkbox" checked={dark} onChange={event=>setDark(event.target.checked)}/> Dark appearance</label></header>
     <section><h2>Natural default size</h2><div className="samples">{variants.map(variant=><Button key={variant} data-testid={`natural-${variant}`} variant={variant} onClick={()=>setClicks(value=>[...value,variant])}>{variant}</Button>)}</div></section>
     <section><h2>Matching state-capture allocation</h2><p>190 × 40 CSS pixels; hover, press, focus and disable are actual browser states.</p><div className="samples">{variants.map(variant=><Button style={{width:190,height:40}} key={variant} data-testid={`sample-${variant}`} variant={variant} onClick={()=>setClicks(value=>[...value,variant])}>{variant}</Button>)}</div></section>
     <section><h2>Disabled</h2><div className="samples">{variants.map(variant=><Button style={{width:190,height:40}} key={variant} data-testid={`disabled-${variant}`} variant={variant} disabled>{variant}</Button>)}</div></section>
     <section><h2>Motion observer</h2><p>Pointer entry/exit records computed browser styles over animation frames. This does not measure physical presentation.</p><Button data-testid="motion-probe" style={{width:190,height:40}} onPointerEnter={event=>traceMotion(event.currentTarget,"enter")} onPointerLeave={event=>traceMotion(event.currentTarget,"leave")}>Observe motion</Button><pre data-testid="motion-log">{motion ? JSON.stringify(motion) : "No pointer trajectory recorded"}</pre></section>
     <section><h2>Input reference</h2><p>190 CSS pixel text fields at the current responsive font size. Focus, editing and disabled behavior use real browser controls.</p><div className="samples"><Input data-testid="input-default" aria-label="Reference input" style={{width:190}} value={inputValue} onChange={event=>setInputValue(event.target.value)}/><Input data-testid="input-empty" aria-label="Empty reference input" style={{width:190}} placeholder="Placeholder"/><Input data-testid="input-disabled" aria-label="Disabled reference input" style={{width:190}} value="Disabled" disabled readOnly/></div><output data-testid="input-value">{inputValue}</output></section>
     <section><h2>Tabs reference</h2><Tabs value={tab} onValueChange={setTab} data-testid="tabs-default"><TabsList aria-label="Reference settings"><TabsTrigger value="account">Account</TabsTrigger><TabsTrigger value="security">Security</TabsTrigger><TabsTrigger value="disabled" disabled>Unavailable</TabsTrigger></TabsList><TabsContent value="account">Account λ content</TabsContent><TabsContent value="security">Security 日本語 content</TabsContent></Tabs><output data-testid="tabs-value">Selected: {tab}</output></section>
+    <section><h2>Checkbox reference</h2><div className="samples"><label className="flex items-center gap-2"><Checkbox data-testid="checkbox-default" aria-label="Reference checkbox" checked={checked} onCheckedChange={value=>setChecked(value===true)}/>Enabled λ 日本語</label><label className="flex items-center gap-2"><Checkbox data-testid="checkbox-checked" aria-label="Checked reference checkbox" checked/>Checked</label><label className="flex items-center gap-2"><Checkbox data-testid="checkbox-disabled" aria-label="Disabled reference checkbox" checked disabled/>Disabled</label></div><output data-testid="checkbox-value">Checked: {String(checked)}</output></section>
     <output aria-live="polite">Activations: {clicks.join(", ") || "none"}</output>
   </main>
 }
