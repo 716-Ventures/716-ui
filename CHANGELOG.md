@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.8
+
+Adds `RichText@1` with bounded escaped plain/strong/emphasis/code runs and preserved selection. Adds `Chart@1` with 1–128 uniquely keyed finite values, a native bar plot and exact accessible data table. ARM64 Linux CI 38032311971 passed gallery checks across both themes, scales 1/2 and reduced motion. Full reference chart/typography, tooltips, physical assistive input and motion parity remain unqualified.
+
 ## 0.1.0-alpha.7
 
 Adds `Choice@1` and `Toggle@1`, labeled native DropDown/CheckButton controls with typed local changes and focus-preserved values. Choices require 1–32 distinct bounded options and an exact selected value. ARM64 Linux CI 38032103678 passed gallery checks across both themes, scales 1/2 and reduced motion, including internal toggle focus ownership. Host submission, physical input and full reference appearance/motion parity remain application or qualification work.

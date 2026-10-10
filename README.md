@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.7` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.8` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -45,4 +45,6 @@ Version 0.1.0-alpha.7: `Choice@1` and `Toggle@1` provide labeled native form val
 
 ARM64 Linux CI 38032103678 passed typed choice/toggle changes, invalid option rejection and focused value preservation across both themes, scales 1/2 and reduced motion.
 
-Development: `RichText@1` uses up to 256 inert runs (plain/strong/emphasis/code, 64 KiB total) with escaped native text and preserved selection. `Chart@1` uses 1–128 uniquely keyed, finite bounded values, a native bar plot with a zero baseline, and an exact accessible data table. Invalid updates preserve content. Physical assistive input and reference chart/typography parity remain unqualified.
+Version 0.1.0-alpha.8: `RichText@1` uses up to 256 inert runs (plain/strong/emphasis/code, 64 KiB total) with escaped native text and preserved selection. `Chart@1` uses 1–128 uniquely keyed, finite bounded values, a native bar plot with a zero baseline, and an exact accessible data table. Invalid updates preserve content. Physical assistive input and reference chart/typography parity remain unqualified.
+
+ARM64 Linux CI 38032311971 passed escaped rich-text rendering/selection, native chart allocation, exact data rows and invalid-update preservation across both themes, scales 1/2 and reduced motion.
