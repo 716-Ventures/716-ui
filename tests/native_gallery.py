@@ -21,6 +21,11 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 if time.monotonic()>deadline:raise RuntimeError('Nested display startup timed out')
                 time.sleep(.05)
             for appearance in ('light','dark'):
+                metrics=[str(ROOT/'target/debug/button-metrics')]
+                if appearance=='dark':metrics.append('--dark')
+                result=subprocess.run(metrics,env=env,capture_output=True,text=True,check=True,timeout=15)
+                (OUTPUT/('button-metrics-'+appearance+'.json')).write_text(result.stdout)
+                if result.stderr:print(result.stderr)
                 command=[str(ROOT/'target/debug/button-states')]
                 if appearance=='dark':command.append('--dark')
                 subprocess.run(command,env={**env,'BUTTON_STATE_OUTPUT':str(OUTPUT/('button-states-'+appearance))},check=True,timeout=15)

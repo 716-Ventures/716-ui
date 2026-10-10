@@ -87,10 +87,10 @@ pub fn install_theme(
 .seven-ui label {{color:{fg};}}
 .seven-ui label.heading {{font-size:{heading}px;font-weight:600;}}
 .seven-ui label.muted {{color:{muted};}}
-.seven-ui button {{border-radius:6px;min-height:{height}px;padding:{pad_y}px {pad_x}px;border:1px solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms cubic-bezier(.4,0,.2,1);}}
+.seven-ui button {{border-radius:6px;min-height:{button_height}px;padding:{pad_y}px {pad_x}px;border:0 solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms cubic-bezier(.4,0,.2,1);}}
 .seven-ui button.primary {{background:{primary};color:{on_primary};}}
 .seven-ui button.secondary {{background:{secondary};color:{fg};}}
-.seven-ui button.outline {{background:{outline_bg};color:{fg};border-color:{border};}}
+.seven-ui button.outline {{background:{outline_bg};color:{fg};min-height:{outline_height}px;border:1px solid {border};}}
 .seven-ui button.ghost {{background:transparent;color:{fg};}}
 .seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
 .seven-ui button.primary:hover {{background:alpha({primary},.9);}}
@@ -128,6 +128,8 @@ pub fn install_theme(
         font = 14.0 * scale,
         heading = 20.0 * scale,
         height = 18.0 * scale,
+        button_height = 20.0 * scale,
+        outline_height = 20.0 * scale - 2.0,
         pad_y = 8.0 * scale,
         pad_x = 16.0 * scale,
         input_x = 12.0 * scale,

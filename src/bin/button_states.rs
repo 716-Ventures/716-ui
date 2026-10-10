@@ -44,9 +44,11 @@ fn main() {
                 let hover=state=="hover" || state=="pressed";
                 let base=match name {"primary"=>primary,"secondary"=>secondary,"destructive"=>[185,28,28],"outline" if dark=>mix(secondary,bg,0.3),_=>bg};
                 let expected=if hover {match name {"primary"=>mix(primary,bg,0.9),"secondary"=>mix(secondary,bg,0.8),"destructive"=>mix([185,28,28],bg,0.9),_=>if dark{mix(secondary,bg,0.5)}else{secondary}}}else if state=="disabled"{mix(base,bg,0.5)}else{base};
+                let bounds=button.compute_bounds(&button).unwrap();
+                assert_eq!((bounds.width(),bounds.height()),(190.0,40.0));
                 let snapshot=gtk::Snapshot::new();
-                snapshot.append_color(&gdk::RGBA::new(bg[0] as f32/255.0,bg[1] as f32/255.0,bg[2] as f32/255.0,1.0),&gtk::graphene::Rect::new(0.0,0.0,button.width() as f32,button.height() as f32));
-                gtk::WidgetPaintable::new(Some(&button)).snapshot(&snapshot,button.width() as f64,button.height() as f64);
+                snapshot.append_color(&gdk::RGBA::new(bg[0] as f32/255.0,bg[1] as f32/255.0,bg[2] as f32/255.0,1.0),&gtk::graphene::Rect::new(0.0,0.0,bounds.width(),bounds.height()));
+                gtk::WidgetPaintable::new(Some(&button)).snapshot(&snapshot,bounds.width() as f64,bounds.height() as f64);
                 let texture=window.renderer().unwrap().render_texture(&snapshot.to_node().unwrap(),None);
                 let stride=texture.width() as usize*4;let mut pixels=vec![0;stride*texture.height() as usize];texture.download(&mut pixels,stride);
                 let offset=texture.height() as usize/2*stride+8*4;
@@ -54,7 +56,7 @@ fn main() {
                 let actual=[pixels[offset+2],pixels[offset+1],pixels[offset]];
                 assert!(actual.iter().zip(expected).all(|(a,e)|a.abs_diff(e)<=2),"{name}/{state}: painted {actual:?}, expected {expected:?}");
                 assert_eq!(pixels[offset+3],255);
-                report.push(serde_json::json!({"variant":name,"state":state,"painted_rgb":actual,"expected_rgb":expected}));
+                report.push(serde_json::json!({"variant":name,"state":state,"painted_rgb":actual,"expected_rgb":expected,"border_box_width":bounds.width(),"border_box_height":bounds.height()}));
                 if let Some(directory)=&directory {std::fs::create_dir_all(directory).unwrap();texture.save_to_png(format!("{directory}/{name}-{state}.png")).unwrap();}
             }
             println!("{}",serde_json::json!({"result":"pass","appearance":if dark{"dark"}else{"light"},"checks":report,"scope":"rendered state endpoints; pointer delivery, motion and full reference parity unqualified"}));

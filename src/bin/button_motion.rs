@@ -9,6 +9,7 @@ use std::{
 };
 
 fn paint(window: &gtk::ApplicationWindow, button: &gtk::Button, bg: [u8; 3]) -> [u8; 3] {
+    let bounds = button.compute_bounds(button).unwrap();
     let snapshot = gtk::Snapshot::new();
     snapshot.append_color(
         &gdk::RGBA::new(
@@ -17,12 +18,12 @@ fn paint(window: &gtk::ApplicationWindow, button: &gtk::Button, bg: [u8; 3]) -> 
             bg[2] as f32 / 255.,
             1.,
         ),
-        &gtk::graphene::Rect::new(0., 0., button.width() as f32, button.height() as f32),
+        &gtk::graphene::Rect::new(0., 0., bounds.width(), bounds.height()),
     );
     gtk::WidgetPaintable::new(Some(button)).snapshot(
         &snapshot,
-        button.width() as f64,
-        button.height() as f64,
+        bounds.width() as f64,
+        bounds.height() as f64,
     );
     let texture = window
         .renderer()

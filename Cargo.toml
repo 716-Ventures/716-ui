@@ -27,6 +27,11 @@ name = "button-motion"
 path = "src/bin/button_motion.rs"
 required-features = ["native"]
 
+[[bin]]
+name = "button-metrics"
+path = "src/bin/button_metrics.rs"
+required-features = ["native"]
+
 [dependencies]
 serde = {version="1",features=["derive"]}
 serde_json = "1"
