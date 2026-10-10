@@ -53,8 +53,12 @@ fn main() {
             row.append(&field.widget);
             samples.push((state, field.entry));
         }
+        let panel=gtk::Box::new(gtk::Orientation::Vertical,0);panel.add_css_class("seven-ui");
+        let top=gtk::Box::new(gtk::Orientation::Horizontal,0);top.set_size_request(-1,8);panel.append(&top);
+        panel.append(&row);
+        let bottom=gtk::Box::new(gtk::Orientation::Horizontal,0);bottom.set_size_request(-1,8);panel.append(&bottom);
         let window = gtk::ApplicationWindow::builder().application(app)
-            .title("716 UI Input states").child(&row).build();
+            .title("716 UI Input states").child(&panel).build();
         window.present();assert!(samples.iter().find(|(state,_)|*state=="focus").unwrap().1.grab_focus());
         let quit = app.clone();
         let directory = directory.clone();
@@ -93,17 +97,19 @@ fn main() {
             }
             // Entry delegates focus to GtkText; this is real focus, not CSS flags.
             assert!(focused.state_flags().contains(gtk::StateFlags::FOCUS_WITHIN));
-            let field=focused.compute_bounds(&row).unwrap();let bounds=row.compute_bounds(&row).unwrap();
+            let field=focused.compute_bounds(&panel).unwrap();let bounds=panel.compute_bounds(&panel).unwrap();
             let snapshot=gtk::Snapshot::new();
             snapshot.append_color(&gdk::RGBA::new(bg[0] as f32/255.,bg[1] as f32/255.,bg[2] as f32/255.,1.),&bounds);
-            gtk::WidgetPaintable::new(Some(&row)).snapshot(&snapshot,bounds.width() as f64,bounds.height() as f64);
+            gtk::WidgetPaintable::new(Some(&panel)).snapshot(&snapshot,bounds.width() as f64,bounds.height() as f64);
             let texture=window.renderer().unwrap().render_texture(&snapshot.to_node().unwrap(),Some(&bounds));
             let stride=texture.width() as usize*4;let mut pixels=vec![0;stride*texture.height() as usize];texture.download(&mut pixels,stride);
-            let x=(field.x()-3.) as usize;let y=(field.y()+field.height()/2.) as usize;let offset=y*stride+x*4;
-            let actual=[pixels[offset+2],pixels[offset+1],pixels[offset]];let expected=rgb(&placeholder_rgb);
             if let Some(directory)=&directory {texture.save_to_png(format!("{directory}/actual-focus.png")).unwrap();}
-            assert!(actual.iter().zip(expected).all(|(a,e)|a.abs_diff(e)<=2),"Actual Entry focus ring: painted {actual:?}, expected {expected:?}");
-            checks.push(serde_json::json!({"state":"actual-focus-ring","painted_rgb":actual,"expected_rgb":expected}));
+            for (edge,x,y) in [("left",field.x()-3.,field.y()+field.height()/2.),("right",field.x()+field.width()+3.,field.y()+field.height()/2.),("top",field.x()+field.width()/2.,field.y()-3.),("bottom",field.x()+field.width()/2.,field.y()+field.height()+3.)] {
+                let offset=(y-bounds.y()) as usize*stride+(x-bounds.x()) as usize*4;
+                let actual=[pixels[offset+2],pixels[offset+1],pixels[offset]];let expected=rgb(&placeholder_rgb);
+                assert!(actual.iter().zip(expected).all(|(a,e)|a.abs_diff(e)<=2),"Actual Entry focus ring/{edge}: painted {actual:?}, expected {expected:?}");
+                checks.push(serde_json::json!({"state":"actual-focus-ring","edge":edge,"painted_rgb":actual,"expected_rgb":expected}));
+            }
             println!("{}", serde_json::json!({"result":"pass","appearance":if dark{"dark"}else{"light"},"checks":checks,"scope":"desktop Input backgrounds, placeholder colors and actual native focus ring; full reference parity unqualified"}));
             quit.quit();
         });
