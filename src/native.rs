@@ -104,7 +104,7 @@ pub fn install_theme(
 .seven-ui progressbar text {{color:{fg};}}
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
-.seven-ui progressbar progress {{min-width:0;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
+.seven-ui progressbar progress {{min-width:2px;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
 "#,
         bg = t.background,
         fg = t.foreground,
@@ -310,7 +310,7 @@ impl TextArea {
             .into()
     }
     pub fn reconcile(&self, value: &str) -> bool {
-        if self.view.has_focus() {
+        if self.view.has_focus() || self.view.is_focus() {
             return false;
         }
         if self.value() != value {
