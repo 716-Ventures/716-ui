@@ -2,6 +2,8 @@
 pub use gtk;
 use gtk::{gdk, prelude::*};
 
+thread_local! {static THEMES:std::cell::RefCell<Vec<(gdk::Display,gtk::CssProvider)>>=const {std::cell::RefCell::new(Vec::new())};}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Appearance {
     Light,
@@ -36,7 +38,7 @@ impl Appearance {
                 background: "#ffffff",
                 foreground: "#09090b",
                 muted: "#71717a",
-                border: "#e4e4e7",
+                border: "#71717a",
                 primary: "#18181b",
                 on_primary: "#fafafa",
             },
@@ -44,7 +46,7 @@ impl Appearance {
                 background: "#09090b",
                 foreground: "#fafafa",
                 muted: "#a1a1aa",
-                border: "#3f3f46",
+                border: "#71717a",
                 primary: "#fafafa",
                 on_primary: "#18181b",
             },
@@ -116,13 +118,26 @@ pub fn install_theme(
         motion = if reduced_motion { 0 } else { 120 }
     );
     let provider = gtk::CssProvider::new();
-    provider.load_from_data(&css);
+    provider.load_from_string(&css);
+    THEMES.with(|themes| {
+        let mut themes = themes.borrow_mut();
+        themes.retain(|(target, old)| {
+            if target == display {
+                gtk::style_context_remove_provider_for_display(display, old);
+                false
+            } else {
+                true
+            }
+        });
+        themes.push((display.clone(), provider.clone()));
+    });
     gtk::style_context_add_provider_for_display(
         display,
         &provider,
         gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
-    if let Some(settings) = gtk::Settings::for_display(display) {
+    {
+        let settings = gtk::Settings::for_display(display);
         settings.set_gtk_enable_animations(!reduced_motion);
         settings.set_gtk_application_prefer_dark_theme(appearance == Appearance::Dark);
     }
@@ -216,7 +231,7 @@ impl TextField {
     }
     /// Domain updates must never replace an actively edited draft.
     pub fn reconcile(&self, value: &str) -> bool {
-        if self.entry.has_focus() {
+        if self.entry.has_focus() || self.entry.focus_child().is_some() {
             return false;
         }
         if self.entry.text() != value {
@@ -253,6 +268,7 @@ mod tests {
             assert!(contrast(t.foreground, t.background) >= 4.5);
             assert!(contrast(t.muted, t.background) >= 4.5);
             assert!(contrast(t.primary, t.on_primary) >= 4.5);
+            assert!(contrast(t.border, t.background) >= 3.0);
         }
     }
 }

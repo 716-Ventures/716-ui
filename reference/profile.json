@@ -26,6 +26,7 @@
   "deliberate_differences": [
     "GTK native accessibility, IME and clipboard",
     "destructive button darkened for text contrast",
-    "native focus ring does not depend on browser selectors"
+    "native focus ring does not depend on browser selectors",
+    "input and outline borders strengthened to at least 3:1 contrast"
   ]
 }
