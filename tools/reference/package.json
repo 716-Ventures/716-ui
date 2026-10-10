@@ -1,0 +1,16 @@
+{
+  "name": "716-ui-reference-harness",
+  "private": true,
+  "type": "module",
+  "scripts": {"build": "node build.mjs"},
+  "dependencies": {
+    "@tailwindcss/cli": "4.3.0",
+    "tailwindcss": "4.3.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "radix-ui": "1.4.3",
+    "class-variance-authority": "0.7.1",
+    "cn": "0.2.2",
+    "esbuild": "0.25.10"
+  }
+}

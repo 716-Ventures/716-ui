@@ -6,3 +6,6 @@
 *.log
 
 /test-output/
+
+/tools/reference/node_modules/
+/tools/reference/generated.css
