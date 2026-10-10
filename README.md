@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.5` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.6` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -37,4 +37,6 @@ Version 0.1.0-alpha.4: `List@1` and `KeyValue@1` use bounded, stable keyed rows 
 
 Version 0.1.0-alpha.5: `Section@1` and `Scroll@1` add labeled grouping and bounded native vertical scrolling. `Section` exposes a native accessible heading and content box; `ScrollRegion` exposes its content box within a 160–480 pixel natural-height viewport. Headings now expose the native Heading role and level. The gallery checks group/heading roles, actual scroll ranges and label updates; ARM64 Linux CI 38031215921 passed these checks across both themes, scales 1/2 and reduced motion. Complete screen-reader and reference motion journeys remain unqualified.
 
-Development: `Split@1` uses two native resizable panes; `Tabs@1` uses 1–32 uniquely keyed pages with bounded labels. Native tab selection follows keys across reorder and falls back to the first surviving page after removal. Invalid updates preserve the current pages. Divider positions remain local to the host. Physical input and reference appearance/motion parity remain unqualified.
+Version 0.1.0-alpha.6: `Split@1` uses two native resizable panes; `Tabs@1` uses 1–32 uniquely keyed pages with bounded labels. Native tab selection follows keys across reorder and falls back to the first surviving page after removal. Invalid updates preserve the current pages. Divider positions remain local to the host. Physical input and reference appearance/motion parity remain unqualified.
+
+ARM64 Linux CI 38031633481 verified keyed tab reorder/removal, label reconciliation, invalid-update preservation and retained split positions across both themes, scales 1/2 and reduced motion.

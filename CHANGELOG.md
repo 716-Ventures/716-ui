@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.6
+
+Adds `Split@1` and `Tabs@1`, native two-pane resizing and 1–32 keyed tab pages. Local tab choice survives reorder and label updates; removal selects the first surviving page. Invalid updates preserve the current content. ARM64 Linux CI 38031633481 passed mapped gallery checks across both themes, scales 1/2 and reduced motion. Physical input and full reference appearance/motion parity remain unqualified.
+
 ## 0.1.0-alpha.5
 
 Adds `Section@1` and `Scroll@1` schemas, labeled native sections and bounded vertical scroll regions. Text headings expose the Heading role and level. ARM64 Linux CI 38031215921 passed native allocation, actual scroll-range, group/heading role and label reconciliation checks across both appearances, scales 1/2 and reduced motion. Complete screen-reader journeys and reference appearance/motion parity remain unqualified.
