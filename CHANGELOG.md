@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.19
+
+Button hover changes variant backgrounds without fading labels. Pressed buttons retain the pinned reference hover endpoint rather than introducing a whole-widget opacity change. Dark outline backgrounds use the pinned input alpha. A rendered GTK regression samples all five variants in default, hover, pressed, disabled and focus states in both appearances (50 endpoints, two-channel-value tolerance). The old pressed-button behavior fails this regression. These endpoint checks do not establish physical pointer delivery, motion or full reference parity.
+
 ## 0.1.0-alpha.18
 
 Uses horizontal scrolling for plain-text documents instead of soft wrapping. This avoids expensive reflow of a maximum-sized single line during composition. The agentOS GTK text-input-v3 integration exercised a 64 KiB single-line document, observed preedit processing before commit, rejected overflow, and preserved exact text, selection, durable draft and saved value.

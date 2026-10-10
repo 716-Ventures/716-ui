@@ -90,11 +90,14 @@ pub fn install_theme(
 .seven-ui button {{border-radius:6px;min-height:{height}px;padding:{pad_y}px {pad_x}px;border:1px solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms ease-out;}}
 .seven-ui button.primary {{background:{primary};color:{on_primary};}}
 .seven-ui button.secondary {{background:{secondary};color:{fg};}}
-.seven-ui button.outline {{background:{bg};color:{fg};border-color:{border};}}
+.seven-ui button.outline {{background:{outline_bg};color:{fg};border-color:{border};}}
 .seven-ui button.ghost {{background:transparent;color:{fg};}}
 .seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
-.seven-ui button:hover {{opacity:.9;}}
-.seven-ui button:active {{opacity:.8;}}
+.seven-ui button.primary:hover {{background:alpha({primary},.9);}}
+.seven-ui button.secondary:hover {{background:alpha({secondary},.8);}}
+.seven-ui button.outline:hover {{background:{accent_hover};}}
+.seven-ui button.ghost:hover {{background:{accent_hover};}}
+.seven-ui button.destructive:hover {{background:alpha(#b91c1c,.9);}}
 .seven-ui button:disabled {{opacity:.5;}}
 .seven-ui button label {{color:inherit;}}
 .seven-ui button:focus-visible,.seven-ui entry:focus-visible,.seven-ui textview:focus-visible {{outline:3px solid {muted};outline-offset:2px;}}
@@ -106,6 +109,16 @@ pub fn install_theme(
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
 .seven-ui progressbar progress {{min-width:2px;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
 "#,
+        outline_bg = if appearance == Appearance::Light {
+            t.background
+        } else {
+            "alpha(#27272a,.3)"
+        },
+        accent_hover = if appearance == Appearance::Light {
+            secondary
+        } else {
+            "alpha(#27272a,.5)"
+        },
         bg = t.background,
         fg = t.foreground,
         muted = t.muted,

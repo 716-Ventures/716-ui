@@ -21,6 +21,9 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 if time.monotonic()>deadline:raise RuntimeError('Nested display startup timed out')
                 time.sleep(.05)
             for appearance in ('light','dark'):
+                command=[str(ROOT/'target/debug/button-states')]
+                if appearance=='dark':command.append('--dark')
+                subprocess.run(command,env={**env,'BUTTON_STATE_OUTPUT':str(OUTPUT/('button-states-'+appearance))},check=True,timeout=15)
                 for scale in (1,2):
                     command=[str(ROOT/'target/debug/gallery'),'--self-test','--capture',str(OUTPUT/(appearance+'-'+str(scale)+'.png')),'--scale',str(scale)]
                     if appearance=='dark':command.append('--dark')
