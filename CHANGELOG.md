@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.13
+
+Adds `DocumentEditor@1` and shared plain-text editing with monospace native text, bounded literal Unicode find/replace, selection replacement and grouped undo. Replacement growth is preflighted before allocation. ARM64 Linux CI 38036067038 passed all-feature builds, mapped Unicode editing/undo scenarios across themes/scales and the independent assistive probe. Persistence, save/discard, revisions and file import/export belong to the host; physical IME/clipboard and full visual/motion parity remain unqualified.
+
 ## 0.1.0-alpha.12
 
 Adds optional `terminal` feature, `TerminalView` and `PtySession@1` schema using VTE 0.8 GTK4 bindings. Native terminal rendering accepts 16 KiB host chunks and bounded scrollback, emits local input, exposes grid/interaction state and starts with input disabled. ARM64 Linux CI 38035243208 passed all-feature builds, mapped theme/scale terminal scenarios and the assistive probe. Attachment, transport, authority and child lifecycle belong to the host; physical terminal input, IME and full reference parity remain unqualified.
