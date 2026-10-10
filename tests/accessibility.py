@@ -2,6 +2,7 @@
 from collections import deque
 import time
 import pyatspi
+from gi.repository import GLib
 
 
 def find(name,role=None):
@@ -31,7 +32,12 @@ def verify():
     while text(field)!='AT-SPI draft λ 日本語':
         if time.monotonic()>deadline:raise AssertionError('AT-SPI edit observed '+repr(text(field)))
         time.sleep(.05)
-    assert field.queryComponent().grabFocus()
+    try:
+        assert field.queryComponent().grabFocus()
+    except GLib.GError as error:
+        # GTK 4.14 deliberately returns D-Bus NotSupported for GrabFocus.
+        if error.code!=1:raise
+        print('LIMITATION: GTK 4.14 AT-SPI GrabFocus is unsupported; native keyboard focus is checked separately')
     disabled=find('Unavailable',pyatspi.ROLE_PUSH_BUTTON)
     assert not disabled.getState().contains(pyatspi.STATE_ENABLED)
     toggle=find('Wrap text',pyatspi.ROLE_CHECK_BOX)
@@ -46,4 +52,4 @@ def verify():
     assert text(heading)=='Reading section'
     rich=find('Literal <b>日本語</b> & λ')
     assert text(rich)=='Literal <b>日本語</b> & λ'
-    print('PASS: AT-SPI names/roles, Unicode editable text, native focus, disabled state and toggle action')
+    print('PASS: AT-SPI names/roles, Unicode editable text, disabled state and toggle action')

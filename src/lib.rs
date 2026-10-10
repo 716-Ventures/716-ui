@@ -31,3 +31,8 @@ pub use content::{ChartPoint, RichRun};
 mod reading;
 #[cfg(feature = "native")]
 pub use reading::{BoundedChart, RichText};
+
+#[cfg(feature = "native")]
+mod image;
+#[cfg(feature = "native")]
+pub use image::ImageView;
