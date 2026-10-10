@@ -18,6 +18,9 @@ pub struct DataTable {
 }
 impl DataTable {
     pub fn new(label: &str, columns: &[String]) -> Result<Self, String> {
+        if label.trim().is_empty() || label.len() > 256 || label.contains('\0') {
+            return Err("A bounded accessible collection label is required".into());
+        }
         if !valid_columns(columns) {
             return Err("Use 1–32 bounded column labels".into());
         }

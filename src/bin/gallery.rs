@@ -44,6 +44,11 @@ fn main() {
         let mut table=seven_sixteen_ui::DataTable::new("Observed resources",&["Resource".into(),"Status".into()]).unwrap();
         let mut table_rows=(0..4000).map(|i|seven_sixteen_ui::TableRow{id:format!("row-{i}"),cells:vec![format!("Resource {i} · 日本語"),"Observed".into()]}).collect::<Vec<_>>();
         table.update(&table_rows).unwrap();content.append(&table.widget);
+        let mut list=seven_sixteen_ui::DataList::new("Observed items",false).unwrap();
+        let mut list_rows=(0..4000).map(|i|seven_sixteen_ui::TableRow{id:format!("item-{i}"),cells:vec![format!("Item {i} · 日本語")]}).collect::<Vec<_>>();
+        list.update(&list_rows).unwrap();content.append(&list.widget);
+        let mut pairs=seven_sixteen_ui::DataList::new("Resource metadata",true).unwrap();
+        pairs.update(&[seven_sixteen_ui::TableRow{id:"kind".into(),cells:vec!["Kind".into(),"File".into()]},seven_sixteen_ui::TableRow{id:"mode".into(),cells:vec!["Permissions".into(),"0644".into()]}]).unwrap();content.append(&pairs.widget);
         content.append(&seven_sixteen_ui::progress("Observed work",Some(0.65)));
         content.append(&seven_sixteen_ui::link("Component source and documentation","https://github.com/716-Ventures/716-ui").unwrap());
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -68,6 +73,13 @@ fn main() {
                 assert!(table.select_key("row-7"));table_rows.reverse();table_rows[3992].cells[1]="Updated".into();table.update(&table_rows).unwrap();
                 assert_eq!(table.selected_key().as_deref(),Some("row-7"));
                 let previous=table.row_count();let mut duplicate=table_rows.clone();duplicate[0].id=duplicate[1].id.clone();assert!(table.update(&duplicate).is_err());assert_eq!(table.row_count(),previous);
+                assert!(list.live_row_count()>0 && list.live_row_count()<500);assert_eq!(list.row_count(),4000);
+                assert_eq!(list.view.accessible_role(),gtk::AccessibleRole::List);
+                assert!(list.select_key("item-7"));list_rows.reverse();list.update(&list_rows).unwrap();assert_eq!(list.selected_key().as_deref(),Some("item-7"));
+                list_rows.retain(|r|r.id!="item-7");list.update(&list_rows).unwrap();assert!(list.selected_key().is_none());
+                assert!(list.update(&[seven_sixteen_ui::TableRow{id:"wrong".into(),cells:vec!["one".into(),"two".into()]}]).is_err());
+                assert_eq!(pairs.row_count(),2);assert!(pairs.live_row_count()>0);
+                assert!(seven_sixteen_ui::DataList::new(" ",false).is_err());
                 assert!(seven_sixteen_ui::link("Unsafe","javascript:run()").is_err());
                 println!("PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes");
             }

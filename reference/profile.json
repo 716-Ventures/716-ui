@@ -21,7 +21,8 @@
     "button.tsx": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
     "input.tsx": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
     "zinc.json": "d2366e81d347beb69dbb04c93432a35769215792c4e1a56e5593d4ffa0c321d5",
-    "table.tsx": "bd1a9fc83a5a2149e504038e274bb7e5a0351af59f6896df52ac4d5b439695ac"
+    "table.tsx": "bd1a9fc83a5a2149e504038e274bb7e5a0351af59f6896df52ac4d5b439695ac",
+    "item.tsx": "9ade8136f010284b7ec0142f52606616dd4b23798012e75a9fc6aac1fb2d792e"
   },
   "parity_status": "experimental; native scenarios and reference comparisons must pass before declaring conformance",
   "deliberate_differences": [
@@ -30,6 +31,8 @@
     "native focus ring does not depend on browser selectors",
     "input and outline borders strengthened to at least 3:1 contrast",
     "Table uses GTK ColumnView headers, resizable columns and native row selection",
-    "Table rows are virtualized; stable keys retain selection across reorder; visual/motion parity remains unqualified"
+    "Table rows are virtualized; stable keys retain selection across reorder; visual/motion parity remains unqualified",
+    "List and key/value groups use GTK ListView with stable keyed selection and virtualized rows; item actions/media are not supported",
+    "List and key/value reference geometry, physical input and motion remain unqualified"
   ]
 }

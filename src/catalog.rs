@@ -100,7 +100,15 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "columns", "rows"],
     );
     table.minimum_size = [240, 200];
+    let mut list = component(
+        "list",
+        vec![("label", Kind(String)), ("rows", Kind(KeyedRows))],
+        vec!["label", "rows"],
+    );
+    list.minimum_size = [160, 200];
     BTreeMap::from([
+        ("List@1", list.clone()),
+        ("KeyValue@1", list),
         ("Table@1", table),
         ("Stack@1", stack.clone()),
         ("Row@1", stack),
@@ -178,7 +186,7 @@ mod tests {
     #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 9);
+        assert_eq!(catalog.len(), 11);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));
