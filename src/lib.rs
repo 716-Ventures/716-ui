@@ -56,3 +56,6 @@ pub use terminal::TerminalView;
 mod editor;
 #[cfg(feature = "native")]
 pub use editor::DocumentEditor;
+
+#[cfg(feature = "native")]
+mod clipboard;

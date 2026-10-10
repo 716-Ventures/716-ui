@@ -91,6 +91,24 @@ fn main() {
                 editor.replace_all.emit_clicked();assert_eq!(editor.area.value(),"café λ café");editor.area.view.buffer().undo();assert_eq!(editor.area.value(),"café λ 日本語");
                 editor.find.set_text(".*");editor.next.emit_clicked();assert_eq!(editor.notice.text(),"No literal match");
                 let before=editor.area.value();editor.area.view.buffer().insert_at_cursor(&"x".repeat(65536));assert_eq!(editor.area.value(),before);assert!(editor.notice.text().contains("64 KiB"));
+                editor.area.view.grab_focus();
+                let buffer=editor.area.view.buffer();buffer.select_range(&buffer.start_iter(),&buffer.end_iter());
+                editor.area.view.clipboard().set_text(&"x".repeat(65537));editor.area.view.emit_paste_clipboard();
+                let deadline=std::time::Instant::now()+Duration::from_secs(2);
+                while !editor.notice.text().contains("selection was preserved") {
+                    assert!(std::time::Instant::now()<deadline,"{}",editor.notice.text());
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    std::thread::sleep(Duration::from_millis(5));
+                }
+                assert_eq!(editor.area.value(),before);assert!(buffer.selection_bounds().is_some());
+                editor.area.view.clipboard().set_text("Pasted λ 日本語");editor.area.view.emit_paste_clipboard();
+                let deadline=std::time::Instant::now()+Duration::from_secs(2);
+                while editor.area.value()!="Pasted λ 日本語" {
+                    assert!(std::time::Instant::now()<deadline,"{}",editor.notice.text());
+                    while glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}
+                    std::thread::sleep(Duration::from_millis(5));
+                }
+                buffer.undo();assert_eq!(editor.area.value(),before);
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");

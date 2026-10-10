@@ -82,6 +82,8 @@ impl DocumentEditor {
                 }
             });
 
+        crate::clipboard::install(&area.view, &notice);
+
         let (query, view, message) = (find.clone(), area.view.clone(), notice.clone());
         next.connect_clicked(move |_| {
             let query = query.text();
