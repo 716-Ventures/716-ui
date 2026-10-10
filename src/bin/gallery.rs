@@ -61,6 +61,9 @@ fn main() {
                 assert_eq!(field.entry.text(),"Unicode draft λ 日本語");assert!(window.width()>0 && primary.height()>0);
                 assert_eq!(field.entry.accessible_role(),gtk::AccessibleRole::TextBox);
                 area.view.grab_focus();area.view.buffer().set_text("Multiline λ\nSecond line");assert!(!area.reconcile("External replacement"));assert_eq!(area.value(),"Multiline λ\nSecond line");assert_eq!(area.view.accessible_role(),gtk::AccessibleRole::TextBox);
+                scroll.vadjustment().set_value(scroll.vadjustment().upper());
+                for _ in 0..32 {if glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}else{break;}}
+                assert!(table.live_cell_count()>0);assert!(table.view.height()>0);
                 assert_eq!(table.row_count(),4000);assert!(table.live_cell_count()<1000,"Collection widgets must be virtualized");
                 assert!(table.select_key("row-7"));table_rows.reverse();table_rows[3992].cells[1]="Updated".into();table.update(&table_rows).unwrap();
                 assert_eq!(table.selected_key().as_deref(),Some("row-7"));
