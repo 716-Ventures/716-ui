@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.7
+
+Adds `Choice@1` and `Toggle@1`, labeled native DropDown/CheckButton controls with typed local changes and focus-preserved values. Choices require 1–32 distinct bounded options and an exact selected value. ARM64 Linux CI 38032103678 passed gallery checks across both themes, scales 1/2 and reduced motion, including internal toggle focus ownership. Host submission, physical input and full reference appearance/motion parity remain application or qualification work.
+
 ## 0.1.0-alpha.6
 
 Adds `Split@1` and `Tabs@1`, native two-pane resizing and 1–32 keyed tab pages. Local tab choice survives reorder and label updates; removal selects the first surviving page. Invalid updates preserve the current content. ARM64 Linux CI 38031633481 passed mapped gallery checks across both themes, scales 1/2 and reduced motion. Physical input and full reference appearance/motion parity remain unqualified.
