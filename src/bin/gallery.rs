@@ -116,7 +116,6 @@ fn main() {
                 area.view.grab_focus();area.view.buffer().set_text("Multiline λ\nSecond line");assert!(!area.reconcile("External replacement"));assert_eq!(area.value(),"Multiline λ\nSecond line");assert_eq!(area.view.accessible_role(),gtk::AccessibleRole::TextBox);
                 scroll.vadjustment().set_value(scroll.vadjustment().upper());
                 for _ in 0..32 {if glib::MainContext::default().pending(){glib::MainContext::default().iteration(false);}else{break;}}
-                assert!(image.picture.height()>0 && image.picture.height()<=240,"Visible image height {}",image.picture.height());
                 assert!(table.live_cell_count()>0);assert!(table.view.height()>0);
                 assert_eq!(table.row_count(),4000);assert!(table.live_cell_count()<1000,"Collection widgets must be virtualized");
                 assert!(table.select_key("row-7"));table_rows.reverse();table_rows[3992].cells[1]="Updated".into();table.update(&table_rows).unwrap();
@@ -132,6 +131,8 @@ fn main() {
                 assert!(seven_sixteen_ui::link("Unsafe","javascript:run()").is_err());
                 println!("PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes");
             }
+            glib::timeout_add_local_once(Duration::from_millis(180),move||{
+            if test {assert!(image.picture.height()>0 && image.picture.height()<=240,"Visible image height {}",image.picture.height());}
             if let Some(path)=capture {
                 let snapshot=gtk::Snapshot::new();
                 paintable.snapshot(&snapshot,content.width() as f64,content.height() as f64);
@@ -140,6 +141,7 @@ fn main() {
                 println!("CAPTURE: {path}");
             }
             quit.quit();
+            });
         });}
     });
     app.run_with_args(&["716-ui-gallery"]);
