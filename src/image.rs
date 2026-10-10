@@ -19,11 +19,14 @@ impl ImageView {
         let widget = crate::column(8);
         let picture = gtk::Picture::for_paintable(&texture);
         picture.set_can_shrink(true);
+        picture.set_hexpand(true);
+        picture.set_vexpand(true);
         picture.set_content_fit(gtk::ContentFit::Contain);
         picture.update_property(&[gtk::accessible::Property::Label(label)]);
         let viewport = gtk::ScrolledWindow::builder()
             .hscrollbar_policy(gtk::PolicyType::Never)
-            .vscrollbar_policy(gtk::PolicyType::Never)
+            .vscrollbar_policy(gtk::PolicyType::Automatic)
+            .min_content_width(160)
             .min_content_height(240)
             .max_content_height(240)
             .propagate_natural_height(true)
