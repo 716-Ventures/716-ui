@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.4
+
+Adds read-only `List@1` and `KeyValue@1` schemas and `DataList`, with stable keyed selection, cleared selection after removal and native virtualized rows. Accessible collection labels are required. The shadcn Item source is pinned alongside the existing profile. ARM64 Linux CI 38030789105 passed pure/native checks and mapped 4,000-row gallery scenarios across both appearances, scales 1/2 and reduced motion. Physical assistive input and full reference appearance/motion parity remain unqualified.
+
+## 0.1.0-alpha.3
+
+Adds typed `Table@1` schemas and native `DataTable` with bounded unique row keys, resizable columns and selection preserved across keyed updates/reorder. ARM64 Linux CI 38027478239 verified allocated virtualized cells across 4,000 rows and both appearances/scales. Full reference and physical input parity remain unqualified.
+
 ## 0.1.0-alpha.2
 
 Adds a typed, versioned component catalog usable without the native feature or GTK. Adds labeled multiline text editing with local undo, Unicode selection/IME support supplied by GTK, Ctrl+Enter submission, and protection against external reconciliation while focused. Long unbroken text wraps within its reading surface.

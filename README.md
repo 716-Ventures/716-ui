@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.3` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.4` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified.
 
 ## Design commitments
 
@@ -33,4 +33,4 @@ Version 0.1.0-alpha.2 adds renderer-independent, typed component metadata (`defa
 
 Version 0.1.0-alpha.3 adds `Table@1` metadata and `DataTable`, a GTK ColumnView with stable row keys, native column headers, keyboard selection and virtualized cells. Columns and cells are bounded, duplicate keys are rejected, and selection follows the row key across updates and reordering. ARM64 Linux gallery verification covers 4,000 rows with allocated visible cells, selection across reordering, duplicate-key rejection, both themes, both tested text scales and reduced motion. Physical assistive-input and shadcn visual/motion parity remain unqualified.
 
-Development: `List@1` and `KeyValue@1` use bounded, stable keyed rows in GTK ListView. `DataList::new(label, false)` accepts one string cell per row; `true` accepts key/value pairs. Rows are read-only, updates preserve selection by key, and deleted keys clear selection. The pinned shadcn Item reference supplies the visual/semantic comparison baseline; item actions/media and full physical input/motion parity are not qualified. The gallery verifies 4,000-row virtualization, keyed reorder/removal and native accessibility roles before release.
+Version 0.1.0-alpha.4: `List@1` and `KeyValue@1` use bounded, stable keyed rows in GTK ListView. `DataList::new(label, false)` accepts one string cell per row; `true` accepts key/value pairs. Rows are read-only, updates preserve selection by key, and deleted keys clear selection. The pinned shadcn Item reference supplies the visual/semantic comparison baseline; item actions/media and full physical input/motion parity are not qualified. ARM64 Linux CI run 38030789105 passed 4,000-row virtualization, keyed reorder/removal and native accessibility roles in both themes, text scales 1/2 and reduced motion.
