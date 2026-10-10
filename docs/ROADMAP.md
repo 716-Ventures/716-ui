@@ -2,7 +2,7 @@
 
 ## 0. Reference and renderer proof
 
-Select and record a shadcn reference profile. Prototype a button, text field, menu and dialog in a small shortlist of native toolkits. Test appearance, motion, input, IME, selection, clipboard, accessibility and scaling on Linux/Wayland. Record results and select one renderer. No toolkit is selected yet.
+GTK 4 is the selected native renderer. The concrete shadcn source/style/theme profile is pinned in `reference/profile.json`. The standalone gallery and ARM64 Linux CI exercise implemented controls, Unicode editing, composition guards, clipboard bounds, stable identities, accessibility and appearance/text-scale profiles. The renderer choice is implemented; comparative toolkit evaluation and full reference appearance/motion conformance are not claimed.
 
 ## 1. First coherent collection
 
@@ -22,4 +22,4 @@ Use semantic versioning, with explicit migration notes for breaking changes duri
 
 A release must identify implemented components, their verification status, known limitations, tested targets and performance evidence. Do not claim universal native support or exact visual/behavioral parity without the corresponding tests. Track input latency, frame timing and memory with realistic contents; performance budgets will be set against the first validated environment.
 
-No package or binary release exists at project creation. The repository currently publishes design documents only.
+Versioned experimental source tags and a changelog are published. The repository contains the GTK implementation, typed metadata, independent gallery and native CI. No registry package or binary distribution is published; source tags do not establish full reference parity.

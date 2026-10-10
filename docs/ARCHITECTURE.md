@@ -16,7 +16,7 @@ The dependency direction is application → library. agentOS may adapt the libra
 
 ## Implementation direction
 
-Use Rust for native implementation. Select the rendering toolkit after a comparative prototype validates text fidelity, IME, clipboard, accessibility, GPU/CPU behavior, scaling and motion. Do not create a universal backend abstraction before one backend works well. Linux/Wayland is the first validation target; other platforms remain unverified until listed with test evidence.
+The implementation uses Rust and GTK 4, with VTE for the optional terminal host. Linux/Wayland on ARM64 is the native CI target; other platforms remain unverified. Renderer-independent metadata remains available without native dependencies. A comparative toolkit study or universal backend abstraction is not claimed.
 
 Separate reusable design/interaction contracts from renderer-specific code. The precise crate layout and public API follow the prototype, rather than committing to empty crates as a promise. Models may describe component composition in a consuming application; rendering and input never depend on inference.
 
