@@ -83,7 +83,7 @@ fn main() {
         if test || capture.is_some(){glib::timeout_add_local_once(Duration::from_millis(700),move||{
             if test {
                 #[cfg(feature="terminal")]
-                {assert!(!terminal.terminal.is_input_enabled());assert!(terminal.feed(&vec![0;16385],false).is_err());let (rows,cols)=terminal.grid();assert!(rows>0 && cols>0);terminal.set_attached(true);assert!(terminal.terminal.is_input_enabled());terminal.set_attached(false);}
+                {assert!(!terminal.input_enabled());assert!(terminal.feed(&vec![0;16385],false).is_err());let (rows,cols)=terminal.grid();assert!(rows>0 && cols>0);terminal.set_attached(true);assert!(terminal.input_enabled());terminal.set_attached(false);}
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");

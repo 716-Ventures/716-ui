@@ -48,6 +48,15 @@ impl TerminalView {
     pub fn set_attached(&self, attached: bool) {
         self.terminal.set_input_enabled(attached);
     }
+    pub fn input_enabled(&self) -> bool {
+        self.terminal.is_input_enabled()
+    }
+    pub fn is_protected(&self) -> bool {
+        self.terminal.has_selection()
+            || self.terminal.has_focus()
+            || self.terminal.is_focus()
+            || self.heading.selection_bounds().is_some()
+    }
     pub fn on_input(&self, f: impl Fn(Vec<u8>) + 'static) {
         self.terminal
             .connect_commit(move |_, text, _| f(text.as_bytes().to_vec()));
