@@ -1,6 +1,6 @@
-# Pinned Button and Input browser harness
+# Pinned Button, Input and Tabs browser harness
 
-This developer-only harness bundles the actual checksum-verified `reference/button.tsx` with the pinned Zinc tokens, default Tailwind spacing/radius and Inter font files supplied by the tester. It does not reproduce the upstream website's global styles, theme generator or responsive application overrides. In particular, the unqualified light outline border inherits Tailwind's current-color default. Consumer-global border rules must be assessed separately.
+This developer-only harness bundles the actual checksum-verified `reference/button.tsx`, `reference/input.tsx` and `reference/tabs.tsx` with the pinned Zinc tokens, default Tailwind spacing/radius and Inter font files supplied by the tester. It does not reproduce the upstream website's global styles, theme generator or responsive application overrides. In particular, the unqualified light outline border inherits Tailwind's current-color default. Consumer-global border rules must be assessed separately.
 
 Run `npm ci` in this directory, then set `REFERENCE_INTER_REGULAR`, `REFERENCE_INTER_MEDIUM`, `REFERENCE_INTER_SEMIBOLD` to the exact font files used for native qualification and `REFERENCE_INTER_LICENSE` to their copyright/license notice. Run `npm run build`. The ignored `test-output/reference-browser` directory contains the bundled page, source/font provenance and preserved upstream/font notices. Serve that directory on localhost for browser inspection; close the server and tab afterward. Fonts, generated output and dependencies are not committed.
 
@@ -11,3 +11,5 @@ The native library's existing 50 painted Button state endpoints are a separate G
 The measured natural widths and 36px height for the five default text-only variants are retained in `reference/button-metrics.json`. Native `button-metrics` checks those border-box dimensions within 1px using Inter Medium 14px; GTK content-box dimensions are recorded separately. These measurements exclude upstream website globals and do not qualify other sizes or icons.
 
 The Input section imports the checksum-verified upstream component unchanged. `reference/input-observation.json` records the scoped desktop observation, actual controlled Unicode editing, keyboard focus and disabled checks. It does not establish full input parity, mobile styles, invalid/file variants or physical timing.
+
+The default horizontal Tabs fixture uses the unchanged pinned component and controlled page selection. `reference/tabs-observation.json` records actual light/dark styles and ArrowRight wrap/disabled-skip, End and Home activation checks. The observed strip is 36px high with 3px padding and 8px radius; triggers are 29px high with 14px/500 Inter. Native Tabs parity, vertical/line variants, RTL, assistive announcements and frame timing remain unqualified. This observation does not change the native API or release tag.

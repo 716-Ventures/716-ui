@@ -1,0 +1,67 @@
+{
+  "profile_revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+  "component_sha256": "e1df6e2f95ece373ca909c1d54b8ba8cf4c47dd425c1784bbb9a01c38dd0936b",
+  "environment": {
+    "browser": "Codex in-app browser",
+    "engine_version": "not collected",
+    "viewport_width": 1280,
+    "font": "Inter Medium, same qualification fonts as Button/Input",
+    "scope": "default horizontal Tabs only"
+  },
+  "metrics": {
+    "list_height": 36,
+    "list_radius": 8,
+    "list_padding": 3,
+    "trigger_height": 29,
+    "trigger_radius": 6,
+    "trigger_padding": [
+      4,
+      8
+    ],
+    "font_size": 14,
+    "font_weight": 500,
+    "line_height": 20,
+    "transition_ms": 150,
+    "disabled_opacity": 0.5
+  },
+  "list_rgb": {
+    "light": [
+      244,
+      244,
+      245
+    ],
+    "dark": [
+      39,
+      39,
+      42
+    ]
+  },
+  "active_rgb": {
+    "light": [
+      255,
+      255,
+      255
+    ],
+    "dark": [
+      39,
+      39,
+      42
+    ]
+  },
+  "observed_interactions": [
+    "ArrowRight activates next enabled tab",
+    "ArrowRight wraps past disabled tab",
+    "End chooses last enabled tab",
+    "Home chooses first enabled tab",
+    "selected page and controlled value update together"
+  ],
+  "not_qualified": [
+    "vertical orientation",
+    "line variant",
+    "RTL",
+    "physical keyboard",
+    "screen reader announcements",
+    "frame-for-frame motion",
+    "full native parity"
+  ]
+}
