@@ -40,3 +40,5 @@ Version 0.1.0-alpha.5: `Section@1` and `Scroll@1` add labeled grouping and bound
 Version 0.1.0-alpha.6: `Split@1` uses two native resizable panes; `Tabs@1` uses 1–32 uniquely keyed pages with bounded labels. Native tab selection follows keys across reorder and falls back to the first surviving page after removal. Invalid updates preserve the current pages. Divider positions remain local to the host. Physical input and reference appearance/motion parity remain unqualified.
 
 ARM64 Linux CI 38031633481 verified keyed tab reorder/removal, label reconciliation, invalid-update preservation and retained split positions across both themes, scales 1/2 and reduced motion.
+
+Development: `Choice@1` and `Toggle@1` provide labeled native form values. Choices have 1–32 distinct bounded options and an exact selected value; toggles emit booleans. Focused controls retain local values during reconciliation. These controls carry no commit or system-action authority; hosts own draft persistence and deliberate submission. Physical input and reference appearance/motion parity remain unqualified.
