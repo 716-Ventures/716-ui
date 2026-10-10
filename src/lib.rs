@@ -51,3 +51,8 @@ pub use outcome::OutcomeView;
 mod terminal;
 #[cfg(feature = "terminal")]
 pub use terminal::TerminalView;
+
+#[cfg(feature = "native")]
+mod editor;
+#[cfg(feature = "native")]
+pub use editor::DocumentEditor;

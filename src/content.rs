@@ -194,3 +194,46 @@ mod image_tests {
         assert_eq!(image_hex(&hex).unwrap(), bytes);
     }
 }
+
+/// Literal replacement preflights UTF-8 byte growth before allocating the result.
+pub fn replace_literal(
+    text: &str,
+    query: &str,
+    replacement: &str,
+) -> Result<(String, usize), String> {
+    if text.len() > 65536
+        || query.is_empty()
+        || query.len() > 256
+        || replacement.len() > 256
+        || [text, query, replacement]
+            .iter()
+            .any(|value| value.contains('\0'))
+    {
+        return Err(
+            "Use a document up to 64 KiB and literal search/replacement up to 256 bytes".into(),
+        );
+    }
+    let count = text.match_indices(query).count();
+    let length = text.len() - count * query.len() + count * replacement.len();
+    if length > 65536 {
+        return Err("Replacement would exceed 64 KiB".into());
+    }
+    Ok((text.replace(query, replacement), count))
+}
+#[cfg(test)]
+mod editor_tests {
+    use super::*;
+    #[test]
+    fn replacement_is_literal_unicode_exact_and_bounded_before_allocation() {
+        assert_eq!(
+            replace_literal("日本語 λ 日本語", "日本語", "café").unwrap(),
+            ("café λ café".into(), 2)
+        );
+        assert_eq!(
+            replace_literal("a.*a", ".*", "$1").unwrap(),
+            ("a$1a".into(), 1)
+        );
+        assert!(replace_literal(&"x".repeat(65536), "x", &"y".repeat(256)).is_err());
+        assert!(replace_literal("text", "", "x").is_err());
+    }
+}

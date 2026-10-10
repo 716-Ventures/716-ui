@@ -75,6 +75,7 @@ fn main() {
         let terminal=seven_sixteen_ui::TerminalView::new("Embedded terminal fixture").unwrap();
         #[cfg(feature="terminal")]
         {terminal.feed(b"\x1b[32mTerminal output\x1b[0m\r\nUnicode: \xce\xbb",false).unwrap();content.append(&terminal.widget);}
+        let editor=seven_sixteen_ui::DocumentEditor::new("Shared document","日本語 λ 日本語").unwrap();content.append(&editor.widget);
         let reference=seven_sixteen_ui::ReferenceView::new("Open related view").unwrap();
         let opened=Rc::new(RefCell::new(0));let observed=opened.clone();reference.on_open(move ||*observed.borrow_mut()+=1);content.append(&reference.widget);
         let scroll=gtk::ScrolledWindow::builder().hscrollbar_policy(gtk::PolicyType::Never).child(&content).build();
@@ -84,6 +85,11 @@ fn main() {
             if test {
                 #[cfg(feature="terminal")]
                 {assert!(!terminal.input_enabled());assert!(terminal.feed(&vec![0;16385],false).is_err());let (rows,cols)=terminal.grid();assert!(rows>0 && cols>0);terminal.set_attached(true);assert!(terminal.input_enabled());terminal.set_attached(false);}
+                assert!(seven_sixteen_ui::DocumentEditor::new("Document",&"x".repeat(65537)).is_err());
+                editor.find.set_text("日本語");editor.next.emit_clicked();assert!(editor.area.view.buffer().selection_bounds().is_some());
+                editor.replacement.set_text("café");editor.replace.emit_clicked();assert_eq!(editor.area.value(),"café λ 日本語");
+                editor.replace_all.emit_clicked();assert_eq!(editor.area.value(),"café λ café");editor.area.view.buffer().undo();assert_eq!(editor.area.value(),"café λ 日本語");
+                editor.find.set_text(".*");editor.next.emit_clicked();assert_eq!(editor.notice.text(),"No literal match");
                 assert_eq!(outcome.widget.accessible_role(),gtk::AccessibleRole::Status);
                 assert_eq!(failure.widget.accessible_role(),gtk::AccessibleRole::Alert);
                 assert_eq!(failure.message.text(),"Literal <retry> & λ");

@@ -163,6 +163,13 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "reference"],
     );
     image.minimum_size = [160, 240];
+    let mut editor = component(
+        "textbox",
+        vec![("label", Kind(String)), ("value", Kind(String))],
+        vec!["label", "value"],
+    );
+    editor.events = vec!["submit", "change"];
+    editor.minimum_size = [320, 240];
     let terminal = component(
         "terminal",
         vec![("label", Kind(String)), ("source", Kind(String))],
@@ -191,6 +198,7 @@ pub fn components() -> BTreeMap<&'static str, Component> {
         vec!["label", "target"],
     );
     BTreeMap::from([
+        ("DocumentEditor@1", editor),
         ("PtySession@1", terminal),
         ("Result@1", outcome),
         ("Error@1", failure),
@@ -284,7 +292,7 @@ mod tests {
     #[test]
     fn metadata_is_available_without_a_renderer() {
         let catalog = components();
-        assert_eq!(catalog.len(), 25);
+        assert_eq!(catalog.len(), 26);
         for schema in catalog.values() {
             for property in schema.required.iter().chain(&schema.bindable) {
                 assert!(schema.props.contains_key(property));
