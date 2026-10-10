@@ -27,6 +27,7 @@ jobs:
           key: native-arm64-rust185-${{ hashFiles('Cargo.lock') }}
       - name: Build and deterministic tests
         run: |
+          cargo +1.85.1 test --locked --no-default-features
           cargo +1.85.1 test --locked
           cargo +1.85.1 build --locked
       - name: Native rendering and interaction

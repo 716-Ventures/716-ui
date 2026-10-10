@@ -28,3 +28,5 @@ Native components with shadcn as their visual and interaction reference.
 Original work is licensed under [Apache-2.0](LICENSE). Upstream code, assets and adapted material retain their applicable notices. This project is independent and is not an official shadcn project.
 
 Build with Rust 1.85.1 and GTK ≥4.12: `cargo build --locked`. Run `cargo run --bin gallery`; the gallery has no agent, accounts or network dependency. `dbus-run-session -- python3 tests/native_gallery.py` runs native interaction scenarios and captures both appearances in a private Weston display. See `reference/profile.json` for the pinned reference and declared differences.
+
+The next alpha adds renderer-independent, typed component metadata (`default-features = false`) and native multiline text editing. The host may consume the exact same catalog without linking GTK. These changes remain under CI verification until tagged.

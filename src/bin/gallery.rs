@@ -36,6 +36,7 @@ fn main() {
         buttons.append(&seven_sixteen_ui::button("Outline",ButtonVariant::Outline,false));
         let disabled=seven_sixteen_ui::button("Unavailable",ButtonVariant::Primary,true);buttons.append(&disabled);content.append(&buttons);
         let field=TextField::new("Your draft","Type here; Enter emits a typed event","An editable draft");content.append(&field.widget);
+        let area=seven_sixteen_ui::TextArea::new("Multiline draft","First line\nSecond line · 日本語");content.append(&area.widget);
         let status=seven_sixteen_ui::status("Ready · no account or network needed");content.append(&status);
         let events=Rc::new(RefCell::new(Vec::new()));let recorded=events.clone();let live=status.clone();
         field.on_event(move|event|{live.set_text(match &event{InputEvent::Changed(_)=>"Editing locally",InputEvent::Submitted(_)=>"Submitted to the gallery"});recorded.borrow_mut().push(event);});
@@ -56,6 +57,7 @@ fn main() {
                 field.entry.grab_focus();assert!(!field.reconcile("Stale external text"));
                 assert_eq!(field.entry.text(),"Unicode draft λ 日本語");assert!(window.width()>0 && primary.height()>0);
                 assert_eq!(field.entry.accessible_role(),gtk::AccessibleRole::TextBox);
+                area.view.grab_focus();area.view.buffer().set_text("Multiline λ\nSecond line");assert!(!area.reconcile("External replacement"));assert_eq!(area.value(),"Multiline λ\nSecond line");assert_eq!(area.view.accessible_role(),gtk::AccessibleRole::TextBox);
                 assert!(seven_sixteen_ui::link("Unsafe","javascript:run()").is_err());
                 println!("PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes");
             }
