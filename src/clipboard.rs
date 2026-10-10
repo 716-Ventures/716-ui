@@ -41,6 +41,11 @@ fn selection(buffer: &gtk::TextBuffer) -> Option<(i32, i32)> {
         .selection_bounds()
         .map(|(a, b)| (a.offset(), b.offset()))
 }
+fn focused(view: &gtk::TextView) -> bool {
+    view.root()
+        .and_then(|root| root.focus())
+        .is_some_and(|focus| focus == *view.upcast_ref::<gtk::Widget>() || focus.is_ancestor(view))
+}
 pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
     let epoch = Rc::new(Cell::new(0u64));
     let generation = epoch.clone();
@@ -50,7 +55,7 @@ pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
     let message = notice.downgrade();
     view.connect_paste_clipboard(move |view| {
         view.stop_signal_emission_by_name("paste-clipboard");
-        if !view.is_editable() || !view.is_sensitive() || !view.has_focus() {
+        if !view.is_editable() || !view.is_sensitive() || !focused(view) {
             return;
         }
         let buffer = view.buffer();
@@ -80,7 +85,7 @@ pub(crate) fn install(view: &gtk::TextView, notice: &gtk::Label) {
             }
             let buffer = view.buffer();
             if !view.is_mapped()
-                || !view.has_focus()
+                || !focused(view)
                 || !view.is_editable()
                 || !view.is_sensitive()
                 || epoch.get() != revision
