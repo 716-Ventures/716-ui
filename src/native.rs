@@ -161,6 +161,7 @@ pub fn text(value: &str, heading: bool) -> gtk::Label {
     let label = gtk::Label::new(Some(value));
     label.set_selectable(true);
     label.set_wrap(true);
+    label.set_wrap_mode(gtk::pango::WrapMode::WordChar);
     label.set_xalign(0.0);
     label.set_natural_wrap_mode(gtk::NaturalWrapMode::Word);
     label.set_hexpand(true);
