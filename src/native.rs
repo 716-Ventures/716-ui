@@ -106,6 +106,11 @@ pub fn install_theme(
 .seven-ui entry:disabled {{opacity:.5;}}
 .seven-ui entry text placeholder {{color:{muted};opacity:1;}}
 .seven-ui selection {{background:{selected};color:{on_selected};}}
+ .seven-ui checkbutton.seven-toggle {{padding:0;outline:none;}}
+.seven-ui checkbutton.seven-toggle > check {{min-width:{check_size}px;min-height:{check_size}px;padding:0;border:{check_border}px solid {border};border-radius:4px;background:{outline_bg};background-image:none;box-shadow:none;color:{fg};}}
+.seven-ui checkbutton.seven-toggle > check:checked {{background:{primary};border-color:{primary};color:{on_primary};}}
+.seven-ui checkbutton.seven-toggle:disabled {{opacity:.5;}}
+.seven-ui checkbutton.seven-toggle:focus-visible > check {{outline:3px solid {muted};outline-offset:2px;}}
 .seven-ui progressbar {{color:{fg};}}
 .seven-ui progressbar text {{color:{fg};}}
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
@@ -120,6 +125,8 @@ pub fn install_theme(
 .seven-ui notebook.seven-tabs > header tabs tab:checked {{background:{outline_bg};border-color:{tabs_border};color:{fg};}}
 .seven-ui notebook.seven-tabs > stack {{background:transparent;border:0;margin-top:{tabs_gap}px;}}
 "#,
+        check_size = 14.0 * scale,
+        check_border = scale,
         tabs_pad = 3.0 * scale,
         tabs_strip = 30.0 * scale,
         tabs_x = 8.0 * scale,

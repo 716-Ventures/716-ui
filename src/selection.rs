@@ -76,6 +76,7 @@ impl Toggle {
         label(title)?;
         let widget = crate::column(6);
         let control = gtk::CheckButton::with_label(title);
+        control.add_css_class("seven-toggle");
         control.set_active(value);
         // GTK 4.14 exposes generic widget actions over AT-SPI, but does not
         // supply a CheckButton activation action. Keep this local to the

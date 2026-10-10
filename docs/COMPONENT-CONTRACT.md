@@ -73,3 +73,9 @@ Browser ArrowRight, disabled-skip/wrap, Home and End behavior was observed separ
 Native charts use a zero-inclusive domain over all bounded values. Positive, negative and mixed fractional values retain the full available scale; only all-zero data uses a synthetic 0–1 domain. The former minimum span of one compressed fractions and hid very small values. Ratios are computed before multiplying by plot height so finite subnormal values remain visible. Exact values and labels remain available in the accessible data table.
 
 `chart-states` samples actual painted bars in both themes for positive/negative/mixed fractions, all-zero data, tiny and subnormal values, and integer data. Pure tests cover domain boundaries and invalid values. These are correctness regressions for the native bounded chart, not Recharts or shadcn Chart appearance parity.
+
+## Toggle / native Checkbox endpoints
+
+The boolean Toggle remains a native GTK CheckButton with an accessible label, typed boolean changes and focus-preserved reconciliation. Scoped styling replaces inherited blue GTK paint with pinned Zinc primary/on-primary colors and dark input/30. The native indicator uses the measured 16px square and 4px radius at text scale one, scaling with the native typography. Disabled controls use 50% opacity; native borders stay strengthened for contrast, and focus uses the native 3px outline with 2px offset. GTK owns the check glyph and keyboard/focus semantics; Lucide is a developer browser reference dependency only.
+
+`toggle-states` checks actual checked/unchecked/disabled painted backgrounds, geometry and explicit native action behavior in both themes; the independent AT-SPI gallery still exercises role/state/activation. Invalid/indeterminate variants, exact glyph/label geometry, focus paint, motion trajectories and full reference parity remain unqualified.
