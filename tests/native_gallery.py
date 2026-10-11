@@ -89,6 +89,12 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
                 for scale in (1,2):
+                    sizes=[str(ROOT/'target/debug/button-size-metrics')]
+                    if appearance=='dark':sizes.append('--dark')
+                    if scale==2:sizes.append('--scale-2')
+                    result=subprocess.run(sizes,env={**env,'BUTTON_SIZE_CAPTURE':str(OUTPUT/('button-sizes-'+appearance+'-'+str(scale)+'.png'))},capture_output=True,text=True,timeout=15)
+                    (OUTPUT/('button-sizes-'+appearance+'-'+str(scale)+'.log')).write_text(result.stdout+result.stderr)
+                    result.check_returncode()
                     command=[str(ROOT/'target/debug/gallery'),'--self-test','--capture',str(OUTPUT/(appearance+'-'+str(scale)+'.png')),'--scale',str(scale)]
                     if appearance=='dark':command.append('--dark')
                     if scale==2:command.append('--reduced-motion')

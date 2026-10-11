@@ -17,6 +17,15 @@ pub enum ButtonVariant {
     Ghost,
     Destructive,
 }
+/// Natural text-only button sizes from the pinned reference profile.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum ButtonSize {
+    #[default]
+    Default,
+    ExtraSmall,
+    Small,
+    Large,
+}
 #[derive(Clone, Debug, PartialEq)]
 pub enum InputEvent {
     Changed(String),
@@ -93,6 +102,12 @@ pub fn install_theme(
 .seven-ui button.outline {{background:{outline_bg};color:{fg};min-height:{outline_height}px;border:1px solid {border};}}
 .seven-ui button.ghost {{background:transparent;color:{fg};}}
 .seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
+.seven-ui button.seven-button-xs {{font-size:{button_xs_font}px;min-height:{button_xs_height}px;padding:{button_xs_y}px {button_xs_x}px;}}
+.seven-ui button.outline.seven-button-xs {{min-height:{button_xs_height}px;padding-top:{button_xs_outline_y}px;padding-bottom:{button_xs_outline_y}px;}}
+.seven-ui button.seven-button-sm {{min-height:{button_height}px;padding:{button_sm_y}px {input_x}px;}}
+.seven-ui button.outline.seven-button-sm {{min-height:{outline_height}px;}}
+.seven-ui button.seven-button-lg {{min-height:{button_height}px;padding:{button_lg_y}px {button_lg_x}px;}}
+.seven-ui button.outline.seven-button-lg {{min-height:{outline_height}px;}}
 .seven-ui button.primary:hover {{background:alpha({primary},.9);}}
 .seven-ui button.secondary:hover {{background:alpha({secondary},.8);}}
 .seven-ui button.outline:hover {{background:{accent_hover};}}
@@ -187,6 +202,14 @@ pub fn install_theme(
         font = 14.0 * scale,
         heading = 20.0 * scale,
         height = 18.0 * scale,
+        button_xs_font = 12.0 * scale,
+        button_xs_height = 16.0 * scale,
+        button_xs_y = 4.0 * scale,
+        button_xs_outline_y = 4.0 * scale - 1.0,
+        button_xs_x = 8.0 * scale,
+        button_sm_y = 6.0 * scale,
+        button_lg_y = 10.0 * scale,
+        button_lg_x = 24.0 * scale,
         button_height = 20.0 * scale,
         outline_height = 20.0 * scale - 2.0,
         pad_y = 8.0 * scale,
@@ -255,6 +278,10 @@ pub fn text(value: &str, heading: bool) -> gtk::Label {
     label
 }
 pub fn button(label: &str, variant: ButtonVariant, disabled: bool) -> gtk::Button {
+    button_sized(label, variant, ButtonSize::Default, disabled)
+}
+/// Creates a text-only button; events and action authority remain host-owned.
+pub fn button_sized(label: &str, variant: ButtonVariant, size: ButtonSize, disabled: bool) -> gtk::Button {
     let button = gtk::Button::with_label(label);
     button.add_css_class(match variant {
         ButtonVariant::Primary => "primary",
@@ -263,6 +290,12 @@ pub fn button(label: &str, variant: ButtonVariant, disabled: bool) -> gtk::Butto
         ButtonVariant::Ghost => "ghost",
         ButtonVariant::Destructive => "destructive",
     });
+    match size {
+        ButtonSize::Default => {},
+        ButtonSize::ExtraSmall => button.add_css_class("seven-button-xs"),
+        ButtonSize::Small => button.add_css_class("seven-button-sm"),
+        ButtonSize::Large => button.add_css_class("seven-button-lg"),
+    }
     button.set_sensitive(!disabled);
     button
 }

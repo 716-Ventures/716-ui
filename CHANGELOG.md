@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.33
+
+- Add native text-only ExtraSmall, Small and Large button sizes alongside Default, preserving existing `button()` calls.
+- Measure the pinned browser size matrix with an isolated headless browser; compare 80 mapped native buttons across light/dark and text scales 1/2, including typography, border-box dimensions, disabled Unicode labels and captures.
+- Keep declarative `Button@1` metadata unchanged until its hosts support size properties. Icons, Link and full appearance/motion parity remain unqualified.
+
 ## 0.1.0-alpha.32
 
 - Keep current Result/Error values visible while the user selects an older message; reconciliation previously left only the obsolete outcome visible.
