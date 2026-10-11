@@ -1,56 +1,85 @@
 {
-  "base_revision": "514607f182335188847635fdc8008f24e1a3d33c",
-  "implementation_diff_sha256": "2d278efabe063f51bc8c669661dd0eaa49d00e87a0245e4bab9cf68ff1355c16",
+  "base_revision": "d81efb7744967e48028764a2df6ddbe1ecab0d40",
+  "implementation_diff_sha256": "a34910e397fca6571828b753cfce5422d41396c773fc2d05e2a5ee1d10ef94dc",
   "passed": true,
   "guest_stopped": true,
   "owned_utm_app_closed": true,
-  "verified_at": "2026-10-11T16:37:50.288294+00:00",
-  "qualification_package_version": "0.1.0-alpha.36",
-  "release_version": "0.1.0-alpha.37",
-  "changes_after_native_qualification": [
-    "package version",
-    "documentation",
-    "evidence"
-  ],
-  "native_validation_profiles": 4,
-  "independent_atspi_directions": [
-    "ltr",
-    "rtl"
-  ],
-  "message_limit_utf8_bytes": 1024,
-  "native_caption_tokens": {
-    "light": "#b91c1c",
-    "dark": "#fca5a5"
+  "previous_qualification": {
+    "base_revision": "514607f182335188847635fdc8008f24e1a3d33c",
+    "implementation_diff_sha256": "2d278efabe063f51bc8c669661dd0eaa49d00e87a0245e4bab9cf68ff1355c16",
+    "passed": true,
+    "guest_stopped": true,
+    "owned_utm_app_closed": true,
+    "verified_at": "2026-10-11T16:37:50.288294+00:00",
+    "qualification_package_version": "0.1.0-alpha.36",
+    "release_version": "0.1.0-alpha.37",
+    "changes_after_native_qualification": [
+      "package version",
+      "documentation",
+      "evidence"
+    ],
+    "native_validation_profiles": 4,
+    "independent_atspi_directions": [
+      "ltr",
+      "rtl"
+    ],
+    "message_limit_utf8_bytes": 1024,
+    "native_caption_tokens": {
+      "light": "#b91c1c",
+      "dark": "#fca5a5"
+    },
+    "caption_contrast_minimum": 4.5,
+    "not_tested": [
+      "physical keyboard/pointer",
+      "screen-reader error announcements",
+      "complete shadcn error paint/motion parity"
+    ],
+    "qualified_source_sha256": {
+      "Cargo.toml": "c827195ddfed635dea6ed28e84ccc3faa84aa38e4c7fb75233a58c0860aad8d3",
+      "src/validation.rs": "f7f29bbbda0313ed82244a8b0d3fbd1aee5cc7192228a1d882654b940aa2c812",
+      "src/bin/input_validation.rs": "9724154950474ea451f7b6ead7481c677ae0806152e50e3ad3bd41442534bcaa",
+      "src/lib.rs": "c996b362acf1c3fdab517dcd5687ec448a00060ad91c3f00958e69c1e3a6058d",
+      "src/native.rs": "82d3287836c0e052a21804cd5ad2712cf8cf856d1e4fa40794d8d3d911b21a4e",
+      "src/editor.rs": "bb334c87c7df0f8e39c8e09ec75d41e76fb70f438b88e4c552db723d1fece27a",
+      "src/catalog.rs": "6421f57b4923a88d55413f014bb3f28b3126b7cd80c19af648049ade920f5bad",
+      "src/bin/gallery.rs": "a0cd23294cda4728f5d310adf7b514041368b36229dd83ea6085f0c2b79d6d03",
+      "tests/accessibility.py": "a17ad1ab0f4c6f87a82e349ce68a2dd39982c7f4aa32d12adf77b78b5d1e8bd9",
+      "tests/native_gallery.py": "cd46c89d86595438108e3587048e8604eb2542481e83790c043501297f993755"
+    },
+    "evidence_sha256": {
+      "accessibility-rtl.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "accessibility.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "driver.log": "60e6f18c2c7b65bd62a1d7b171481e141ce4c4c7b77c42babbba3e1c379ec749",
+      "input-validation-dark-1.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
+      "input-validation-dark-1.png": "2daeaaf06cac1b22636ee2bca97a546bcbf123a95fd0971fc46e4ccfc1c57694",
+      "input-validation-dark-2.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
+      "input-validation-dark-2.png": "54a9185eb3b72630f7e40946d091e91439e7c6f51821423740ff37da4fe245aa",
+      "input-validation-light-1.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
+      "input-validation-light-1.png": "aa266466fb13e9d95ce5fe92909534144fb2b157795196b50937c9e23a7b4efd",
+      "input-validation-light-2.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
+      "input-validation-light-2.png": "ef7a4432d9545a5534c32e4b5827fa4fe58cd192d9c5375bcf398f2c4534db3b"
+    }
   },
-  "caption_contrast_minimum": 4.5,
-  "not_tested": [
-    "physical keyboard/pointer",
-    "screen-reader error announcements",
-    "complete shadcn error paint/motion parity"
-  ],
-  "qualified_source_sha256": {
-    "Cargo.toml": "c827195ddfed635dea6ed28e84ccc3faa84aa38e4c7fb75233a58c0860aad8d3",
-    "src/validation.rs": "f7f29bbbda0313ed82244a8b0d3fbd1aee5cc7192228a1d882654b940aa2c812",
-    "src/bin/input_validation.rs": "9724154950474ea451f7b6ead7481c677ae0806152e50e3ad3bd41442534bcaa",
-    "src/lib.rs": "c996b362acf1c3fdab517dcd5687ec448a00060ad91c3f00958e69c1e3a6058d",
-    "src/native.rs": "82d3287836c0e052a21804cd5ad2712cf8cf856d1e4fa40794d8d3d911b21a4e",
-    "src/editor.rs": "bb334c87c7df0f8e39c8e09ec75d41e76fb70f438b88e4c552db723d1fece27a",
-    "src/catalog.rs": "6421f57b4923a88d55413f014bb3f28b3126b7cd80c19af648049ade920f5bad",
-    "src/bin/gallery.rs": "a0cd23294cda4728f5d310adf7b514041368b36229dd83ea6085f0c2b79d6d03",
-    "tests/accessibility.py": "a17ad1ab0f4c6f87a82e349ce68a2dd39982c7f4aa32d12adf77b78b5d1e8bd9",
-    "tests/native_gallery.py": "cd46c89d86595438108e3587048e8604eb2542481e83790c043501297f993755"
+  "qualification_package_version": "0.1.0-alpha.37",
+  "verified_at": "2026-10-11T16:47:46.188073+00:00",
+  "scope": "Complete Debian GTK 4.18 gallery including four validation profiles and LTR/RTL independent AT-SPI. GTK 4.14 compatibility awaits CI.",
+  "source_sha256": {
+    "src/validation.rs": "214641aba687e2f2f0582a3a5cc2613920625e87f09df1383b6bd7477ada0f15",
+    "src/bin/input_validation.rs": "9724154950474ea451f7b6ead7481c677ae0806152e50e3ad3bd41442534bcaa"
   },
   "evidence_sha256": {
-    "accessibility-rtl.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "accessibility.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "driver.log": "60e6f18c2c7b65bd62a1d7b171481e141ce4c4c7b77c42babbba3e1c379ec749",
     "input-validation-dark-1.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
-    "input-validation-dark-1.png": "2daeaaf06cac1b22636ee2bca97a546bcbf123a95fd0971fc46e4ccfc1c57694",
     "input-validation-dark-2.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
-    "input-validation-dark-2.png": "54a9185eb3b72630f7e40946d091e91439e7c6f51821423740ff37da4fe245aa",
-    "input-validation-light-1.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
-    "input-validation-light-1.png": "aa266466fb13e9d95ce5fe92909534144fb2b157795196b50937c9e23a7b4efd",
+    "accessibility.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "input-validation-light-2.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
-    "input-validation-light-2.png": "ef7a4432d9545a5534c32e4b5827fa4fe58cd192d9c5375bcf398f2c4534db3b"
+    "fixture-corrections.md": "de0c01197bd49d41f4d9776f2ad802cc67f8c612ff9dab1c4339617a01c25ec5",
+    "input-validation-light-1.log": "e5b713dab305a96af604469c22e4c420a6e829fcc6a287c9e2f6c1310201b811",
+    "input-validation-light-2.png": "ef7a4432d9545a5534c32e4b5827fa4fe58cd192d9c5375bcf398f2c4534db3b",
+    "gtk414-initial-failure.log": "1a9ef1946b2d1cb1fb2242b709836589796e2ee8a95e7b411669c18586e18ea5",
+    "input-validation-light-1.png": "aa266466fb13e9d95ce5fe92909534144fb2b157795196b50937c9e23a7b4efd",
+    "driver.log": "6071145b87bb3a55fb8657426c8c85356ccaca7f8c4b19aa5fb547afb0580467",
+    "accessibility-rtl.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "input-validation-dark-1.png": "2daeaaf06cac1b22636ee2bca97a546bcbf123a95fd0971fc46e4ccfc1c57694",
+    "input-validation-dark-2.png": "54a9185eb3b72630f7e40946d091e91439e7c6f51821423740ff37da4fe245aa"
   }
 }
