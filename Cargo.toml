@@ -1,6 +1,6 @@
 [package]
 name = "seven-sixteen-ui"
-version = "0.1.0-alpha.27"
+version = "0.1.0-alpha.28"
 edition = "2021"
 rust-version = "1.85"
 license = "Apache-2.0"
@@ -73,4 +73,9 @@ required-features = ["native"]
 [[bin]]
 name = "table-states"
 path = "src/bin/table_states.rs"
+required-features = ["native"]
+
+[[bin]]
+name = "table-clipboard"
+path = "src/bin/table_clipboard.rs"
 required-features = ["native"]

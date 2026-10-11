@@ -28,6 +28,9 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     (OUTPUT/('chart-states-'+appearance+'-'+case+'.json')).write_text(result.stdout)
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
+                result=subprocess.run([str(ROOT/'target/debug/table-clipboard')],env={**env,'TABLE_CLIPBOARD_LOCAL':'1'},capture_output=True,text=True,timeout=20)
+                (OUTPUT/('table-clipboard-'+appearance+'.log')).write_text(result.stdout+result.stderr)
+                result.check_returncode()
                 tables=[str(ROOT/'target/debug/table-states')]
                 if appearance=='dark':tables.append('--dark')
                 result=subprocess.run(tables,env={**env,'TABLE_STATE_OUTPUT':str(OUTPUT/('table-states-'+appearance))},capture_output=True,text=True,timeout=15)

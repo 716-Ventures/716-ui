@@ -15,6 +15,7 @@ pub struct DataTable {
     rows: Vec<TableRow>,
     columns: Vec<String>,
     live_cells: std::rc::Rc<std::cell::Cell<usize>>,
+    copy_menu: gtk::Popover,
 }
 impl DataTable {
     pub fn new(label: &str, columns: &[String]) -> Result<Self, String> {
@@ -83,6 +84,7 @@ impl DataTable {
             .propagate_natural_height(true)
             .child(&view)
             .build();
+        let copy_menu = crate::table_actions::install(&view, &selection);
         Ok(Self {
             widget,
             view,
@@ -92,6 +94,7 @@ impl DataTable {
             rows: Vec::new(),
             columns: columns.to_vec(),
             live_cells,
+            copy_menu,
         })
     }
     pub fn columns(&self) -> &[String] {
@@ -173,4 +176,10 @@ pub fn valid_rows(rows: &[TableRow], columns: usize) -> bool {
                     .iter()
                     .all(|cell| cell.len() <= 4096 && !cell.contains('\0'))
         })
+}
+
+impl Drop for DataTable {
+    fn drop(&mut self) {
+        self.copy_menu.unparent();
+    }
 }

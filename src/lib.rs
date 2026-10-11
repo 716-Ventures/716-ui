@@ -61,3 +61,6 @@ pub use editor::DocumentEditor;
 
 #[cfg(feature = "native")]
 mod clipboard;
+
+#[cfg(feature = "native")]
+mod table_actions;

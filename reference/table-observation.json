@@ -257,5 +257,18 @@
       "dark": "d6ec20d761f3b81adc914c503fc0e71b3d5dea6f198d479c37a72babc643e63c"
     },
     "boundary": "Read-only upstream HTML Table has no selection action; its selected endpoint is an external fixture. Native keyboard selection, column distribution/resizing, clipboard, physical input, full accessibility relationships and motion parity remain unqualified. Upstream global border reset is absent from browser harness."
+  },
+  "native_clipboard_qualification": {
+    "version": "0.1.0-alpha.28",
+    "targeted_log_sha256": "13216737aed0aa0d5bcffb5cd3bf35cc1b6d1bd5807ad19763f8ed4e04eedd61",
+    "full_gallery_log_sha256": "b342077df451740bb6945e22e206aeaf75a100f174399f456371a12cfd067d83",
+    "qualified": [
+      "Real installed Ctrl+C callback and Shift+F10 menu callback (signal-driven)",
+      "Explicit native menu name/role, dismissal and local focus restoration",
+      "Exact selected Unicode/plain text, updated cells after reorder and removed-selection guard",
+      "Independent GTK Wayland client receives updated selected-row clipboard through test compositor focus",
+      "Table owner released after widget removal"
+    ],
+    "boundary": "Headless standalone gallery checks local cached clipboard/action state only. Separate nested-compositor focus enables cross-client protocol delivery. Kernel/physical input, pointer menu placement and screen-reader operation remain unqualified."
   }
 }
