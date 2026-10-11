@@ -125,9 +125,9 @@ impl DataList {
             let object = self
                 .objects
                 .get(&row.id)
+                .filter(|object| &*object.borrow::<TableRow>() == row)
                 .cloned()
                 .unwrap_or_else(|| glib::BoxedAnyObject::new(row.clone()));
-            *object.borrow_mut::<TableRow>() = row.clone();
             objects.push(object.clone());
             next.insert(row.id.clone(), object);
         }

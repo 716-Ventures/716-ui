@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.28` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.29` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -82,3 +82,5 @@ Alpha.26 aligns Choice trigger backgrounds, regular-weight text and 36px height 
 Alpha.27 scopes Table styling to the pinned Zinc reference: 40px headers, 37px body rows, page/hover/selected backgrounds and regular body text. A 4 KiB spaced cell stays on one line and exposes horizontal scrolling instead of wrapping. Native column resizing, key-based selection and virtualization remain intact. Both-theme endpoint and overflow regressions join the complete gallery; full Table geometry, clipboard, physical input and reference motion parity remain unqualified.
 
 Alpha.28 adds deliberate selected-row copying: Ctrl+C and the accessible “Copy selected row” context menu export current cell text separated by tabs. Menu/Shift+F10 open the menu; copying restores local Table focus. Selection updates/removal are checked at invocation, and callbacks do not retain closed tables. A separate Wayland client verifies exact Unicode delivery in the agentOS test compositor; the standalone headless gallery checks local clipboard/action behavior. Synthetic callback checks do not qualify physical keyboard or pointer delivery.
+
+Alpha.29 fixes stale visible Table, List and KeyValue labels after same-key content updates. Changed rows replace their private model object so GTK rebinds the visible cells; unchanged row objects and stable-key selection survive reconciliation and reorder. The native regression checks actual mapped label text in all three collections, rather than only their stored data.

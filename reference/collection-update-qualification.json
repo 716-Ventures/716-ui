@@ -1,0 +1,25 @@
+{
+  "version": "0.1.0-alpha.29",
+  "scope": "Native content correctness, not shadcn appearance or motion parity",
+  "profile": {
+    "platform": "ARM64 Debian 13 / private Weston Wayland",
+    "gtk": "4.18.6+ds-2",
+    "rustc": "1.85.1"
+  },
+  "baseline": {
+    "version": "0.1.0-alpha.28",
+    "observed": "Table, List and KeyValue retained Original \u03bb and Saved after stable-key cells changed to Updated \u03bb \u65e5\u672c\u8a9e and Current; selected key remained document",
+    "log_sha256": "24a34081f92a059ec572308f76f0bb2f313a641e0df2ba457ce52f6f222db0a6"
+  },
+  "qualified": [
+    "Mapped GTK labels show updated Unicode cells and remove old text",
+    "Table/List/KeyValue selection retains the same stable key across reorder",
+    "Unchanged private native row objects remain reusable",
+    "Complete standalone gallery, both themes, text scales 1/2, reduced motion, clipboard and assistive journeys",
+    "Owned display/VM/app cleanup"
+  ],
+  "targeted_log_sha256": "de93cec91a0d40a75a87a9f15ffde5e9ecbe434e2058ef9a6a603044bda9ca9d",
+  "full_gallery_log_sha256": "103544c13fa11bb42f63d7c357fee809b3c8a352835726bab09434f55dcc2fb6",
+  "fixture_sha256": "4394d54cef560036e18dfa2dea076edbab6a0cf705001dba94f01aedec7f93b5",
+  "boundary": "No physical input, background agentOS lease/focus, full reference appearance or motion qualification is implied."
+}
