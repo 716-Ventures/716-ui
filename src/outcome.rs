@@ -4,6 +4,7 @@ pub struct OutcomeView {
     pub widget: gtk::Box,
     pub heading: gtk::Label,
     pub message: gtk::Label,
+    pub current: gtk::Label,
     pub recovery: gtk::Button,
 }
 fn title(value: &str) -> bool {
@@ -25,15 +26,20 @@ impl OutcomeView {
             .build();
         let heading = crate::text(label, true);
         let message = crate::text(message, false);
+        let current = crate::status("");
+        current.set_selectable(false);
+        current.set_visible(false);
         let recovery = crate::button("Try again", crate::ButtonVariant::Outline, true);
         recovery.set_visible(false);
         widget.append(&heading);
         widget.append(&message);
+        widget.append(&current);
         widget.append(&recovery);
         Ok(Self {
             widget,
             heading,
             message,
+            current,
             recovery,
         })
     }
@@ -42,8 +48,19 @@ impl OutcomeView {
             return Err("A bounded outcome label and literal message are required".into());
         }
         if self.heading.selection_bounds().is_some() || self.message.selection_bounds().is_some() {
+            // Selection retains its literal snapshot, not authority to freeze
+            // the observed work state. Keep current source text visible too.
+            let changed = self.heading.text() != label || self.message.text() != message;
+            if changed {
+                let value = format!("Current value:\n{label}\n{message}");
+                if self.current.text() != value {
+                    self.current.set_text(&value);
+                }
+            }
+            self.current.set_visible(changed);
             return Ok(false);
         }
+        self.current.set_visible(false);
         self.heading.set_text(label);
         self.message.set_text(message);
         Ok(true)

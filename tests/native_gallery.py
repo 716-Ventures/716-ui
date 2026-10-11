@@ -24,6 +24,10 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
             (OUTPUT/'text-area-events.log').write_text(result.stdout+result.stderr)
             result.check_returncode()
             for appearance in ('light','dark'):
+                outcome=[str(ROOT/'target/debug/outcome-updates')]+(['--dark'] if appearance=='dark' else [])
+                result=subprocess.run(outcome,env=env,capture_output=True,text=True,timeout=20)
+                (OUTPUT/('outcome-updates-'+appearance+'.log')).write_text(result.stdout+result.stderr)
+                result.check_returncode()
                 for case in ('positive','negative','mixed','zero','tiny','subnormal','integer'):
                     chart=[str(ROOT/'target/debug/chart-states')]
                     if appearance=='dark':chart.append('--dark')

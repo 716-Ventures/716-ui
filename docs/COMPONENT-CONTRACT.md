@@ -99,3 +99,7 @@ List and KeyValue share Table’s deliberate selected-row copying, keyboard/cont
 ### Multiline callback ownership
 
 The TextArea Ctrl+Enter controller holds its view weakly. Closing the final host owner releases the native view, text buffer and registered callback captures; retaining a host clone keeps the editor alive. `text-area-events` invokes the installed application controller and checks exact Unicode Changed/Submitted values, plain Return without submission and final weak-owner release. This is callback/lifetime evidence, not physical keyboard or IME qualification.
+
+### Outcome selection and current values
+
+Selecting a Result/Error heading or message preserves that text snapshot. A changed incoming label/message also appears in a separate nonselectable Status notice labeled “Current value”; later observations update this notice without touching the selection. Reconciliation returns false while the main text stays protected. Once selection clears, a successful reconciliation updates the main text and hides the notice. Invalid updates alter neither representation. Recovery remains a separate local intent with host-owned authority. `outcome-updates` verifies mapped Unicode notice text and retained selection in both appearances; live announcement timing and full screen-reader journeys remain unqualified.

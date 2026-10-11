@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0-alpha.32
+
+- Keep current Result/Error values visible while the user selects an older message; reconciliation previously left only the obsolete outcome visible.
+- Retain the selected snapshot, update a separate native status notice, and reconcile the main message after deselection. Add mapped Unicode and invalid-update regressions in both appearances.
+
 ## 0.1.0-alpha.31
 
 - Break the multiline submit-controller reference cycle so closing the final TextArea owner releases its view, buffer and host callbacks.
