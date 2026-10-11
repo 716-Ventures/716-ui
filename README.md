@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.30` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.31` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -86,3 +86,5 @@ Alpha.28 adds deliberate selected-row copying: Ctrl+C and the accessible “Copy
 Alpha.29 fixes stale visible Table, List and KeyValue labels after same-key content updates. Changed rows replace their private model object so GTK rebinds the visible cells; unchanged row objects and stable-key selection survive reconciliation and reorder. The native regression checks actual mapped label text in all three collections, rather than only their stored data.
 
 Alpha.30 extends the guarded selected-row Copy action and accessible context menu to List and KeyValue. Both share the Table clipboard implementation, preserve exact Unicode and tab-separated cells, disable Copy after selection removal and release their owners on closure. Native regressions check the installed Ctrl+C callback and exact local clipboard text; physical input and full reference parity remain unqualified.
+
+Alpha.31 releases multiline TextArea views, buffers and host event callbacks when their final owner closes. The Ctrl+Enter submit controller holds a weak view reference; native regression checks preserve Unicode Changed/Submitted payloads, plain Return behavior and remaining host clones before final release.

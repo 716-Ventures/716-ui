@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0-alpha.31
+
+- Break the multiline submit-controller reference cycle so closing the final TextArea owner releases its view, buffer and host callbacks.
+- Add a real GTK callback/owner regression covering exact Unicode change/submit values, plain Return and retained host clones.
+
 ## 0.1.0-alpha.20
 
 Primary paste and text drops retain GTK’s nearest insertion iterator when the pointer is in blank space below or right of the text. Previously the high-level wrapper discarded that iterator whenever the point was not directly over a glyph. A mapped gallery regression reproduces the lost blank-area paste on alpha.19, then verifies exact Unicode append and grouped undo across appearance/text-scale profiles.

@@ -413,10 +413,14 @@ impl TextArea {
                     .into(),
             ))
         });
-        let view = self.view.clone();
+        let view = self.view.downgrade();
         let keys = gtk::EventControllerKey::new();
+        keys.set_name(Some("seven-textarea-submit"));
         keys.connect_key_pressed(move |_, key, _, modifiers| {
             if key == gdk::Key::Return && modifiers.contains(gdk::ModifierType::CONTROL_MASK) {
+                let Some(view) = view.upgrade() else {
+                    return gtk::glib::Propagation::Proceed;
+                };
                 let buffer = view.buffer();
                 callback(InputEvent::Submitted(
                     buffer

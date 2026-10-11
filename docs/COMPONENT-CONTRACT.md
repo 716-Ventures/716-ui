@@ -95,3 +95,7 @@ The checksum-pinned Select harness records the unchanged upstream trigger at 190
 Table, List and KeyValue use stable row keys for selection and reconciliation. Their private boxed model objects are reused only when row contents are unchanged; changed objects must be replaced because mutating boxed Rust data emits no native property notification to existing cell bindings. `collection-updates` checks actual mapped Unicode labels in all three controls, confirms old text disappears, and verifies selected identity across reorder. Clipboard-model checks alone cannot establish visible content freshness.
 
 List and KeyValue share Table’s deliberate selected-row copying, keyboard/context-menu controls and current-selection guards. A List copies its one cell verbatim; KeyValue joins its two cells with a tab. The bounded local clipboard regression also checks removal guards and owner release for both controls. Native column/list navigation stays with GTK.
+
+### Multiline callback ownership
+
+The TextArea Ctrl+Enter controller holds its view weakly. Closing the final host owner releases the native view, text buffer and registered callback captures; retaining a host clone keeps the editor alive. `text-area-events` invokes the installed application controller and checks exact Unicode Changed/Submitted values, plain Return without submission and final weak-owner release. This is callback/lifetime evidence, not physical keyboard or IME qualification.

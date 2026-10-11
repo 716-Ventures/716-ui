@@ -20,6 +20,9 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 if compositor.poll() is not None:raise RuntimeError('Nested Weston failed; inspect test-output/weston.log')
                 if time.monotonic()>deadline:raise RuntimeError('Nested display startup timed out')
                 time.sleep(.05)
+            result=subprocess.run([str(ROOT/'target/debug/text-area-events')],env=env,capture_output=True,text=True,timeout=20)
+            (OUTPUT/'text-area-events.log').write_text(result.stdout+result.stderr)
+            result.check_returncode()
             for appearance in ('light','dark'):
                 for case in ('positive','negative','mixed','zero','tiny','subnormal','integer'):
                     chart=[str(ROOT/'target/debug/chart-states')]
