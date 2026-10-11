@@ -1,17 +1,17 @@
    Compiling seven-sixteen-ui v0.1.0-alpha.37 (/home/developer/716-ui-verification)
-    Finished `test` profile [unoptimized] target(s) in 0.67s
+    Finished `test` profile [unoptimized] target(s) in 0.65s
      Running unittests src/lib.rs (target/debug/deps/seven_sixteen_ui-8287ce6d19c0f787)
 
 running 9 tests
+test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
 test catalog::tests::table_literals_have_unique_keys_bounded_cells_and_no_extra_fields ... ok
 test catalog::tests::metadata_is_available_without_a_renderer ... ok
 test buttons::tests::default_declaration_retains_text_action_and_schema_choices_parse ... ok
-test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
+test content::editor_tests::replacement_is_literal_unicode_exact_and_bounded_before_allocation ... ok
 test content::tests::chart_domain_preserves_fractional_and_tiny_values ... ok
-test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
 test content::tests::reading_literals_bound_keys_values_styles_and_unknown_fields ... ok
 test validation::tests::feedback_is_bounded_readable_literal_unicode ... ok
-test content::editor_tests::replacement_is_literal_unicode_exact_and_bounded_before_allocation ... ok
+test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
 
 test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -68,19 +68,19 @@ warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since
 
 warning: `seven-sixteen-ui` (bin "button-font-reflow" test) generated 2 warnings
 warning: `seven-sixteen-ui` (bin "button-icon-metrics" test) generated 2 warnings
-    Finished `test` profile [unoptimized] target(s) in 4.85s
+    Finished `test` profile [unoptimized] target(s) in 3.86s
      Running unittests src/lib.rs (target/debug/deps/seven_sixteen_ui-3792c0fec5a1bb9e)
 
 running 11 tests
 test catalog::tests::table_literals_have_unique_keys_bounded_cells_and_no_extra_fields ... ok
-test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
 test catalog::tests::metadata_is_available_without_a_renderer ... ok
 test buttons::tests::default_declaration_retains_text_action_and_schema_choices_parse ... ok
+test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
 test content::tests::chart_domain_preserves_fractional_and_tiny_values ... ok
-test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
 test content::tests::reading_literals_bound_keys_values_styles_and_unknown_fields ... ok
 test native::tests::reading_tokens_pass_both_appearances ... ok
 test validation::tests::feedback_is_bounded_readable_literal_unicode ... ok
+test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
 test clipboard::tests::bounded_stream_accepts_unicode_and_rejects_overflow_invalid_utf8_and_nul ... ok
 test content::editor_tests::replacement_is_literal_unicode_exact_and_bounded_before_allocation ... ok
 
@@ -223,20 +223,6 @@ warning: use of deprecated method `vte4::StyleContextExt::color`: Since 4.10
 warning: `seven-sixteen-ui` (lib) generated 2 warnings
    Compiling seven-sixteen-ui v0.1.0-alpha.37 (/home/developer/716-ui-verification)
 warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
-  --> src/bin/button_font_reflow.rs:47:32
-   |
-47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
-   |                      ^^^^^^^^^^^^^
-   |
-   = note: `#[warn(deprecated)]` on by default
-
-warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
-  --> src/bin/button_font_reflow.rs:47:48
-   |
-47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
-   |                                      ^^^^^
-
-warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
   --> src/bin/button_icon_metrics.rs:69:20
    |
 69 |     let color=icon.style_context().color();
@@ -250,13 +236,27 @@ warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since
 69 |     let color=icon.style_context().color();
    |                                    ^^^^^
 
-warning: `seven-sixteen-ui` (bin "button-font-reflow") generated 2 warnings
 warning: `seven-sixteen-ui` (bin "button-icon-metrics") generated 2 warnings
-    Finished `dev` profile [unoptimized] target(s) in 6.44s
-dbus-daemon[4332]: [session uid=1000 pid=4332 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.0' (uid=1000 pid=4353 comm="/home/developer/716-ui-verification/target/debug/b")
-dbus-daemon[4332]: [session uid=1000 pid=4332 pidfd=5] Successfully activated service 'org.a11y.Bus'
-dbus-daemon[4367]: Activating service name='org.a11y.atspi.Registry' requested by ':1.1' (uid=1000 pid=4353 comm="/home/developer/716-ui-verification/target/debug/b")
-dbus-daemon[4367]: Successfully activated service 'org.a11y.atspi.Registry'
+warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:32
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                      ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:48
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                                      ^^^^^
+
+warning: `seven-sixteen-ui` (bin "button-font-reflow") generated 2 warnings
+    Finished `dev` profile [unoptimized] target(s) in 5.23s
+dbus-daemon[4297]: [session uid=1000 pid=4297 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.0' (uid=1000 pid=4302 comm="/home/developer/716-ui-verification/target/debug/b")
+dbus-daemon[4297]: [session uid=1000 pid=4297 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[4316]: Activating service name='org.a11y.atspi.Registry' requested by ':1.1' (uid=1000 pid=4302 comm="/home/developer/716-ui-verification/target/debug/b")
+dbus-daemon[4316]: Successfully activated service 'org.a11y.atspi.Registry'
 SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
 {"appearance":"light","checks":[{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[24,24,27],"state":"default","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[47,47,50],"painted_rgb":[46,46,49],"state":"hover","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[47,47,50],"painted_rgb":[46,46,49],"state":"pressed","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[140,140,141],"painted_rgb":[139,139,141],"state":"disabled","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[24,24,27],"state":"focus","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"default","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[246,246,247],"painted_rgb":[246,246,247],"state":"hover","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[246,246,247],"painted_rgb":[246,246,247],"state":"pressed","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[250,250,250],"painted_rgb":[249,249,250],"state":"disabled","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"focus","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"hover","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"pressed","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"hover","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"pressed","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"default","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[192,51,51],"painted_rgb":[192,50,50],"state":"hover","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[192,51,51],"painted_rgb":[192,50,50],"state":"pressed","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[220,142,142],"painted_rgb":[220,141,141],"state":"disabled","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"focus","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"hover","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"pressed","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"link"}],"result":"pass","scope":"rendered state endpoints; pointer delivery, motion and full reference parity unqualified"}
 PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes
@@ -285,4 +285,4 @@ PASS: validation feedback and complete gallery with LTR and RTL independent AT-S
 PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap
 Requested orderly guest shutdown. Check status before restarting.
 Exact owned UTM application exit verified
-{"base_revision": "d81efb7744967e48028764a2df6ddbe1ecab0d40", "implementation_diff_sha256": "a34910e397fca6571828b753cfce5422d41396c773fc2d05e2a5ee1d10ef94dc", "passed": true, "guest_stopped": true, "owned_utm_app_closed": true}
+{"base_revision": "d25e0ead181ec6cc626d96150bc315dad0b053a3", "implementation_diff_sha256": "c4f514cde4358f4f8f681294c267550f1e3dae43df8ba16f6c9d7d9c67ba6499", "passed": true, "guest_stopped": true, "owned_utm_app_closed": true}

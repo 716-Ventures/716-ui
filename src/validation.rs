@@ -35,29 +35,27 @@ mod native {
             label.add_css_class("seven-validation-error");
             Self { label, control: control.as_ref().clone(), message: Rc::default() }
         }
-        fn relate_error(&self) {
-            use gtk::glib::{self, translate::*};
-            let relation = gtk::AccessibleRelation::ErrorMessage;
-            // Initialize the zeroed GValue immediately with GTK’s relation type.
+        fn error_relation() -> gtk::AccessibleRelation {
+            use gtk::glib::{self, translate::Uninitialized};
+            // Immediately initialize the zeroed GValue with GTK’s relation type.
             let mut expected = unsafe { glib::Value::uninitialized() };
-            relation.init_value(&mut expected);
-            // GTK 4.14 stores errormessage as one object; 4.16+ stores a
-            // reference list. gtk-rs 0.9 models only the latter. Ask the loaded
-            // GTK for its value type rather than guessing from package versions.
-            if expected.type_().is_a(glib::Object::static_type()) {
-                let value = self.label.upcast_ref::<gtk::Accessible>().to_value();
-                let mut key = relation.into_glib();
-                // Both one-element arrays and their referenced objects remain
-                // alive during this synchronous GTK call, which copies the value.
-                unsafe {
-                    gtk::ffi::gtk_accessible_update_relation_value(
-                        self.control.upcast_ref::<gtk::Accessible>().to_glib_none().0,
-                        1, &mut key, value.to_glib_none().0,
-                    );
-                }
+            gtk::AccessibleRelation::ErrorMessage.init_value(&mut expected);
+            if expected.type_() == gtk::Accessible::static_type() {
+                // GTK 4.14 accepts one object but its AT-SPI bridge reads a list.
+                // Use its working description relation until that upstream fix.
+                gtk::AccessibleRelation::DescribedBy
             } else {
-                self.control.update_relation(&[gtk::accessible::Relation::ErrorMessage(&[self.label.upcast_ref()])]);
+                gtk::AccessibleRelation::ErrorMessage
             }
+        }
+        fn relate_error(&self) {
+            let targets = [self.label.upcast_ref()];
+            let relation = if Self::error_relation() == gtk::AccessibleRelation::DescribedBy {
+                gtk::accessible::Relation::DescribedBy(&targets)
+            } else {
+                gtk::accessible::Relation::ErrorMessage(&targets)
+            };
+            self.control.update_relation(&[relation]);
         }
         /// Reject invalid feedback before changing any visible/accessible state.
         pub fn set_message(&self, message: Option<&str>) -> Result<(), &'static str> {
@@ -70,7 +68,7 @@ mod native {
                 self.control.update_state(&[gtk::accessible::State::Invalid(gtk::AccessibleInvalidState::True)]);
                 self.relate_error();
             } else {
-                self.control.reset_relation(gtk::AccessibleRelation::ErrorMessage);
+                self.control.reset_relation(Self::error_relation());
                 self.control.update_state(&[gtk::accessible::State::Invalid(gtk::AccessibleInvalidState::False)]);
                 self.control.remove_css_class("seven-invalid");
                 self.label.set_visible(false);
