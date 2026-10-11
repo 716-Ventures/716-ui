@@ -1,0 +1,47 @@
+{
+  "base_revision": "8d024b4d35968514a39319f78db754df29bc5b04",
+  "implementation_diff_sha256": "7df5fa5ba59967b8ca67b8a28a31426846992a69e27a90bdc70b284a578f0bac",
+  "passed": true,
+  "guest_stopped": true,
+  "owned_utm_app_closed": true,
+  "verified_at": "2026-10-11T18:08:17.769616+00:00",
+  "package_version": "0.1.0-alpha.39",
+  "scope": "Complete Debian ARM64 GTK 4.18 gallery; four mapped validation profiles; guarded Choice label/focus/selection/value/event checks; independent LTR/RTL label-change then option-change with retained error and clear",
+  "pure_unit_tests": 9,
+  "native_feature_unit_tests": 11,
+  "native_validation_profiles": 4,
+  "independent_atspi_directions": [
+    "ltr",
+    "rtl"
+  ],
+  "changes_after_qualification": [
+    "documentation and evidence only"
+  ],
+  "not_tested": [
+    "physical input",
+    "screen-reader announcements",
+    "full Select reference paint/popup/motion parity"
+  ],
+  "qualified_source_sha256": {
+    "Cargo.toml": "b284be876991eb8d5d9004483c46cc89b584bec2900fe598c436613f4b118027",
+    "Cargo.lock": "21fae29e065672f6cd0372002db1a3a3ce49f26583d84f296327eeb84ad13810",
+    "src/selection.rs": "3fa682956fd78b75b4e0ef555909218adc9a6295631eea020d731fdb08f3f5e6",
+    "src/bin/gallery.rs": "38c3cf09999d73ca49c10bb2d916fecd99259b6e166af930f15f9d870c9a1845",
+    "src/bin/input_validation.rs": "476e7b5d0f1bb3bb2f0077efddacf84ad146f080b55acd0363a8f50a0c2f690f",
+    "tests/accessibility.py": "92a6a84e886640f256ae62d250aa708cdb2a0e97db6423626d726e41734116db"
+  },
+  "evidence_sha256": {
+    "input-validation-dark-1.log": "7df6dcddc75d94ed7f5f74098d8c7e87553cc5a8b200c73f2187ffd75d339c37",
+    "input-validation-dark-2.log": "7df6dcddc75d94ed7f5f74098d8c7e87553cc5a8b200c73f2187ffd75d339c37",
+    "accessibility.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "input-validation-light-2.log": "7df6dcddc75d94ed7f5f74098d8c7e87553cc5a8b200c73f2187ffd75d339c37",
+    "input-validation-light-1.log": "7df6dcddc75d94ed7f5f74098d8c7e87553cc5a8b200c73f2187ffd75d339c37",
+    "input-validation-light-2.png": "2f1a78afc1dc9b667818e3cf5c03a395ead3a3739bbb1ac90aefd07036d1362d",
+    "host-pure.log": "7bc74bc038a2d2dd9a9f7dc8aedb9f3e5d25191fb6689b71f73d2cbb2b5d9b6a",
+    "input-validation-light-1.png": "32f61d1d25c891f2d0ff3f0086230c22af8fe5458d17a13c62af152d4ba43b0d",
+    "driver.log": "6ca2bb67b1c04d7a34cbf4e175d33232739b0db254e76c613fe5685f8f62b3ca",
+    "accessibility-rtl.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "input-validation-dark-1.png": "4dc8cc21db4bf01aa0cfe1f0ceea96fa771b10928fee68e662beeeb8ba63f497",
+    "input-validation-dark-2.png": "f6784389af16f523df3209131778e70a9c90225d5797a3cedf801e55a0c96d50"
+  }
+}

@@ -11,6 +11,9 @@ pub struct Choice {
     pub widget: gtk::Box,
     pub control: gtk::DropDown,
     pub validation: crate::ValidationFeedback,
+    pub heading: gtk::Label,
+    title: std::rc::Rc<std::cell::RefCell<String>>,
+    name: std::rc::Rc<dyn Fn(&gtk::DropDown)>,
     options: Vec<String>,
 }
 impl Choice {
@@ -30,7 +33,8 @@ impl Choice {
             .position(|v| v == value)
             .ok_or("Choice value must name an option")?;
         let widget = crate::column(6);
-        widget.append(&crate::text(title, false));
+        let heading = crate::text(title, false);
+        widget.append(&heading);
         let strings = options.iter().map(String::as_str).collect::<Vec<_>>();
         let control = gtk::DropDown::from_strings(&strings);
         control.add_css_class("seven-choice");
@@ -38,17 +42,18 @@ impl Choice {
         control.update_property(&[gtk::accessible::Property::Label(title)]);
         // The nested GTK trigger can otherwise replace the authored name
         // with only its selected label. Keep both field identity and value.
-        let title = title.to_owned();
+        let title = std::rc::Rc::new(std::cell::RefCell::new(title.to_owned()));
+        let current_title = title.clone();
         let names = options.to_vec();
-        let name = move |control: &gtk::DropDown| {
+        let name: std::rc::Rc<dyn Fn(&gtk::DropDown)> = std::rc::Rc::new(move |control: &gtk::DropDown| {
             let value = names.get(control.selected() as usize).map(String::as_str).unwrap_or("No option selected");
             control.reset_relation(gtk::AccessibleRelation::LabelledBy);
-            control.update_property(&[gtk::accessible::Property::Label(&format!("{title}: {value}"))]);
-        };
-        let name = std::rc::Rc::new(name);
+            control.update_property(&[gtk::accessible::Property::Label(&format!("{}: {value}",current_title.borrow().as_str()))]);
+        });
         name(&control);
         let mapped = name.clone();control.connect_map(move |control| mapped(control));
-        control.connect_selected_notify(move |control| name(control));
+        let selected_name = name.clone();
+        control.connect_selected_notify(move |control| selected_name(control));
         widget.append(&control);
         let validation = crate::ValidationFeedback::new(&control);
         widget.append(&validation.label);
@@ -56,8 +61,22 @@ impl Choice {
             widget,
             control,
             validation,
+            heading,
+            title,
+            name,
             options: options.to_vec(),
         })
+    }
+    /// Keep the visible field identity and accessible name together. A selected
+    /// heading remains stable until the host retries after selection/focus ends.
+    pub fn set_label(&self, title: &str) -> Result<bool, String> {
+        label(title)?;
+        if self.title.borrow().as_str() == title { return Ok(true); }
+        if self.heading.has_focus() || self.heading.selection_bounds().is_some() { return Ok(false); }
+        *self.title.borrow_mut() = title.to_owned();
+        self.heading.set_text(title);
+        (self.name)(&self.control);
+        Ok(true)
     }
     pub fn value(&self) -> Option<String> {
         self.options.get(self.control.selected() as usize).cloned()

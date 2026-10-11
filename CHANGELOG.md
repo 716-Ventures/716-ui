@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.39
+
+- Add guarded Choice field-label updates that keep visible and accessible identity synchronized across later option changes.
+- Preserve selected/focused heading text until the host retries; invalid labels fail atomically.
+- Preserve option, focus, validation and host callbacks. Hosts should use `set_label` instead of writing the GTK accessible label independently.
+- Complete Debian gallery, four native profiles and independent LTR/RTL rename/option/error journeys pass; selected-heading and invalid-label guards retain focus, value and events.
+
 ## 0.1.0-alpha.38
 
 - Add bounded literal validation feedback to Choice and Toggle, retaining selected values, boolean/inconsistent state, focus and host callbacks.

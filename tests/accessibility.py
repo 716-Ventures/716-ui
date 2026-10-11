@@ -54,8 +54,11 @@ def verify():
         assert related[0].getTarget(0).name==message
         assert control.getState().contains(pyatspi.STATE_SENSITIVE)
     assert not selections[1][0].getState().contains(pyatspi.STATE_CHECKED)
+    assert find('Rename validation choice',pyatspi.ROLE_PUSH_BUTTON).queryAction().doAction(0)
+    renamed=find('Renamed choice 日本語: Second',pyatspi.ROLE_COMBO_BOX)
+    assert renamed.getState().contains(pyatspi.STATE_INVALID_ENTRY)
     assert find('Use first validation option',pyatspi.ROLE_PUSH_BUTTON).queryAction().doAction(0)
-    renamed=find('Validation choice: First',pyatspi.ROLE_COMBO_BOX)
+    renamed=find('Renamed choice 日本語: First',pyatspi.ROLE_COMBO_BOX)
     assert renamed.getState().contains(pyatspi.STATE_INVALID_ENTRY)
     assert any(r.getRelationType()==ERROR_RELATION and r.getNTargets()==1 and r.getTarget(0).name=='Choose a permitted option.' for r in renamed.getRelationSet())
     selections[0]=(renamed,selections[0][1])

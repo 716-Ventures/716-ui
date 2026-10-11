@@ -70,6 +70,19 @@ fn main() {
                 choice.set_validation_message(None).unwrap();choice.set_validation_message(Some("Choose a permitted option.")).unwrap();
                 assert_eq!(gtk::prelude::RootExt::focus(&window),focus);
                 assert_eq!(choice.value().as_deref(),Some("Second"));
+                assert!(choice.set_label("Renamed choice 日本語").unwrap());
+                assert_eq!(choice.heading.text(),"Renamed choice 日本語");
+                assert_eq!(gtk::prelude::RootExt::focus(&window),focus);
+                for invalid in ["", "bad\0label", &"λ".repeat(129)] {
+                    assert!(choice.set_label(invalid).is_err());
+                    assert_eq!(choice.heading.text(),"Renamed choice 日本語");
+                }
+                choice.heading.select_region(0,7);let selected_heading=choice.heading.selection_bounds();
+                assert!(!choice.set_label("Deferred choice").unwrap());
+                assert_eq!(choice.heading.text(),"Renamed choice 日本語");assert_eq!(choice.heading.selection_bounds(),selected_heading);
+                choice.heading.select_region(0,0);assert!(choice.control.grab_focus());
+                assert!(choice.set_label("Validation choice").unwrap());assert_eq!(choice.value().as_deref(),Some("Second"));
+                assert_eq!(changes.get(),0);
                 toggle.control.set_inconsistent(dark);
                 assert!(toggle.control.grab_focus());
                 let focus=gtk::prelude::RootExt::focus(&window);
@@ -80,6 +93,7 @@ fn main() {
                 choice.set_validation_message(Some("Choose a permitted option.")).unwrap();assert_eq!(choice.validation.label.selection_bounds(),selection);
                 choice.set_validation_message(None).unwrap();toggle.set_validation_message(None).unwrap();
                 assert!(!choice.control.has_css_class("seven-invalid")&&!toggle.control.has_css_class("seven-invalid"));
+                println!("PASS: Choice label changes preserve focus, value and event ownership; invalid labels are atomic and selected headings defer replacement");
                 println!("PASS: choice/toggle feedback preserves focused values, boolean state and event ownership; identical captions retain selection and clearing removes invalid styling");
                 println!("PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap");quit.quit();
             });

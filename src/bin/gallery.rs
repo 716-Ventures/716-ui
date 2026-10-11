@@ -49,10 +49,13 @@ fn main() {
         let invalid=TextField::new("Validation draft","Saved workspace","Keep this draft λ");
         invalid.set_validation_message(Some("Choose a saved workspace.")).unwrap();content.append(&invalid.widget);
         let clear=seven_sixteen_ui::button("Clear validation",ButtonVariant::Outline,false);
-        let invalid_choice=seven_sixteen_ui::Choice::new("Validation choice", &["First".into(),"Second".into()], "Second").unwrap();
+        let invalid_choice=Rc::new(seven_sixteen_ui::Choice::new("Validation choice", &["First".into(),"Second".into()], "Second").unwrap());
         invalid_choice.set_validation_message(Some("Choose a permitted option.")).unwrap();content.append(&invalid_choice.widget);
         let next=seven_sixteen_ui::button("Use first validation option",ButtonVariant::Outline,false);
         let selection=invalid_choice.control.clone();next.connect_clicked(move |_|selection.set_selected(0));content.append(&next);
+        let rename=seven_sixteen_ui::button("Rename validation choice",ButtonVariant::Outline,false);
+        let rename_status=seven_sixteen_ui::status("Choice label unchanged");let renamed_status=rename_status.clone();
+        let renamed_choice=invalid_choice.clone();rename.connect_clicked(move |_|{let changed=renamed_choice.set_label("Renamed choice 日本語").unwrap();renamed_status.set_text(if changed{"Choice renamed"}else{"Clear the heading selection, then rename."});});content.append(&rename);content.append(&rename_status);
         let invalid_toggle=seven_sixteen_ui::Toggle::new("Validation toggle",false).unwrap();
         invalid_toggle.set_validation_message(Some("Confirm this form requirement.")).unwrap();content.append(&invalid_toggle.widget);
         clear.connect_clicked(move |_| {invalid.set_validation_message(None).unwrap();invalid_choice.set_validation_message(None).unwrap();invalid_toggle.set_validation_message(None).unwrap();});content.append(&clear);
