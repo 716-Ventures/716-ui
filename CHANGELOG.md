@@ -2,6 +2,8 @@
 
 ## 0.1.0-alpha.33
 
+- Explicitly retain fractional button glyph positions across GTK versions. Ubuntu GTK 4.14 rounded 12px text advances and failed the unchanged 1px reference width tolerance; native Pango diagnostics reproduce the 39px rounded versus 40.13px fractional text width.
+
 - Add native text-only ExtraSmall, Small and Large button sizes alongside Default, preserving existing `button()` calls.
 - Measure the pinned browser size matrix with an isolated headless browser; compare 80 mapped native buttons across light/dark and text scales 1/2, including typography, border-box dimensions, disabled Unicode labels and captures.
 - Keep declarative `Button@1` metadata unchanged until its hosts support size properties. Icons, Link and full appearance/motion parity remain unqualified.

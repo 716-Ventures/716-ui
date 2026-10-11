@@ -283,6 +283,13 @@ pub fn button(label: &str, variant: ButtonVariant, disabled: bool) -> gtk::Butto
 /// Creates a text-only button; events and action authority remain host-owned.
 pub fn button_sized(label: &str, variant: ButtonVariant, size: ButtonSize, disabled: bool) -> gtk::Button {
     let button = gtk::Button::with_label(label);
+    // GTK 4.14 inherits Pango's integral glyph advances, while newer GTK uses
+    // fractional positions. Match browser text metrics on both GTK versions.
+    if let Some(label) = button.child().and_downcast::<gtk::Label>() {
+        label.pango_context().set_round_glyph_positions(false);
+        label.layout().context_changed();
+    }
+
     button.add_css_class(match variant {
         ButtonVariant::Primary => "primary",
         ButtonVariant::Secondary => "secondary",
