@@ -46,6 +46,7 @@
     "Sections use native heading/group accessibility semantics; browser layout and full visual parity are not qualified",
     "Tabs and split panes use native GTK Notebook/Paned interaction; stable keys retain local tab choice and divider movement stays local. Physical keyboard/pointer and reference visual/motion parity remain unqualified.",
     "Choices and toggles use native GTK DropDown/CheckButton with typed local events and focus-preserved values; Radix popup/checkbox appearance and motion are not qualified.",
-    "Charts are bounded native bar plots with exact accessible data tables; reference legends/tooltips/motion and complete axis presentation are not implemented. Rich text allows only escaped plain/strong/emphasis/code runs."
+    "Charts are bounded native bar plots with exact accessible data tables; reference legends/tooltips/motion and complete axis presentation are not implemented. Rich text allows only escaped plain/strong/emphasis/code runs.",
+    "Link action buttons retain GTK underline positioning; the pinned browser four-pixel underline offset is not reproduced."
   ]
 }

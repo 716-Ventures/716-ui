@@ -16,6 +16,7 @@ pub enum ButtonVariant {
     Outline,
     Ghost,
     Destructive,
+    Link,
 }
 /// Natural text-only button sizes from the pinned reference profile.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -102,6 +103,9 @@ pub fn install_theme(
 .seven-ui button.outline {{background:{outline_bg};color:{fg};min-height:{outline_height}px;border:1px solid {border};}}
 .seven-ui button.ghost {{background:transparent;color:{fg};}}
 .seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
+.seven-ui button.button-link {{background:transparent;color:{primary};}}
+.seven-ui button.button-link label {{text-decoration-line:none;}}
+.seven-ui button.button-link:hover:not(:disabled) label {{text-decoration-line:underline;}}
 .seven-ui button.seven-button-xs {{font-size:{button_xs_font}px;min-height:{button_xs_height}px;padding:{button_xs_y}px {button_xs_x}px;}}
 .seven-ui button.outline.seven-button-xs {{min-height:{button_xs_height}px;padding-top:{button_xs_outline_y}px;padding-bottom:{button_xs_outline_y}px;}}
 .seven-ui button.seven-button-sm {{min-height:{button_height}px;padding:{button_sm_y}px {input_x}px;}}
@@ -296,6 +300,7 @@ pub fn button_sized(label: &str, variant: ButtonVariant, size: ButtonSize, disab
         ButtonVariant::Outline => "outline",
         ButtonVariant::Ghost => "ghost",
         ButtonVariant::Destructive => "destructive",
+        ButtonVariant::Link => "button-link",
     });
     match size {
         ButtonSize::Default => {},

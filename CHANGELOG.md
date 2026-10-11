@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.34
+
+- Add the native Link action-button variant with primary text, transparent backgrounds and a painted hover underline. Keep URI navigation in the separate `link()` control.
+- Expand pinned browser/native size checks to six variants (96 mapped samples across appearances/scales), and rendered state checks to 60 endpoints. Verify the antialiased underline stroke and primary foreground in both appearances.
+- Retain GTK underline positioning as a documented difference from the browser four-pixel offset; full appearance/motion parity and icons remain unqualified.
+
 ## 0.1.0-alpha.33
 
 - Explicitly retain fractional button glyph positions across GTK versions. Ubuntu GTK 4.14 rounded 12px text advances and failed the unchanged 1px reference width tolerance; native Pango diagnostics reproduce the 39px rounded versus 40.13px fractional text width.

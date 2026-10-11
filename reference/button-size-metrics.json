@@ -1,5 +1,5 @@
 {
-  "measured_at": "2026-10-11T13:23:25.861Z",
+  "measured_at": "2026-10-11T13:33:54.265Z",
   "profile_revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
   "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
   "scope": "Natural text-only xs, sm, default and lg; pinned component, Zinc, Inter and default Tailwind spacing; not full appearance or motion parity",
@@ -81,6 +81,15 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "size": "xs",
+      "variant": "link",
+      "width": 35.984375,
+      "height": 24,
+      "font_size_px": 12,
+      "font_weight": 500,
+      "font_family": "\"716 Reference Inter\", sans-serif"
+    },
+    {
       "size": "sm",
       "variant": "default",
       "width": 70.828125,
@@ -120,6 +129,15 @@
       "size": "sm",
       "variant": "destructive",
       "width": 99.40625,
+      "height": 32,
+      "font_size_px": 14,
+      "font_weight": 500,
+      "font_family": "\"716 Reference Inter\", sans-serif"
+    },
+    {
+      "size": "sm",
+      "variant": "link",
+      "width": 47.3125,
       "height": 32,
       "font_size_px": 14,
       "font_weight": 500,
@@ -171,6 +189,15 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "size": "default",
+      "variant": "link",
+      "width": 55.3125,
+      "height": 36,
+      "font_size_px": 14,
+      "font_weight": 500,
+      "font_family": "\"716 Reference Inter\", sans-serif"
+    },
+    {
       "size": "lg",
       "variant": "default",
       "width": 94.828125,
@@ -210,6 +237,15 @@
       "size": "lg",
       "variant": "destructive",
       "width": 123.40625,
+      "height": 40,
+      "font_size_px": 14,
+      "font_weight": 500,
+      "font_family": "\"716 Reference Inter\", sans-serif"
+    },
+    {
+      "size": "lg",
+      "variant": "link",
+      "width": 71.3125,
       "height": 40,
       "font_size_px": 14,
       "font_weight": 500,

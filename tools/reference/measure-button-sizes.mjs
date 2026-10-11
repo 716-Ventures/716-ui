@@ -11,7 +11,7 @@ const chrome=process.env.REFERENCE_CHROME || "/Applications/Google Chrome.app/Co
 const script=`
 import "./app.js";
 try {
- for(let i=0;document.querySelectorAll('[data-testid^="size-"]').length!==20;i++) {
+ for(let i=0;document.querySelectorAll('[data-testid^="size-"]').length!==24;i++) {
   if(i===40)throw Error("Reference sizes did not render");
   await new Promise(resolve=>setTimeout(resolve,25));
  }

@@ -6,7 +6,7 @@ import { Input } from "../../reference/input"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../reference/tabs"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../reference/select"
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "../../reference/table"
-const variants = ["default", "secondary", "outline", "ghost", "destructive"] as const
+const variants = ["default", "secondary", "outline", "ghost", "destructive", "link"] as const
 function App() {
   const [inputValue,setInputValue] = React.useState("Unicode λ")
   const [checked,setChecked] = React.useState(false)

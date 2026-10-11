@@ -22,7 +22,7 @@ fn main() {
         let mut samples = Vec::new();
         for (size_name,size) in [("xs",ButtonSize::ExtraSmall),("sm",ButtonSize::Small),("default",ButtonSize::Default),("lg",ButtonSize::Large)] {
             let row = gtk::Box::new(gtk::Orientation::Horizontal,12);
-            for (name,variant) in [("default",ButtonVariant::Primary),("secondary",ButtonVariant::Secondary),("outline",ButtonVariant::Outline),("ghost",ButtonVariant::Ghost),("destructive",ButtonVariant::Destructive)] {
+            for (name,variant) in [("default",ButtonVariant::Primary),("secondary",ButtonVariant::Secondary),("outline",ButtonVariant::Outline),("ghost",ButtonVariant::Ghost),("destructive",ButtonVariant::Destructive),("link",ButtonVariant::Link)] {
                 let button = seven_sixteen_ui::button_sized(name,variant,size,false);
                 button.set_valign(gtk::Align::Center);
                 row.append(&button);samples.push((size_name,name,button));
@@ -37,7 +37,7 @@ fn main() {
             let reference:serde_json::Value=serde_json::from_str(include_str!("../../reference/button-size-metrics.json")).unwrap();
             let profile:serde_json::Value=serde_json::from_str(include_str!("../../reference/profile.json")).unwrap();
             assert_eq!(reference["profile_revision"],profile["revision"]);
-            assert_eq!(reference["metrics"].as_array().unwrap().len(),20);
+            assert_eq!(reference["metrics"].as_array().unwrap().len(),24);
             let mut report=Vec::new();
             for (size,name,button) in samples {
                 let expected=reference["metrics"].as_array().unwrap().iter().find(|value|value["size"]==size&&value["variant"]==name).unwrap();

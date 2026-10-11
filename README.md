@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.33` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.34` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 60 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -92,3 +92,5 @@ Alpha.31 releases multiline TextArea views, buffers and host event callbacks whe
 Alpha.32 preserves selected Result/Error text while showing a separate current-value notice when reconciliation observes a changed label or message. The notice continues updating and disappears after selection clears and the main message reconciles. Both-theme native checks verify mapped current text, Unicode selection retention and invalid-update rejection. Live screen-reader announcement timing remains unqualified.
 
 Alpha.33 adds `ButtonSize::{Default, ExtraSmall, Small, Large}` and `button_sized`, preserving existing `button()` behavior. A checksum-pinned browser size matrix supplies measured widths and 24/32/36/40px heights. The complete ARM64 Linux/Wayland gallery passes all five variants in both appearances and text scales 1/2, with mapped font/geometry checks and retained captures. Native outline borders remain one pixel during text scaling. Icons, the Link variant and complete appearance/motion parity remain open; the declarative `Button@1` metadata remains unchanged.
+
+Alpha.34 adds the native Link action-button variant, with primary text, transparent backgrounds and a painted hover underline. The complete Debian ARM64 gallery passes all six variants at four text-only sizes, both appearances and text scales 1/2 (96 mapped samples), plus 60 painted state endpoints. GTK underline positioning remains a documented difference from the browser four-pixel offset. Link activation is a local action; `link()` remains the separate URI-navigation control. Icons and full appearance/motion parity remain unqualified.
