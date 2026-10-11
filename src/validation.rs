@@ -16,6 +16,31 @@ mod native {
     use crate::gtk::{self, prelude::*};
     use std::{cell::RefCell, rc::Rc};
 
+    // GTK 4.14 added explicit announcements. Resolve the optional symbol from
+    // the loaded toolkit so GTK 4.12 consumers retain their existing ABI floor.
+    #[cfg(unix)]
+    fn announce_valid(control: &gtk::Widget) {
+        use gtk::glib::translate::ToGlibPtr;
+        use std::sync::OnceLock;
+        type Announce = unsafe extern "C" fn(
+            *mut gtk::ffi::GtkAccessible,
+            *const std::ffi::c_char,
+            gtk::ffi::GtkAccessibleAnnouncementPriority,
+        );
+        static PROCESS: OnceLock<libloading::os::unix::Library> = OnceLock::new();
+        let process = PROCESS.get_or_init(libloading::os::unix::Library::this);
+        // The symbol has GTK's public signature; the widget owns the accessible
+        // object and the static C string remains alive throughout the call.
+        unsafe {
+            if let Ok(announce) = process.get::<Announce>(b"gtk_accessible_announce\0") {
+                announce(control.upcast_ref::<gtk::Accessible>().to_glib_none().0,
+                         c"Entry valid.".as_ptr(), gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW);
+            }
+        }
+    }
+    #[cfg(not(unix))]
+    fn announce_valid(_control: &gtk::Widget) {}
+
     #[derive(Clone)]
     pub struct ValidationFeedback {
         pub label: gtk::Label,
@@ -73,6 +98,9 @@ mod native {
                 self.control.remove_css_class("seven-invalid");
                 self.label.set_visible(false);
                 self.label.set_label("");
+                if self.control.has_focus() || self.control.focus_child().is_some_and(|child| child.has_focus()) {
+                    announce_valid(&self.control);
+                }
             }
             *self.message.borrow_mut() = message.map(str::to_owned);
             Ok(())

@@ -1,0 +1,14 @@
+{
+  "base_revision": "1a3b412ee3e5b19a42f6358c709d4c82e6b919a3",
+  "implementation_diff_sha256": "07e26b7b48d8705d9deacb6c7145e88e970c251a09e9d296c65b9a32c7d22f55",
+  "passed": true,
+  "guest_stopped": true,
+  "owned_utm_app_closed": true,
+  "scope": "Native unit tests, complete standalone gallery, four validation profiles, independent LTR/RTL state/relation/clear journeys. Consuming-host Orca clear announcement qualification pending.",
+  "source_sha256": {
+    "Cargo.toml": "37f2607bf75317453f4d26f065e72ec112515ffdb79b23fc1db85e6e03d37630",
+    "Cargo.lock": "4e7eb967e01f8315439dfade820a706a31f0655252b43fb87074a4eff4a3d1ae",
+    "src/validation.rs": "16494dde4c035facab5ba198d52c82756d23681018be6cb090fc9c557276252e",
+    "licenses/LICENSE.libloading": "b29f8b01452350c20dd1af16ef83b598fea3053578ccc1c7a0ef40e57be2620f"
+  }
+}
