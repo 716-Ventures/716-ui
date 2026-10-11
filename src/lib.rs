@@ -60,6 +60,8 @@ pub use reference::ReferenceView;
 #[cfg(feature = "native")]
 mod outcome;
 #[cfg(feature = "native")]
+mod announcement;
+#[cfg(feature = "native")]
 pub use outcome::OutcomeView;
 
 #[cfg(feature = "terminal")]

@@ -16,33 +16,12 @@ mod native {
     use crate::gtk::{self, prelude::*};
     use std::{cell::RefCell, rc::Rc};
 
-    // GTK 4.14 added explicit announcements. Resolve the optional symbol from
-    // the loaded toolkit so GTK 4.12 consumers retain their existing ABI floor.
-    #[cfg(unix)]
     fn announce_feedback(control: &gtk::Widget, message: &str, priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {
         let focused = control.root().and_then(|root| gtk::prelude::RootExt::focus(&root));
-        if !focused.is_some_and(|focus| focus.has_focus() && (focus == *control || focus.is_ancestor(control))) { return; }
-        let Ok(message) = std::ffi::CString::new(message) else { return; };
-        use gtk::glib::translate::ToGlibPtr;
-        use std::sync::OnceLock;
-        type Announce = unsafe extern "C" fn(
-            *mut gtk::ffi::GtkAccessible,
-            *const std::ffi::c_char,
-            gtk::ffi::GtkAccessibleAnnouncementPriority,
-        );
-        static PROCESS: OnceLock<libloading::os::unix::Library> = OnceLock::new();
-        let process = PROCESS.get_or_init(libloading::os::unix::Library::this);
-        // The symbol has GTK's public signature; the widget owns the accessible
-        // object and the validated C string remains alive throughout the call.
-        unsafe {
-            if let Ok(announce) = process.get::<Announce>(b"gtk_accessible_announce\0") {
-                announce(control.upcast_ref::<gtk::Accessible>().to_glib_none().0,
-                         message.as_ptr(), priority);
-            }
+        if focused.is_some_and(|focus| focus.has_focus() && (focus == *control || focus.is_ancestor(control))) {
+            crate::announcement::announce(control, message, priority);
         }
     }
-    #[cfg(not(unix))]
-    fn announce_feedback(_control: &gtk::Widget, _message: &str, _priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {}
 
     #[derive(Clone)]
     pub struct ValidationFeedback {

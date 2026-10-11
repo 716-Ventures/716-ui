@@ -6,6 +6,8 @@ pub struct OutcomeView {
     pub message: gtk::Label,
     pub current: gtk::Label,
     pub recovery: gtk::Button,
+    observed: std::cell::RefCell<(String, String)>,
+    error: bool,
 }
 fn title(value: &str) -> bool {
     !value.trim().is_empty() && value.len() <= 256 && !value.contains('\0')
@@ -24,6 +26,7 @@ impl OutcomeView {
                 gtk::AccessibleRole::Status
             })
             .build();
+        let observed = std::cell::RefCell::new((label.to_owned(), message.to_owned()));
         let heading = crate::text(label, true);
         let message = crate::text(message, false);
         let current = crate::status("");
@@ -41,11 +44,27 @@ impl OutcomeView {
             message,
             current,
             recovery,
+            observed,
+            error,
         })
     }
     pub fn reconcile(&self, label: &str, message: &str) -> Result<bool, String> {
         if !title(label) || message.len() > 65536 || message.contains('\0') {
             return Err("A bounded outcome label and literal message are required".into());
+        }
+        let changed = {
+            let previous = self.observed.borrow();
+            previous.0 != label || previous.1 != message
+        };
+        if changed {
+            *self.observed.borrow_mut() = (label.to_owned(), message.to_owned());
+            // Announce the actual observation even while a selected snapshot
+            // stays visible. Bound speech; complete literal text remains readable.
+            let mut announcement: String = format!("{label}: {message}").chars().take(512).collect();
+            if label.chars().count() + 2 + message.chars().count() > 512 { announcement.push('…'); }
+            crate::announcement::announce(&self.widget, &announcement,
+                if self.error { gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_HIGH }
+                else { gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW });
         }
         if self.heading.selection_bounds().is_some() || self.message.selection_bounds().is_some() {
             // Selection retains its literal snapshot, not authority to freeze

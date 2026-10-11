@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.41
+
+- Announce changed mapped Result/Error observations, including current values beside selected older text. Repeated refreshes and deselection do not repeat the same outcome.
+- Keep full visible literal content while limiting each speech request to 512 Unicode characters plus an ellipsis. Error announcements use high priority; Result uses low priority.
+- Share the optional GTK 4.14 announcement API with focused validation while retaining the GTK 4.12 ABI floor.
+- Migration: construct OutcomeView with `new`; its private observation state now deduplicates announcements.
+
 ## 0.1.0-alpha.40
 
 - Announce literal focused validation errors and “Entry valid.” when feedback clears, without changing the value, selection or host events.
