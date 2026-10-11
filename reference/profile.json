@@ -10,7 +10,14 @@
   },
   "icons": {
     "reference": "lucide-react/0.474.0",
-    "shipped": false
+    "shipped": [
+      "Plus",
+      "ArrowRight"
+    ],
+    "source_files": {
+      "plus": "508541edf4da1313e081076978b0f5201e38d9035739d4d2cb4c709321a3e502",
+      "arrow-right": "f300bb24cb32debed89738fa8d85ee4c2e4c3bd522b3c21da5cfd9ce85beaeb2"
+    }
   },
   "primitives": {
     "button_slot": "radix-ui/1.4.3 (reference only)",

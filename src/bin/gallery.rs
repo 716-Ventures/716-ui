@@ -35,6 +35,14 @@ fn main() {
         buttons.append(&seven_sixteen_ui::button("Secondary",ButtonVariant::Secondary,false));
         buttons.append(&seven_sixteen_ui::button("Outline",ButtonVariant::Outline,false));
         let disabled=seven_sixteen_ui::button("Unavailable",ButtonVariant::Primary,true);buttons.append(&disabled);content.append(&buttons);
+        let icon_row=seven_sixteen_ui::row(10);
+        let icon_status=seven_sixteen_ui::text("Icon activations: 0",false);
+        let icon_count=Rc::new(RefCell::new(0));
+        for (name,position,disabled) in [("Add item",None,false),("Create item λ",Some(seven_sixteen_ui::IconPosition::Leading),false),("Next item",Some(seven_sixteen_ui::IconPosition::Trailing),false),("Unavailable icon",None,true)] {
+            let button=if let Some(position)=position {seven_sixteen_ui::button_with_icon(name,seven_sixteen_ui::Icon::ArrowRight,position,ButtonVariant::Primary,seven_sixteen_ui::ButtonSize::Default,disabled)}else{seven_sixteen_ui::icon_button(name,seven_sixteen_ui::Icon::Plus,ButtonVariant::Primary,seven_sixteen_ui::ButtonSize::Default,disabled)}.unwrap();
+            let count=icon_count.clone();let status=icon_status.clone();button.connect_clicked(move |_|{*count.borrow_mut()+=1;status.set_text(&format!("Icon activations: {}",count.borrow()));});icon_row.append(&button);
+        }
+        content.append(&icon_row);content.append(&icon_status);
         let field=TextField::new("Your draft","Type here; Enter emits a typed event","An editable draft");content.append(&field.widget);
         let area=seven_sixteen_ui::TextArea::new("Multiline draft","First line\nSecond line · 日本語");content.append(&area.widget);
         let status=seven_sixteen_ui::status("Ready · no account or network needed");content.append(&status);

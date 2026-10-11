@@ -17,6 +17,11 @@ fn main() {
             let count=clicks.clone();button.connect_clicked(move |_|count.set(count.get()+1));
             row.append(&button);samples.push((name,button));
         }
+        let mut icons=Vec::new();
+        for position in [None,Some(seven_sixteen_ui::IconPosition::Leading),Some(seven_sixteen_ui::IconPosition::Trailing)] {
+            let button=if let Some(position)=position {seven_sixteen_ui::button_with_icon("default",seven_sixteen_ui::Icon::Plus,position,ButtonVariant::Primary,ButtonSize::ExtraSmall,false)}else{seven_sixteen_ui::icon_button("Add item",seven_sixteen_ui::Icon::Plus,ButtonVariant::Primary,ButtonSize::ExtraSmall,false)}.unwrap();
+            button.set_valign(gtk::Align::Center);row.append(&button);icons.push((position,button));
+        }
         let window=gtk::ApplicationWindow::builder().application(app).child(&row).build();window.present();
         let phase=Cell::new(0);let quit=app.clone();
         glib::timeout_add_local(Duration::from_millis(500),move || {
@@ -31,6 +36,15 @@ fn main() {
                 let bounds=button.compute_bounds(button).unwrap();
                 assert!((bounds.width() as f64-width).abs()<=scale,"{name} phase {current}: {}, expected {width}",bounds.width());
                 assert_eq!(bounds.height() as f64,24.0*scale);
+            }
+            for (position,button) in &icons {
+                let content=button.child().unwrap();
+                let icon=if position.is_none(){content.clone()}else if *position==Some(seven_sixteen_ui::IconPosition::Leading){content.first_child().unwrap()}else{content.last_child().unwrap()};
+                let bounds=button.compute_bounds(button).unwrap();
+                assert_eq!(icon.width() as f64,12.0*scale);assert_eq!(icon.height() as f64,12.0*scale);
+                assert_eq!(bounds.height() as f64,24.0*scale);
+                if position.is_none(){assert_eq!(bounds.width() as f64,24.0*scale);}else{assert!((bounds.width() as f64-68.140625*scale).abs()<=scale);}
+                let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs()<=1.0);
             }
             assert_eq!(clicks.get(),0,"Theme/font reconciliation activated a button");
             match current {

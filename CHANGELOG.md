@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.35
+
+- Add `icon_button` and `button_with_icon` with required bounded accessible names, leading/trailing slots and square icon-only sizes. GTK owns local activation and disabled behavior.
+- Ship only Lucide Plus and ArrowRight from pinned 0.474.0, with ISC and inherited Feather notices. Cairo adapters use live native theme foreground; no host icon-theme lookup is required.
+- Compare 192 independent browser samples against 384 mapped native controls across light/dark and text scales 1/2. Verify exact heights, bounded widths, icon viewports, spacing, theme foreground and visible painted strokes. Retain 12 native capture profiles.
+- Exercise named icon actions and disabled state through independent AT-SPI, plus live light-1/dark-2/light-1 font/icon reflow.
+- Match the pinned Secondary foreground and disable transitions while measuring browser theme endpoints.
+- Full glyph rasterization, physical pointer/keyboard, RTL and motion parity remain unqualified. Declarative `Button@1` metadata is unchanged.
+
 ## 0.1.0-alpha.34
 
 - Preserve fractional label positions after GTK 4.14 mapping replaces the constructor context policy, and settle them once after live theme changes. A mapped light-1/dark-2/light-1 regression checks exact geometry, fractional positions and no action dispatch; weak label tracking does not retain closed buttons.

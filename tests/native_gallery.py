@@ -92,6 +92,12 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
                 for scale in (1,2):
+                    for mode in ('leading','trailing','only'):
+                        icons=[str(ROOT/'target/debug/button-icon-metrics')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
+                        name=f'button-icons-{mode}-{appearance}-{scale}'
+                        result=subprocess.run(icons,env={**env,'BUTTON_ICON_MODE':mode,'BUTTON_ICON_CAPTURE':str(OUTPUT/(name+'.png'))},capture_output=True,text=True,timeout=15)
+                        (OUTPUT/(name+'.log')).write_text(result.stdout+result.stderr)
+                        result.check_returncode()
                     sizes=[str(ROOT/'target/debug/button-size-metrics')]
                     if appearance=='dark':sizes.append('--dark')
                     if scale==2:sizes.append('--scale-2')

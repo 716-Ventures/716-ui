@@ -1,5 +1,5 @@
 {
-  "measured_at": "2026-10-11T13:33:54.265Z",
+  "measured_at": "2026-10-11T14:18:47.707Z",
   "profile_revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
   "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
   "scope": "Natural text-only xs, sm, default and lg; pinned component, Zinc, Inter and default Tailwind spacing; not full appearance or motion parity",
@@ -7,6 +7,17 @@
   "provenance": {
     "upstream": "https://github.com/shadcn-ui/ui",
     "revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+    "icons": {
+      "reference": "lucide-react/0.474.0",
+      "shipped": [
+        "Plus",
+        "ArrowRight"
+      ],
+      "source_files": {
+        "plus": "508541edf4da1313e081076978b0f5201e38d9035739d4d2cb4c709321a3e502",
+        "arrow-right": "f300bb24cb32debed89738fa8d85ee4c2e4c3bd522b3c21da5cfd9ce85beaeb2"
+      }
+    },
     "files": {
       "button": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
       "input": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
@@ -36,6 +47,8 @@
   },
   "metrics": [
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "default",
       "width": 56.140625,
@@ -45,6 +58,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "secondary",
       "width": 76.875,
@@ -54,6 +69,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "outline",
       "width": 56.890625,
@@ -63,6 +80,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "ghost",
       "width": 48.453125,
@@ -72,6 +91,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "destructive",
       "width": 80.625,
@@ -81,6 +102,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 4,
       "size": "xs",
       "variant": "link",
       "width": 35.984375,
@@ -90,6 +113,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "default",
       "width": 70.828125,
@@ -99,6 +124,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "secondary",
       "width": 95.015625,
@@ -108,6 +135,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "outline",
       "width": 71.359375,
@@ -117,6 +146,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "ghost",
       "width": 61.859375,
@@ -126,6 +157,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "destructive",
       "width": 99.40625,
@@ -135,6 +168,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 6,
       "size": "sm",
       "variant": "link",
       "width": 47.3125,
@@ -144,6 +179,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "default",
       "width": 78.828125,
@@ -153,6 +190,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "secondary",
       "width": 103.015625,
@@ -162,6 +201,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "outline",
       "width": 79.359375,
@@ -171,6 +212,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "ghost",
       "width": 69.859375,
@@ -180,6 +223,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "destructive",
       "width": 107.40625,
@@ -189,6 +234,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "default",
       "variant": "link",
       "width": 55.3125,
@@ -198,6 +245,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "default",
       "width": 94.828125,
@@ -207,6 +256,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "secondary",
       "width": 119.015625,
@@ -216,6 +267,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "outline",
       "width": 95.359375,
@@ -225,6 +278,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "ghost",
       "width": 85.859375,
@@ -234,6 +289,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "destructive",
       "width": 123.40625,
@@ -243,6 +300,8 @@
       "font_family": "\"716 Reference Inter\", sans-serif"
     },
     {
+      "appearance": "light",
+      "gap": 8,
       "size": "lg",
       "variant": "link",
       "width": 71.3125,

@@ -6,6 +6,11 @@ mod native;
 pub use native::*;
 
 #[cfg(feature = "native")]
+mod icons;
+#[cfg(feature = "native")]
+pub use icons::{button_with_icon, icon_button, Icon, IconPosition};
+
+#[cfg(feature = "native")]
 mod collections;
 #[cfg(feature = "native")]
 pub use collections::{DataTable, TableRow};

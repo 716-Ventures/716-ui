@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.34` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 60 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.35` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 60 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -65,7 +65,7 @@ Document transfers are bounded before editing: clipboard and primary selection r
 
 Button background motion follows the pinned reference default of 150 ms cubic-bezier(0.4, 0, 0.2, 1), with immediate reduced-motion feedback. Four painted native traces cover light/dark hover, reversal and interruption; a separate browser observer captures actual reference pointer trajectories. These checks do not establish frame-for-frame or physical presentation parity.
 
-Default text-only Button dimensions are checked against measured pinned browser widths within 1px, with exact 36px height and Inter Medium 14px in both themes. State captures use verified 190×40 border boxes. Text-only xs/sm/lg sizes additionally have measured browser/native geometry checks; icons and full typography parity remain unqualified.
+Default text-only Button dimensions are checked against measured pinned browser widths within 1px, with exact 36px height and Inter Medium 14px in both themes. State captures use verified 190×40 border boxes. Text-only xs/sm/lg sizes and leading/trailing/icon-only Plus/ArrowRight buttons additionally have measured browser/native geometry checks; full typography and icon rasterization parity remain unqualified.
 
 Input placeholders use the pinned muted foreground in both themes, with explicit opacity rather than a theme-dependent fade. Input backgrounds now follow the pinned dark input/30 tint and 50% disabled opacity. Ten painted endpoints check default/disabled/focused backgrounds across both themes; the browser harness exercises Unicode editing, keyboard focus and disabled semantics. Stronger native borders and native focus presentation remain deliberate differences.
 
@@ -94,3 +94,5 @@ Alpha.32 preserves selected Result/Error text while showing a separate current-v
 Alpha.33 adds `ButtonSize::{Default, ExtraSmall, Small, Large}` and `button_sized`, preserving existing `button()` behavior. A checksum-pinned browser size matrix supplies measured widths and 24/32/36/40px heights. The complete ARM64 Linux/Wayland gallery passes all five variants in both appearances and text scales 1/2, with mapped font/geometry checks and retained captures. Native outline borders remain one pixel during text scaling. Icons, the Link variant and complete appearance/motion parity remain open; the declarative `Button@1` metadata remains unchanged.
 
 Alpha.34 adds the native Link action-button variant, with primary text, transparent backgrounds and a painted hover underline. The complete Debian ARM64 gallery passes all six variants at four text-only sizes, both appearances and text scales 1/2 (96 mapped samples), plus 60 painted state endpoints. GTK underline positioning remains a documented difference from the browser four-pixel offset. Link activation is a local action; `link()` remains the separate URI-navigation control. Icons and full appearance/motion parity remain unqualified.
+
+Alpha.35 adds named icon-only and leading/trailing action buttons with pinned Lucide Plus/ArrowRight, native theme foreground and local GTK activation. Independent browser measurements cover both themes, six variants and four sizes; native gallery checks add text scales 1/2, painted strokes, live theme reflow and independent AT-SPI actions. Secondary foreground now follows the pinned theme. Only two icons ship; declarative Button metadata and full reference conformance remain unchanged.

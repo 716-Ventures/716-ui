@@ -16,6 +16,14 @@ def find(name,role=None):
                 queue.extend(node[index] for index in range(min(node.childCount,128)))
             except (RuntimeError,LookupError):pass
         time.sleep(.1)
+    queue=deque([pyatspi.Registry.getDesktop(0)]);observed=[]
+    while queue and len(observed)<64:
+        node=queue.popleft()
+        try:
+            observed.append((node.name,node.getRoleName()))
+            queue.extend(node[index] for index in range(min(node.childCount,128)))
+        except (RuntimeError,LookupError):pass
+    print('Accessible tree diagnostic:',observed,flush=True)
     raise AssertionError('Accessible control missing: '+name)
 
 
@@ -26,6 +34,13 @@ def text(node):
 
 
 def verify():
+    for count,name in enumerate(('Add item','Create item λ','Next item'),1):
+        button=find(name,pyatspi.ROLE_PUSH_BUTTON)
+        assert button.getState().contains(pyatspi.STATE_SENSITIVE)
+        assert button.queryAction().doAction(0)
+        find(f'Icon activations: {count}',pyatspi.ROLE_LABEL)
+    assert not find('Unavailable icon',pyatspi.ROLE_PUSH_BUTTON).getState().contains(pyatspi.STATE_SENSITIVE)
+    print('PASS: independent AT-SPI named icon actions and disabled icon state')
     field=find('Your draft',pyatspi.ROLE_TEXT)
     assert field.queryEditableText().setTextContents('AT-SPI draft λ 日本語')
     deadline=time.monotonic()+3

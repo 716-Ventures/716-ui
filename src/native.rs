@@ -100,7 +100,7 @@ pub fn install_theme(
 .seven-ui label.muted {{color:{muted};}}
 .seven-ui button {{border-radius:6px;min-height:{button_height}px;padding:{pad_y}px {pad_x}px;border:0 solid transparent;font-weight:500;box-shadow:none;transition:background-color {motion}ms cubic-bezier(.4,0,.2,1);}}
 .seven-ui button.primary {{background:{primary};color:{on_primary};}}
-.seven-ui button.secondary {{background:{secondary};color:{fg};}}
+.seven-ui button.secondary {{background:{secondary};color:{on_secondary};}}
 .seven-ui button.outline {{background:{outline_bg};color:{fg};min-height:{outline_height}px;border:1px solid {border};}}
 .seven-ui button.ghost {{background:transparent;color:{fg};}}
 .seven-ui button.destructive {{background:#b91c1c;color:#ffffff;}}
@@ -156,7 +156,10 @@ pub fn install_theme(
 .seven-ui notebook.seven-tabs > header tabs tab:hover {{color:{fg};}}
 .seven-ui notebook.seven-tabs > header tabs tab:checked {{background:{outline_bg};border-color:{tabs_border};color:{fg};}}
 .seven-ui notebook.seven-tabs > stack {{background:transparent;border:0;margin-top:{tabs_gap}px;}}
+{icon_css}
 "#,
+        icon_css = crate::icons::css(scale),
+        on_secondary = if appearance == Appearance::Light {"#18181b"} else {"#fafafa"},
         table_header_height = 40.0 * scale - 1.0,
         table_row_height = 36.0 * scale,
         table_x = 8.0 * scale,

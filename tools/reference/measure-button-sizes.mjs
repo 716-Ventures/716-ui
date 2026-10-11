@@ -8,20 +8,35 @@ import {fileURLToPath} from "node:url"
 const root=fileURLToPath(new URL("../../",import.meta.url))
 const assets=resolve(root,"test-output/reference-browser")
 const chrome=process.env.REFERENCE_CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+const iconMode=process.argv.includes("--icons")
+const selector=iconMode?'[data-testid^="icon-"]':'[data-testid^="size-"]'
+const sampleCount=iconMode?96:24
 const script=`
 import "./app.js";
 try {
- for(let i=0;document.querySelectorAll('[data-testid^="size-"]').length!==24;i++) {
+ for(let i=0;document.querySelectorAll('${selector}').length!==${sampleCount};i++) {
   if(i===40)throw Error("Reference sizes did not render");
   await new Promise(resolve=>setTimeout(resolve,25));
  }
  await document.fonts.load('500 12px "716 Reference Inter"');
  await document.fonts.load('500 14px "716 Reference Inter"');
  await document.fonts.ready;
- const metrics=[...document.querySelectorAll('[data-testid^="size-"]')].map(button=>{
+ // Measure settled endpoints, not the first frame of transition-all after a
+ // theme toggle. Motion has its own observer and is not measured here.
+ const endpointStyle=document.createElement("style");
+ endpointStyle.textContent="*,*::before,*::after{transition:none!important;animation:none!important}";
+ document.head.append(endpointStyle);
+ const metrics=[];
+ for(const appearance of ${JSON.stringify(iconMode?["light","dark"]:["light"])}) {
+ document.documentElement.classList.toggle("dark",appearance==="dark");
+ metrics.push(...[...document.querySelectorAll('${selector}')].map(button=>{
   const bounds=button.getBoundingClientRect(),style=getComputedStyle(button);
-  return {size:button.dataset.size,variant:button.dataset.variant,width:bounds.width,height:bounds.height,font_size_px:parseFloat(style.fontSize),font_weight:parseInt(style.fontWeight),font_family:style.fontFamily};
- });
+  const svg=button.querySelector("svg"),icon=svg?.getBoundingClientRect();
+  const iconColor=svg?getComputedStyle(svg).color:null;
+  const icon_rgb=iconColor?.match(/[0-9.]+/g)?.slice(0,3).map(Number);
+  return {appearance,icon_rgb,gap:parseFloat(style.columnGap)||0,size:button.dataset.referenceSize||button.dataset.size,mode:button.dataset.mode,icon:button.dataset.icon,icon_width:icon?.width,icon_height:icon?.height,variant:button.dataset.variant,width:bounds.width,height:bounds.height,font_size_px:parseFloat(style.fontSize),font_weight:parseInt(style.fontWeight),font_family:style.fontFamily};
+ }));
+ }
  document.body.dataset.measurement=btoa(JSON.stringify({browser:navigator.userAgent,metrics}));
 } catch(error) {document.body.dataset.measurement=btoa(JSON.stringify({error:String(error)}));}
 `
@@ -54,7 +69,7 @@ try {
  const result=JSON.parse(Buffer.from(encoded,"base64").toString("utf8"))
  if(result.error)throw Error(result.error)
  const provenance=JSON.parse(await readFile(resolve(assets,"provenance.json"),"utf8"))
- const report={measured_at:new Date().toISOString(),profile_revision:provenance.revision,browser:result.browser,scope:"Natural text-only xs, sm, default and lg; pinned component, Zinc, Inter and default Tailwind spacing; not full appearance or motion parity",native_width_tolerance_px:1,provenance,metrics:result.metrics}
+ const report={measured_at:new Date().toISOString(),profile_revision:provenance.revision,browser:result.browser,scope:iconMode?"Leading/trailing/icon-only controls, pinned Lucide Plus/ArrowRight; measured geometry, not full paint or motion parity":"Natural text-only xs, sm, default and lg; pinned component, Zinc, Inter and default Tailwind spacing; not full appearance or motion parity",native_width_tolerance_px:1,provenance,metrics:result.metrics}
  if(process.argv[2])await writeFile(resolve(process.argv[2]),JSON.stringify(report,null,2)+"\n")
  console.log(JSON.stringify(report,null,2))
 } finally {
