@@ -38,6 +38,11 @@ path = "src/bin/button_size_metrics.rs"
 required-features = ["native"]
 
 [[bin]]
+name = "button-font-reflow"
+path = "src/bin/button_font_reflow.rs"
+required-features = ["native"]
+
+[[bin]]
 name = "input-states"
 path = "src/bin/input_states.rs"
 required-features = ["native"]

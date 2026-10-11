@@ -2,6 +2,8 @@
 
 ## 0.1.0-alpha.34
 
+- Preserve fractional label positions after GTK 4.14 mapping replaces the constructor context policy, and settle them once after live theme changes. A mapped light-1/dark-2/light-1 regression checks exact geometry, fractional positions and no action dispatch; weak label tracking does not retain closed buttons.
+
 - Add the native Link action-button variant with primary text, transparent backgrounds and a painted hover underline. Keep URI navigation in the separate `link()` control.
 - Expand pinned browser/native size checks to six variants (96 mapped samples across appearances/scales), and rendered state checks to 60 endpoints. Verify the antialiased underline stroke and primary foreground in both appearances.
 - Retain GTK underline positioning as a documented difference from the browser four-pixel offset; full appearance/motion parity and icons remain unqualified.

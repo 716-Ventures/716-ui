@@ -3,6 +3,7 @@ pub use gtk;
 use gtk::{gdk, prelude::*};
 
 thread_local! {static THEMES:std::cell::RefCell<Vec<(gdk::Display,gtk::CssProvider)>>=const {std::cell::RefCell::new(Vec::new())};}
+thread_local! {static BUTTON_LABELS:std::cell::RefCell<Vec<gtk::glib::WeakRef<gtk::Label>>>=const {std::cell::RefCell::new(Vec::new())};}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Appearance {
@@ -250,6 +251,7 @@ pub fn install_theme(
         settings.set_gtk_enable_animations(!reduced_motion);
         settings.set_gtk_application_prefer_dark_theme(appearance == Appearance::Dark);
     }
+    settle_button_fonts(display);
 }
 
 pub fn column(spacing: i32) -> gtk::Box {
@@ -281,6 +283,49 @@ pub fn text(value: &str, heading: bool) -> gtk::Label {
     }
     label
 }
+fn fractional_button_label(label: &gtk::Label) {
+    let context = label.pango_context();
+    if context.is_round_glyph_positions() {
+        context.set_round_glyph_positions(false);
+        label.layout().context_changed();
+        label.queue_resize();
+    }
+}
+
+fn configure_button_label(label: &gtk::Label) {
+    fractional_button_label(label);
+    // GTK 4.14 replaces the context policy while mapping and restyling.
+    label.connect_map(fractional_button_label);
+    BUTTON_LABELS.with(|labels| {
+        let mut labels = labels.borrow_mut();
+        labels.retain(|weak| weak.upgrade().is_some());
+        labels.push(label.downgrade());
+    });
+}
+
+fn settle_button_fonts(display: &gdk::Display) {
+    BUTTON_LABELS.with(|labels| {
+        labels.borrow_mut().retain(|weak| {
+            let Some(label) = weak.upgrade() else {return false};
+            if label.display() == *display && label.is_mapped() {
+                if let Some(clock) = label.frame_clock() {
+                    // A single callback after style/layout processing, never a
+                    // recurring tick. Weak labels do not retain closed buttons.
+                    let registration = std::rc::Rc::new(std::cell::RefCell::new(None));
+                    let completed = registration.clone();
+                    let weak = label.downgrade();
+                    *registration.borrow_mut() = Some(clock.connect_after_paint(move |clock| {
+                        if let Some(id) = completed.borrow_mut().take() {clock.disconnect(id);}
+                        if let Some(label) = weak.upgrade() {fractional_button_label(&label);}
+                    }));
+                    label.queue_draw();
+                }
+            }
+            true
+        });
+    });
+}
+
 pub fn button(label: &str, variant: ButtonVariant, disabled: bool) -> gtk::Button {
     button_sized(label, variant, ButtonSize::Default, disabled)
 }
@@ -290,8 +335,7 @@ pub fn button_sized(label: &str, variant: ButtonVariant, size: ButtonSize, disab
     // GTK 4.14 inherits Pango's integral glyph advances, while newer GTK uses
     // fractional positions. Match browser text metrics on both GTK versions.
     if let Some(label) = button.child().and_downcast::<gtk::Label>() {
-        label.pango_context().set_round_glyph_positions(false);
-        label.layout().context_changed();
+        configure_button_label(&label);
     }
 
     button.add_css_class(match variant {
