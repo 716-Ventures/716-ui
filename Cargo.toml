@@ -1,6 +1,6 @@
 [package]
 name = "seven-sixteen-ui"
-version = "0.1.0-alpha.41"
+version = "0.1.0-alpha.42"
 edition = "2021"
 rust-version = "1.85"
 license = "Apache-2.0"
@@ -99,6 +99,11 @@ required-features = ["native"]
 [[bin]]
 name = "text-area-events"
 path = "src/bin/text_area_events.rs"
+required-features = ["native"]
+
+[[bin]]
+name = "status-updates"
+path = "src/bin/status_updates.rs"
 required-features = ["native"]
 
 [[bin]]

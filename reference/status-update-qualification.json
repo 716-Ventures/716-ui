@@ -1,0 +1,54 @@
+{
+  "version": "0.1.0-alpha.42",
+  "scope": "Native live Status content and selection correctness; no full reference appearance or motion parity claim",
+  "profile": {
+    "platform": "ARM64 Debian 13 / private Weston Wayland",
+    "gtk": "4.18.6+ds-2",
+    "rustc": "1.85.1"
+  },
+  "qualified": [
+    "Complete standalone native gallery and deterministic tests",
+    "Eight live Status profiles: light/dark, text scales 1/2, LTR/RTL",
+    "Exact Unicode selected snapshot, logical GTK root focus and unrelated unsent draft retained",
+    "Latest observation stays visible during selection; deselection applies current value",
+    "NUL/overbound updates reject atomically; exact 65536-byte value accepted; empty state supported",
+    "All eight captures visually inspected; owned display/VM/app closed"
+  ],
+  "boundary": "Logical focus under headless Weston; physical input, active keyboard seat, consuming host focus leases and actual screen-reader speech require separate qualification.",
+  "full_gallery_log_sha256": "d3511bf6d49039bca711b994e4eff7c04acbb8f6103f3f0bcd1b5019b1910807",
+  "fixture_sha256": "35fab773bb1aaf1633c78eb6d3773bc2343a34e1aab9706ab94caaa6260e369e",
+  "profiles": {
+    "status-updates-dark-1-ltr": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "8b9b0c1aba01b74b1490e061d544c29b7ce9c0821a890cf310c9022021ece894"
+    },
+    "status-updates-dark-1-rtl": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "8b9b0c1aba01b74b1490e061d544c29b7ce9c0821a890cf310c9022021ece894"
+    },
+    "status-updates-dark-2-ltr": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "1c5567ca850e90bec963b68ed6e4b7588b8d9948b4ec546e98f07798ecf91ba6"
+    },
+    "status-updates-dark-2-rtl": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "1c5567ca850e90bec963b68ed6e4b7588b8d9948b4ec546e98f07798ecf91ba6"
+    },
+    "status-updates-light-1-ltr": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "2bb61c7c8f1ad773ed1e78d26b3d7a4bd7fcb8b427d4facffcfe57dfd4984b55"
+    },
+    "status-updates-light-1-rtl": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "2bb61c7c8f1ad773ed1e78d26b3d7a4bd7fcb8b427d4facffcfe57dfd4984b55"
+    },
+    "status-updates-light-2-ltr": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "d264e88e38c9f617890b11244ef9c8cf1e9cb9e7562406cb4195eeaa2f2358d5"
+    },
+    "status-updates-light-2-rtl": {
+      "log_sha256": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+      "capture_sha256": "d264e88e38c9f617890b11244ef9c8cf1e9cb9e7562406cb4195eeaa2f2358d5"
+    }
+  }
+}

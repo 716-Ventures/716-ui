@@ -31,6 +31,18 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                 result=subprocess.run(outcome,env=env,capture_output=True,text=True,timeout=20)
                 (OUTPUT/('outcome-updates-'+appearance+'.log')).write_text(result.stdout+result.stderr)
                 result.check_returncode()
+                for large in (False,True):
+                    for rtl in (False,True):
+                        profile=appearance+('-2' if large else '-1')+('-rtl' if rtl else '-ltr')
+                        status=[str(ROOT/'target/debug/status-updates')]+(['--dark'] if appearance=='dark' else [])+(['--large'] if large else [])+(['--rtl'] if rtl else [])
+                        try:
+                            result=subprocess.run(status,env={**env,'STATUS_UPDATE_OUTPUT':str(OUTPUT/('status-updates-'+profile+'.png'))},capture_output=True,text=True,timeout=20)
+                        except subprocess.TimeoutExpired as error:
+                            def decoded(value):return value.decode(errors='replace') if isinstance(value,bytes) else value or ''
+                            (OUTPUT/('status-updates-'+profile+'.log')).write_text(decoded(error.stdout)+decoded(error.stderr))
+                            raise
+                        (OUTPUT/('status-updates-'+profile+'.log')).write_text(result.stdout+result.stderr)
+                        result.check_returncode()
                 for case in ('positive','negative','mixed','zero','tiny','subnormal','integer'):
                     chart=[str(ROOT/'target/debug/chart-states')]
                     if appearance=='dark':chart.append('--dark')

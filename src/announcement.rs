@@ -27,3 +27,12 @@ pub(crate) fn announce(widget: &impl IsA<gtk::Widget>, message: &str, priority: 
 
 #[cfg(not(unix))]
 pub(crate) fn announce(_widget: &impl IsA<gtk::Widget>, _message: &str, _priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {}
+
+/// Bound spoken observations by Unicode characters; visible text stays complete.
+pub(crate) fn announce_bounded(widget: &impl IsA<gtk::Widget>, message: &str, priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {
+    if !widget.as_ref().is_mapped() { return; }
+    let mut chars = message.chars();
+    let mut bounded: String = chars.by_ref().take(512).collect();
+    if chars.next().is_some() { bounded.push('…'); }
+    announce(widget, &bounded, priority);
+}

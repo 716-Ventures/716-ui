@@ -60,9 +60,7 @@ impl OutcomeView {
             *self.observed.borrow_mut() = (label.to_owned(), message.to_owned());
             // Announce the actual observation even while a selected snapshot
             // stays visible. Bound speech; complete literal text remains readable.
-            let mut announcement: String = format!("{label}: {message}").chars().take(512).collect();
-            if label.chars().count() + 2 + message.chars().count() > 512 { announcement.push('…'); }
-            crate::announcement::announce(&self.widget, &announcement,
+            crate::announcement::announce_bounded(&self.widget, &format!("{label}: {message}"),
                 if self.error { gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_HIGH }
                 else { gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW });
         }

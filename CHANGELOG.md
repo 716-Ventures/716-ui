@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-alpha.42
+
+- Add StatusView for selectable live status text, preserving an older selected snapshot beside the visible latest observation. Deselecting reveals the latest value.
+- Announce changed mapped status observations once at low priority, with the same 512-character speech bound as Result/Error. Repeated refreshes and deselection do not repeat announcements.
+- Reject NUL and text over 64 KiB before mutation; retain focus, selection and unrelated drafts. Empty status text is supported.
+- Keep the GTK 4.12 ABI floor and optional GTK 4.14 announcements. Gallery live status examples now use reconciliation.
+
 ## 0.1.0-alpha.41
 
 - Announce changed mapped Result/Error observations, including current values beside selected older text. Repeated refreshes and deselection do not repeat the same outcome.

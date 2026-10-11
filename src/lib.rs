@@ -64,6 +64,11 @@ mod announcement;
 #[cfg(feature = "native")]
 pub use outcome::OutcomeView;
 
+#[cfg(feature = "native")]
+mod status;
+#[cfg(feature = "native")]
+pub use status::StatusView;
+
 #[cfg(feature = "terminal")]
 mod terminal;
 #[cfg(feature = "terminal")]

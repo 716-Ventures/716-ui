@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.40` provides native controls and a standalone gallery. Qualification targets ARM64 Ubuntu 24.04 / GTK 4.14 and Debian / GTK 4.18 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 60 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.42` provides native controls and a standalone gallery. Qualification targets ARM64 Ubuntu 24.04 / GTK 4.14 and Debian / GTK 4.18 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 60 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -54,6 +54,8 @@ Development verification additionally exercises a separate AT-SPI client over th
 Development: `Image@1` declares a host-owned resource reference and bounded alternative label. `ImageView` accepts complete CRC-checked PNG bytes up to 256 KiB and four million pixels, never opens paths or URLs, and bounds its native viewport to 240 pixels. Host resource authorization and delivery belong to the application. Other formats and reference appearance parity remain unqualified.
 
 `ReferenceView` emits local navigation intent for `DocumentReference@1` and `ApplicationReference@1`. The host resolves the target identity, activity scope, revision and current availability; the library does not launch applications, open files or interpret the target as a URL. Missing views have a disabled control and explicit tooltip.
+
+`StatusView` supplies selectable live status text. `reconcile` preserves a selected older snapshot, shows the current source text beside it, and requests one low-priority announcement per changed mapped observation. Deselecting applies the latest value. Visible literal text is bounded to 64 KiB and speech to 512 Unicode characters plus an ellipsis. `status()` remains a label helper; use `StatusView` for changing observations.
 
 `OutcomeView` supplies literal selectable `Result@1` status and `Error@1` alert content, preserves selection during reconciliation and emits local recovery intent. The host supplies source bindings, callback availability, revision guards and assessment. `reference/alert.tsx` pins the corresponding reference primitive; full appearance, live-region announcement timing and physical assistive recovery remain unqualified.
 
