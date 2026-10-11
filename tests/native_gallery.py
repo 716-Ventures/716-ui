@@ -92,16 +92,17 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
                 for scale in (1,2):
-                    reconcile=[str(ROOT/'target/debug/button-reconcile')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
-                    result=subprocess.run(reconcile,env=env,capture_output=True,text=True,timeout=15)
-                    (OUTPUT/(f'button-reconcile-{appearance}-{scale}.log')).write_text(result.stdout+result.stderr)
-                    result.check_returncode()
-                    for mode in ('leading','trailing','only'):
-                        icons=[str(ROOT/'target/debug/button-icon-metrics')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
-                        name=f'button-icons-{mode}-{appearance}-{scale}'
-                        result=subprocess.run(icons,env={**env,'BUTTON_ICON_MODE':mode,'BUTTON_ICON_CAPTURE':str(OUTPUT/(name+'.png'))},capture_output=True,text=True,timeout=15)
-                        (OUTPUT/(name+'.log')).write_text(result.stdout+result.stderr)
+                    for rtl in (False,True):
+                        reconcile=[str(ROOT/'target/debug/button-reconcile')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])+(['--rtl'] if rtl else [])
+                        result=subprocess.run(reconcile,env=env,capture_output=True,text=True,timeout=15)
+                        (OUTPUT/(f'button-reconcile-{appearance}-{scale}'+('-rtl' if rtl else '')+'.log')).write_text(result.stdout+result.stderr)
                         result.check_returncode()
+                        for mode in ('leading','trailing','only'):
+                            icons=[str(ROOT/'target/debug/button-icon-metrics')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])+(['--rtl'] if rtl else [])
+                            name=f'button-icons-{mode}-{appearance}-{scale}'+('-rtl' if rtl else '')
+                            result=subprocess.run(icons,env={**env,'BUTTON_ICON_MODE':mode,'BUTTON_ICON_CAPTURE':str(OUTPUT/(name+'.png'))},capture_output=True,text=True,timeout=15)
+                            (OUTPUT/(name+'.log')).write_text(result.stdout+result.stderr)
+                            result.check_returncode()
                     sizes=[str(ROOT/'target/debug/button-size-metrics')]
                     if appearance=='dark':sizes.append('--dark')
                     if scale==2:sizes.append('--scale-2')
@@ -113,15 +114,16 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if scale==2:command.append('--reduced-motion')
                     subprocess.run(command,env=env,check=True,timeout=30)
             # Keep a gallery alive for an independent assistive-client journey.
-            with (OUTPUT/'accessibility.log').open('w') as accessible_log:
-                gallery=subprocess.Popen([str(ROOT/'target/debug/gallery')],env=env,stdout=accessible_log,stderr=subprocess.STDOUT,start_new_session=True)
-                try:
-                    import accessibility
-                    accessibility.verify()
-                finally:
-                    if gallery.poll() is None:os.killpg(gallery.pid,signal.SIGTERM)
-                    try:gallery.wait(timeout=5)
-                    except subprocess.TimeoutExpired:os.killpg(gallery.pid,signal.SIGKILL);gallery.wait(timeout=5)
+            for rtl in (False,True):
+                with (OUTPUT/('accessibility-rtl.log' if rtl else 'accessibility.log')).open('w') as accessible_log:
+                    gallery=subprocess.Popen([str(ROOT/'target/debug/gallery')]+(['--rtl'] if rtl else []),env=env,stdout=accessible_log,stderr=subprocess.STDOUT,start_new_session=True)
+                    try:
+                        import accessibility
+                        accessibility.verify()
+                    finally:
+                        if gallery.poll() is None:os.killpg(gallery.pid,signal.SIGTERM)
+                        try:gallery.wait(timeout=5)
+                        except subprocess.TimeoutExpired:os.killpg(gallery.pid,signal.SIGKILL);gallery.wait(timeout=5)
         finally:
             os.killpg(compositor.pid,signal.SIGTERM) if compositor.poll() is None else None
             try:compositor.wait(timeout=5)

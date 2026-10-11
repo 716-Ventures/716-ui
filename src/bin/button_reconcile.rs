@@ -15,6 +15,7 @@ fn props(phase: usize) -> ButtonProps {
 }
 fn main() {
     let dark = std::env::args().any(|arg| arg == "--dark");
+    let rtl = std::env::args().any(|arg| arg == "--rtl");
     let scale = if std::env::args().any(|arg| arg == "--scale-2") {
         2.0
     } else {
@@ -24,6 +25,7 @@ fn main() {
         .application_id("com.sevensixteen.ButtonReconcile")
         .build();
     app.connect_activate(move |app| {
+        gtk::Widget::set_default_direction(if rtl{gtk::TextDirection::Rtl}else{gtk::TextDirection::Ltr});
         seven_sixteen_ui::install_theme(&gdk::Display::default().unwrap(),if dark{Appearance::Dark}else{Appearance::Light},scale,true);
         let panel=gtk::Box::new(gtk::Orientation::Vertical,8);panel.add_css_class("seven-ui");
         let mut button=ActionButton::new(&props(0)).unwrap();
@@ -49,6 +51,11 @@ fn main() {
                 assert!((bounds.width() as f64-width).abs()<=scale,"phase {current}: width {} expected {width}",bounds.width());assert_eq!(bounds.height() as f64,expected["height"].as_f64().unwrap()*scale);
             }
             let child=button.widget.child().unwrap();button.reconcile(&declaration).unwrap();assert_eq!(button.widget.child(),Some(child.clone()),"Identical content replaced children");
+            assert_eq!(button.widget.direction(),if rtl{gtk::TextDirection::Rtl}else{gtk::TextDirection::Ltr});
+            if current==1||current==3 {
+                let first=child.first_child().unwrap().compute_bounds(&child).unwrap();let last=child.last_child().unwrap().compute_bounds(&child).unwrap();
+                assert_eq!(first.x()>last.x(),rtl,"Retained icon content lost reading direction");
+            }
             if current==5 {
                 assert!(!button.widget.is_sensitive());
                 let mut invalid=declaration.clone();invalid.label=" ".into();invalid.disabled=false;assert!(button.reconcile(&invalid).is_err());assert_eq!(button.widget.child(),Some(child));assert!(!button.widget.is_sensitive());

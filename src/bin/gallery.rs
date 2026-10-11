@@ -11,6 +11,7 @@ fn main() {
         .and_then(|i| args.get(i + 1))
         .cloned();
     let dark = args.iter().any(|s| s == "--dark");
+    let rtl = args.iter().any(|s| s == "--rtl");
     let reduced = args.iter().any(|s| s == "--reduced-motion");
     let scale = args
         .iter()
@@ -22,6 +23,7 @@ fn main() {
         .application_id("com.sevensixteen.Components")
         .build();
     app.connect_activate(move|app|{
+        gtk::Widget::set_default_direction(if rtl{gtk::TextDirection::Rtl}else{gtk::TextDirection::Ltr});
         let display=gdk::Display::default().expect("A native display is required");
         seven_sixteen_ui::install_theme(&display,if dark{Appearance::Dark}else{Appearance::Light},scale,reduced);
         let content=seven_sixteen_ui::column(20);content.add_css_class("seven-ui");

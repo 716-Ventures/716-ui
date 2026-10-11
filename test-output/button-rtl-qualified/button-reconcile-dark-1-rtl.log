@@ -1,0 +1,1 @@
+PASS: mapped button updates retain identity, geometry, focus, host classes and action owner; invalid changes preserve content and disabled state

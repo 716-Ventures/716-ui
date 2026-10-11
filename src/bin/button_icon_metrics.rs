@@ -4,6 +4,7 @@ use seven_sixteen_ui::{gtk, Appearance, ButtonSize, ButtonVariant, Icon, IconPos
 use std::time::Duration;
 fn main() {
     let dark = std::env::args().any(|a| a == "--dark");
+    let rtl = std::env::args().any(|a| a == "--rtl");
     let scale = if std::env::args().any(|a| a == "--scale-2") {
         2.0
     } else {
@@ -15,6 +16,7 @@ fn main() {
         .application_id("com.sevensixteen.IconMetrics")
         .build();
     app.connect_activate(move |app| {
+  gtk::Widget::set_default_direction(if rtl{gtk::TextDirection::Rtl}else{gtk::TextDirection::Ltr});
   seven_sixteen_ui::install_theme(&gdk::Display::default().unwrap(),if dark{Appearance::Dark}else{Appearance::Light},scale,true);
   let panel=gtk::Box::new(gtk::Orientation::Vertical,8);panel.add_css_class("seven-ui");
   let mut samples=Vec::new();
@@ -38,7 +40,7 @@ fn main() {
   let window=gtk::ApplicationWindow::builder().application(app).title("716 UI icon button geometry").child(&panel).build();window.present();
   let quit=app.clone();let mode=mode.clone();let capture=capture.clone();
   glib::timeout_add_local_once(Duration::from_millis(500),move || {
-   let reference:serde_json::Value=serde_json::from_str(include_str!("../../reference/button-icon-metrics.json")).unwrap();
+   let reference:serde_json::Value=serde_json::from_str(if rtl{include_str!("../../reference/button-icon-rtl-metrics.json")}else{include_str!("../../reference/button-icon-metrics.json")}).unwrap();
    assert_eq!(reference["metrics"].as_array().unwrap().len(),192);
    let mut report=Vec::new();
    for (size,name,icon_name,button) in samples {
@@ -49,6 +51,7 @@ fn main() {
     assert!((button_bounds.width() as f64-width).abs()<=scale,"{mode}/{size}/{name}/{icon_name} width {} expected {width}",button_bounds.width());
     assert_eq!(button_bounds.height() as f64,expected["height"].as_f64().unwrap()*scale,"{mode}/{size}/{name} height");
     assert_eq!(button.accessible_role(),gtk::AccessibleRole::Button);
+    assert_eq!(button.direction(),if rtl{gtk::TextDirection::Rtl}else{gtk::TextDirection::Ltr});
     let child=button.child().unwrap();
     let icon=if mode=="only"{child.clone()}else if mode=="leading"{child.first_child().unwrap()}else{child.last_child().unwrap()};
     assert!(icon.is::<gtk::DrawingArea>());assert_eq!(icon.accessible_role(),gtk::AccessibleRole::Presentation);
@@ -58,7 +61,9 @@ fn main() {
      let b=icon.compute_bounds(&button).unwrap();assert!((b.x()+b.width()/2.0-button_bounds.x()-button_bounds.width()/2.0).abs()<=0.5);
     } else {
      let first=child.first_child().unwrap().compute_bounds(&child).unwrap();let last=child.last_child().unwrap().compute_bounds(&child).unwrap();
-     assert!((last.x()-first.x()-first.width()-expected["gap"].as_f64().unwrap() as f32*scale as f32).abs()<=0.5,"icon/text gap");
+     let gap=if rtl{first.x()-last.x()-last.width()}else{last.x()-first.x()-first.width()};
+     assert!((gap-expected["gap"].as_f64().unwrap() as f32*scale as f32).abs()<=0.5,"icon/text gap");
+     if rtl {assert_eq!(expected["direction"],"rtl");assert_eq!(expected["icon_side"],if mode=="leading"{"right"}else{"left"});}
     }
     // Verify live theme foreground independently of the native token table.
     let color=icon.style_context().color();
@@ -69,7 +74,7 @@ fn main() {
     report.push(serde_json::json!({"size":size,"variant":name,"icon":icon_name,"width":button_bounds.width(),"height":button_bounds.height()}));
    }
    let bounds=panel.compute_bounds(&panel).unwrap();let snapshot=gtk::Snapshot::new();gtk::WidgetPaintable::new(Some(&panel)).snapshot(&snapshot,bounds.width() as f64,bounds.height() as f64);window.renderer().unwrap().render_texture(&snapshot.to_node().unwrap(),Some(&bounds)).save_to_png(capture).unwrap();
-   println!("{}",serde_json::json!({"result":"pass","mode":mode,"dark":dark,"scale":scale,"metrics":report}));quit.quit();
+   println!("{}",serde_json::json!({"result":"pass","mode":mode,"dark":dark,"rtl":rtl,"scale":scale,"metrics":report}));quit.quit();
   });
  });
     app.run_with_args(&["716-icon-metrics"]);
