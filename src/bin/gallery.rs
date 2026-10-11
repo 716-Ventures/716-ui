@@ -46,6 +46,10 @@ fn main() {
         }
         content.append(&icon_row);content.append(&icon_status);
         let field=TextField::new("Your draft","Type here; Enter emits a typed event","An editable draft");content.append(&field.widget);
+        let invalid=TextField::new("Validation draft","Saved workspace","Keep this draft λ");
+        invalid.set_validation_message(Some("Choose a saved workspace.")).unwrap();content.append(&invalid.widget);
+        let clear=seven_sixteen_ui::button("Clear validation",ButtonVariant::Outline,false);
+        clear.connect_clicked(move |_|invalid.set_validation_message(None).unwrap());content.append(&clear);
         let area=seven_sixteen_ui::TextArea::new("Multiline draft","First line\nSecond line · 日本語");content.append(&area.widget);
         let status=seven_sixteen_ui::status("Ready · no account or network needed");content.append(&status);
         let events=Rc::new(RefCell::new(Vec::new()));let recorded=events.clone();let live=status.clone();

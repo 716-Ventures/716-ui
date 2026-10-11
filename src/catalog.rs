@@ -87,6 +87,7 @@ pub fn components() -> BTreeMap<&'static str, Component> {
             ("placeholder", Kind(String)),
             ("value", Kind(String)),
             ("multiline", Kind(Boolean)),
+            ("validation_message", Kind(String)),
         ],
         vec!["label"],
     );
@@ -171,7 +172,7 @@ pub fn components() -> BTreeMap<&'static str, Component> {
     image.minimum_size = [160, 240];
     let mut editor = component(
         "textbox",
-        vec![("label", Kind(String)), ("value", Kind(String))],
+        vec![("label", Kind(String)), ("value", Kind(String)), ("validation_message", Kind(String))],
         vec!["label", "value"],
     );
     editor.events = vec!["submit", "change"];

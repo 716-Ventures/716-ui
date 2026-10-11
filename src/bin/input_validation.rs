@@ -1,0 +1,63 @@
+//! Feedback changes preserve actual focused editors, selection and host events.
+use gtk::{gdk, glib, prelude::*};
+use seven_sixteen_ui::{gtk, Appearance, DocumentEditor, TextField};
+use std::{cell::Cell, rc::Rc, time::Duration};
+
+fn main() {
+    let dark=std::env::args().any(|arg|arg=="--dark");
+    let scale=if std::env::args().any(|arg|arg=="--scale-2"){2.0}else{1.0};
+    let capture=std::env::var("INPUT_VALIDATION_CAPTURE").unwrap();
+    let app=gtk::Application::builder().application_id("com.sevensixteen.InputValidation").build();
+    app.connect_activate(move |app| {
+        seven_sixteen_ui::install_theme(&gdk::Display::default().unwrap(),if dark{Appearance::Dark}else{Appearance::Light},scale,true);
+        let panel=seven_sixteen_ui::column(12);panel.add_css_class("seven-ui");
+        panel.set_margin_start(12);panel.set_margin_end(12);panel.set_margin_top(12);panel.set_margin_bottom(12);
+        let field=TextField::new("Workspace","Workspace name","Draft λ 日本語");
+        let editor=DocumentEditor::new("Document","Document λ 日本語").unwrap();
+        panel.append(&field.widget);panel.append(&editor.widget);
+        let changes=Rc::new(Cell::new(0));let changed=changes.clone();field.on_event(move |_|changed.set(changed.get()+1));
+        let window=gtk::ApplicationWindow::builder().application(app).default_width(460).child(&panel).build();window.present();
+        assert!(field.entry.grab_focus());field.entry.select_region(0,5);
+        let focus=gtk::prelude::RootExt::focus(&window);
+        let selection=field.entry.selection_bounds();
+        let message="Choose a saved workspace. Literal <b>日本語</b> & λ";
+        field.set_validation_message(Some(message)).unwrap();editor.set_validation_message(Some("Save a readable document name.")).unwrap();
+        for invalid in ["", "bad\0message", &"λ".repeat(513)] {
+            assert!(field.set_validation_message(Some(invalid)).is_err());
+            assert_eq!(field.validation.label.text(),message);
+        }
+        field.set_validation_message(Some(message)).unwrap();
+        field.set_validation_message(None).unwrap();assert!(!field.validation.label.is_visible());assert!(!field.entry.has_css_class("seven-invalid"));
+        let long="Choose a saved workspace 日本語 λ. ".repeat(16);field.set_validation_message(Some(&long)).unwrap();
+        let quit=app.clone();let capture=capture.clone();
+        glib::timeout_add_local_once(Duration::from_millis(500),move || {
+            assert_eq!(field.entry.text(),"Draft λ 日本語");assert_eq!(editor.area.value(),"Document λ 日本語");assert_eq!(changes.get(),0);
+            assert!(field.entry.has_focus()||field.entry.focus_child().is_some());assert_eq!(field.entry.selection_bounds(),selection);
+            assert_eq!(gtk::prelude::RootExt::focus(&window),focus);
+            assert!(field.validation.label.is_visible()&&field.entry.has_css_class("seven-invalid"));
+            let color=field.validation.label.color();let expected=if dark{[252,165,165]}else{[185,28,28]};
+            for (actual,expected) in [color.red(),color.green(),color.blue()].iter().zip(expected){assert!((*actual*255.-expected as f32).abs()<1.);}
+            let error=field.validation.label.compute_bounds(&panel).unwrap();let box_bounds=panel.compute_bounds(&panel).unwrap();
+            assert!(error.x()>=0.&&error.x()+error.width()<=box_bounds.width()+0.5);assert!(error.height()>14.*scale as f32,"Long validation text did not wrap");
+            let snapshot=gtk::Snapshot::new();gtk::WidgetPaintable::new(Some(&panel)).snapshot(&snapshot,box_bounds.width() as f64,box_bounds.height() as f64);
+            window.renderer().unwrap().render_texture(&snapshot.to_node().unwrap(),Some(&box_bounds)).save_to_png(capture).unwrap();
+            // Each native editor owns PRIMARY in turn; simultaneous selections
+            // in unrelated widgets compete for that shared system resource.
+            assert!(editor.area.view.grab_focus());
+            editor.area.view.buffer().select_range(&editor.area.view.buffer().iter_at_offset(3),&editor.area.view.buffer().start_iter());
+            editor.set_validation_message(None).unwrap();editor.set_validation_message(Some("Save a readable document name.")).unwrap();
+            glib::timeout_add_local_once(Duration::from_millis(200),move || {
+                // Headless Weston has no active physical seat. Assert GTK's
+                // exact retained logical focus, as the mapped button test does.
+                assert_eq!(gtk::prelude::RootExt::focus(&window),Some(editor.area.view.clone().upcast()));
+                assert_eq!(editor.area.view.buffer().selection_bounds().map(|(a,b)|(a.offset(),b.offset())),Some((0,3)));
+                assert_eq!(editor.area.value(),"Document λ 日本語");assert_eq!(field.entry.text(),"Draft λ 日本語");assert_eq!(changes.get(),0);
+                field.validation.label.select_region(0,6);let selection=field.validation.label.selection_bounds();
+                field.set_validation_message(Some(&long)).unwrap();assert_eq!(field.validation.label.selection_bounds(),selection);
+                editor.set_validation_message(None).unwrap();assert!(!editor.area.view.has_css_class("seven-invalid"));
+                println!("PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap");quit.quit();
+            });
+        });
+    });
+    app.run_with_args(&["716-input-validation"]);
+}

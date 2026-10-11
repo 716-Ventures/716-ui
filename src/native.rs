@@ -24,6 +24,7 @@ pub struct Tokens {
     pub border: &'static str,
     pub primary: &'static str,
     pub on_primary: &'static str,
+    pub invalid: &'static str,
 }
 impl Appearance {
     pub fn tokens(self) -> Tokens {
@@ -35,6 +36,7 @@ impl Appearance {
                 border: "#71717a",
                 primary: "#18181b",
                 on_primary: "#fafafa",
+                invalid: "#b91c1c",
             },
             Self::Dark => Tokens {
                 background: "#09090b",
@@ -43,6 +45,7 @@ impl Appearance {
                 border: "#71717a",
                 primary: "#fafafa",
                 on_primary: "#18181b",
+                invalid: "#fca5a5",
             },
         }
     }
@@ -108,6 +111,9 @@ pub fn install_theme(
 .seven-ui entry {{background:{outline_bg};}}
 .seven-ui entry:disabled {{opacity:.5;}}
 .seven-ui entry text placeholder {{color:{muted};opacity:1;}}
+.seven-ui .seven-validation-error {{color:{invalid};}}
+.seven-ui entry.seven-invalid,.seven-ui textview.seven-invalid {{border-color:{invalid};}}
+.seven-ui entry.seven-invalid:focus-within,.seven-ui textview.seven-invalid:focus-visible {{outline-color:{invalid};}}
 .seven-ui selection {{background:{selected};color:{on_selected};}}
  .seven-ui checkbutton.seven-toggle {{padding:0;outline:none;}}
 .seven-ui checkbutton.seven-toggle > check {{min-width:{check_size}px;min-height:{check_size}px;padding:0;border:{check_border}px solid {border};border-radius:4px;background:{outline_bg};background-image:none;box-shadow:none;color:{fg};}}
@@ -142,6 +148,7 @@ pub fn install_theme(
 {icon_css}
 "#,
         icon_css = crate::icons::css(scale),
+        invalid = t.invalid,
         on_secondary = if appearance == Appearance::Light {"#18181b"} else {"#fafafa"},
         table_header_height = 40.0 * scale - 1.0,
         table_row_height = 36.0 * scale,
@@ -373,6 +380,7 @@ pub fn progress(label: &str, value: Option<f64>) -> gtk::ProgressBar {
 pub struct TextField {
     pub widget: gtk::Box,
     pub entry: gtk::Entry,
+    pub validation: crate::ValidationFeedback,
 }
 impl TextField {
     pub fn new(label: &str, placeholder: &str, value: &str) -> Self {
@@ -386,7 +394,12 @@ impl TextField {
         entry.set_hexpand(true);
         entry.update_property(&[gtk::accessible::Property::Label(label)]);
         widget.append(&entry);
-        Self { widget, entry }
+        let validation = crate::ValidationFeedback::new(&entry);
+        widget.append(&validation.label);
+        Self { widget, entry, validation }
+    }
+    pub fn set_validation_message(&self, message: Option<&str>) -> Result<(), &'static str> {
+        self.validation.set_message(message)
     }
     pub fn on_event(&self, callback: impl Fn(InputEvent) + 'static) {
         let callback = std::rc::Rc::new(callback);
@@ -437,6 +450,7 @@ mod tests {
             assert!(contrast(t.muted, t.background) >= 4.5);
             assert!(contrast(t.primary, t.on_primary) >= 4.5);
             assert!(contrast(t.border, t.background) >= 3.0);
+            assert!(contrast(t.invalid, t.background) >= 4.5);
         }
     }
 }

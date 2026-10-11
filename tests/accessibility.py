@@ -34,6 +34,21 @@ def text(node):
 
 
 def verify():
+    invalid=find('Validation draft',pyatspi.ROLE_TEXT)
+    assert invalid.getState().contains(pyatspi.STATE_INVALID_ENTRY)
+    relations=invalid.getRelationSet()
+    errors=[relation for relation in relations if relation.getRelationType()==pyatspi.RELATION_ERROR_MESSAGE]
+    assert len(errors)==1 and errors[0].getNTargets()==1
+    assert errors[0].getTarget(0).name=='Choose a saved workspace.'
+    assert text(invalid)=='Keep this draft λ'
+    assert find('Clear validation',pyatspi.ROLE_PUSH_BUTTON).queryAction().doAction(0)
+    deadline=time.monotonic()+3
+    while invalid.getState().contains(pyatspi.STATE_INVALID_ENTRY):
+        if time.monotonic()>deadline:raise AssertionError('Clearing validation left invalid state')
+        time.sleep(.05)
+    assert text(invalid)=='Keep this draft λ'
+    assert not any(relation.getRelationType()==pyatspi.RELATION_ERROR_MESSAGE for relation in invalid.getRelationSet())
+    print('PASS: independent AT-SPI invalid state, related readable error, clear and exact retained draft')
     for count,name in enumerate(('Add item','Create item λ','Next item'),1):
         button=find(name,pyatspi.ROLE_PUSH_BUTTON)
         assert button.getState().contains(pyatspi.STATE_SENSITIVE)

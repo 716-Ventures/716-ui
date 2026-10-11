@@ -9,6 +9,7 @@ pub struct DocumentEditor {
     pub replace: gtk::Button,
     pub replace_all: gtk::Button,
     pub notice: gtk::Label,
+    pub validation: crate::ValidationFeedback,
 }
 impl DocumentEditor {
     pub fn new(label: &str, value: &str) -> Result<Self, String> {
@@ -63,6 +64,8 @@ impl DocumentEditor {
             .child(&area.widget)
             .build();
         widget.append(&scroll);
+        let validation = crate::ValidationFeedback::new(&area.view);
+        widget.append(&validation.label);
         let notice = crate::text("Edits remain local until saved by the host", false);
         widget.append(&notice);
         crate::editor_bounds::install(&area.view, &notice);
@@ -162,6 +165,10 @@ impl DocumentEditor {
             replace,
             replace_all,
             notice,
+            validation,
         })
+    }
+    pub fn set_validation_message(&self, message: Option<&str>) -> Result<(), &'static str> {
+        self.validation.set_message(message)
     }
 }

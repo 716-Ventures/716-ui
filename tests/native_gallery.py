@@ -92,6 +92,11 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
                 for scale in (1,2):
+                    validation=[str(ROOT/'target/debug/input-validation')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
+                    name=f'input-validation-{appearance}-{scale}'
+                    result=subprocess.run(validation,env={**env,'INPUT_VALIDATION_CAPTURE':str(OUTPUT/(name+'.png'))},capture_output=True,text=True,timeout=15)
+                    (OUTPUT/(name+'.log')).write_text(result.stdout+result.stderr)
+                    result.check_returncode()
                     for rtl in (False,True):
                         reconcile=[str(ROOT/'target/debug/button-reconcile')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])+(['--rtl'] if rtl else [])
                         result=subprocess.run(reconcile,env=env,capture_output=True,text=True,timeout=15)

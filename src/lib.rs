@@ -1,6 +1,10 @@
 //! Reusable component schemas can be consumed without a graphics stack.
 pub mod catalog;
 pub mod buttons;
+pub mod validation;
+pub use validation::{validate_validation_message, MAX_VALIDATION_MESSAGE_BYTES};
+#[cfg(feature = "native")]
+pub use validation::ValidationFeedback;
 pub use buttons::{ButtonProps, ButtonVariant, ButtonSize, ButtonContent, Icon, IconPosition, ButtonIconPosition};
 #[cfg(feature = "native")]
 mod native;
