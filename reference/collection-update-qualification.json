@@ -21,5 +21,19 @@
   "targeted_log_sha256": "de93cec91a0d40a75a87a9f15ffde5e9ecbe434e2058ef9a6a603044bda9ca9d",
   "full_gallery_log_sha256": "103544c13fa11bb42f63d7c357fee809b3c8a352835726bab09434f55dcc2fb6",
   "fixture_sha256": "4394d54cef560036e18dfa2dea076edbab6a0cf705001dba94f01aedec7f93b5",
-  "boundary": "No physical input, background agentOS lease/focus, full reference appearance or motion qualification is implied."
+  "boundary": "No physical input, background agentOS lease/focus, full reference appearance or motion qualification is implied.",
+  "clipboard_extension": {
+    "version": "0.1.0-alpha.30",
+    "qualified": [
+      "List and KeyValue real installed Ctrl+C capture callbacks (signal-driven)",
+      "Exact Unicode local clipboard, one-cell List and tab-separated KeyValue",
+      "Removed selections preserve clipboard",
+      "List and KeyValue native owner release after removal",
+      "Complete standalone native gallery and existing Table popup/copy/focus journeys"
+    ],
+    "targeted_log_sha256": "e9475aecb13b5ce0d07f0fa4acc6e642a0686e7468aab6184059765014582aa0",
+    "full_gallery_log_sha256": "b18eb52c11afa0021728a05bd4fabd5225e3cfdf5367b58f98ce0774ef2a693b",
+    "fixture_sha256": "26adfb9f5132c014e0788d4b6333a07aa20a61b9e2efec0077354adab3edb98c",
+    "boundary": "Local cached clipboard and callback checks; kernel input and separate-client delivery for List/KeyValue are qualified by the consuming OS separately."
+  }
 }

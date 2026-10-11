@@ -76,7 +76,7 @@ fn main() {
             assert!(table.select_key("unicode"));
             // Exercise the real installed capture callback, not host input.
             let controllers = table.view.observe_controllers();
-            let keys = (0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::EventControllerKey>()).find(|k|k.name().as_deref()==Some("seven-table-clipboard")).unwrap();
+            let keys = (0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::EventControllerKey>()).find(|k|k.name().as_deref()==Some("seven-collection-clipboard")).unwrap();
             let result = keys.emit_by_name::<bool>("key-pressed", &[&gdk::Key::c,&0u32,&gdk::ModifierType::CONTROL_MASK]);
             assert!(result);
             assert_eq!(read_current().await,"Document λ 日本語\tSaved\nsecond line");

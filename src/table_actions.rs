@@ -2,7 +2,11 @@
 use crate::TableRow;
 use gtk::{gdk, gio, glib, prelude::*};
 
-pub(crate) fn install(view: &gtk::ColumnView, selection: &gtk::SingleSelection) -> gtk::Popover {
+pub(crate) fn install(
+    view: &gtk::Widget,
+    selection: &gtk::SingleSelection,
+    namespace: &str,
+) -> gtk::Popover {
     let group = gio::SimpleActionGroup::new();
     let copy = gio::SimpleAction::new("copy", None);
     copy.set_enabled(selection.selected_item().is_some());
@@ -27,13 +31,13 @@ pub(crate) fn install(view: &gtk::ColumnView, selection: &gtk::SingleSelection) 
         }
     });
     group.add_action(&copy);
-    view.insert_action_group("table", Some(&group));
+    view.insert_action_group(namespace, Some(&group));
     view.update_property(&[gtk::accessible::Property::Description(
         "Ctrl+C copies the selected row as tab-separated text. Copy selected row is also available from the context menu."
     )]);
     let item = gtk::Button::builder()
         .label("Copy selected row")
-        .action_name("table.copy")
+        .action_name(format!("{namespace}.copy"))
         .accessible_role(gtk::AccessibleRole::MenuItem)
         .build();
     item.update_property(&[gtk::accessible::Property::Label("Copy selected row")]);
@@ -68,7 +72,7 @@ pub(crate) fn install(view: &gtk::ColumnView, selection: &gtk::SingleSelection) 
     });
     view.add_controller(click);
     let keys = gtk::EventControllerKey::new();
-    keys.set_name(Some("seven-table-clipboard"));
+    keys.set_name(Some("seven-collection-clipboard"));
     keys.set_propagation_phase(gtk::PropagationPhase::Capture);
     let (actions, popup, weak_view) = (group.downgrade(), menu.downgrade(), view.downgrade());
     keys.connect_key_pressed(move |_, key, _, modifiers| {

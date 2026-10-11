@@ -57,6 +57,23 @@ fn main() {
                 if !visible.contains(&"Updated λ 日本語".into()) || visible.contains(&"Original λ".into()) {failures.push(format!("{name} displays stale row text"));}
                 assert_eq!(key.as_deref(),Some("document"));
             }
+            for (data, expected) in [(&list,"Updated λ 日本語"),(&values,"Updated λ 日本語\tCurrent")] {
+                let controllers = data.view.observe_controllers();
+                let keys = (0..controllers.n_items()).filter_map(|i|controllers.item(i).and_downcast::<gtk::EventControllerKey>()).find(|keys|keys.name().as_deref()==Some("seven-collection-clipboard")).unwrap();
+                assert!(keys.emit_by_name::<bool>("key-pressed", &[&gdk::Key::c,&0u32,&gdk::ModifierType::CONTROL_MASK]));
+                assert_eq!(data.view.clipboard().read_text_future().await.unwrap().unwrap().as_str(),expected);
+            }
+            list.update(&[]).unwrap();values.update(&[]).unwrap();
+            list.view.clipboard().set_text("preserved sentinel");
+            for data in [&list,&values] {
+                data.view.activate_action("list.copy",None).unwrap();
+                assert_eq!(data.view.clipboard().read_text_future().await.unwrap().unwrap().as_str(),"preserved sentinel");
+            }
+            panel.remove(&list.widget);panel.remove(&values.widget);
+            let weak_list = list.view.downgrade();let weak_values = values.view.downgrade();
+            drop((list,values));
+            glib::timeout_future(Duration::from_millis(100)).await;
+            assert!(weak_list.upgrade().is_none() && weak_values.upgrade().is_none(),"Copy/menu callbacks retained List or KeyValue");
             assert!(failures.is_empty(),"Native collection update: {failures:?}");
             println!("PASS: mapped Table/List/KeyValue labels refresh for changed stable keys, retain unchanged rows and selected identity after reorder");
             quit.quit();

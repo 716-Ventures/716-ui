@@ -11,6 +11,7 @@ pub struct DataList {
     rows: Vec<TableRow>,
     columns: usize,
     live_rows: Rc<Cell<usize>>,
+    copy_menu: gtk::Popover,
 }
 impl DataList {
     pub fn new(label: &str, key_value: bool) -> Result<Self, String> {
@@ -80,6 +81,7 @@ impl DataList {
             .propagate_natural_height(true)
             .child(&view)
             .build();
+        let copy_menu = crate::table_actions::install(view.upcast_ref(), &selection, "list");
         Ok(Self {
             widget,
             view,
@@ -89,6 +91,7 @@ impl DataList {
             rows: Vec::new(),
             columns,
             live_rows,
+            copy_menu,
         })
     }
     pub fn selected_key(&self) -> Option<String> {
@@ -140,5 +143,11 @@ impl DataList {
             }
         }
         Ok(())
+    }
+}
+
+impl Drop for DataList {
+    fn drop(&mut self) {
+        self.copy_menu.unparent();
     }
 }

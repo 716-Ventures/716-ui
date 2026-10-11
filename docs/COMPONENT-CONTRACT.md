@@ -93,3 +93,5 @@ The checksum-pinned Select harness records the unchanged upstream trigger at 190
 ## Collection content reconciliation
 
 Table, List and KeyValue use stable row keys for selection and reconciliation. Their private boxed model objects are reused only when row contents are unchanged; changed objects must be replaced because mutating boxed Rust data emits no native property notification to existing cell bindings. `collection-updates` checks actual mapped Unicode labels in all three controls, confirms old text disappears, and verifies selected identity across reorder. Clipboard-model checks alone cannot establish visible content freshness.
+
+List and KeyValue share Table’s deliberate selected-row copying, keyboard/context-menu controls and current-selection guards. A List copies its one cell verbatim; KeyValue joins its two cells with a tab. The bounded local clipboard regression also checks removal guards and owner release for both controls. Native column/list navigation stays with GTK.

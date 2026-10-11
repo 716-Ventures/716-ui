@@ -84,7 +84,7 @@ impl DataTable {
             .propagate_natural_height(true)
             .child(&view)
             .build();
-        let copy_menu = crate::table_actions::install(&view, &selection);
+        let copy_menu = crate::table_actions::install(view.upcast_ref(), &selection, "table");
         Ok(Self {
             widget,
             view,
