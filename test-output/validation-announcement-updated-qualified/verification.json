@@ -1,0 +1,14 @@
+{
+  "base_revision": "eb4a557eea8914b640096a52333e0a0eb7abefa4",
+  "implementation_diff_sha256": "541f15f63891410f1e1a35aa9e4d6acb42a301b34b510b6d392eb9ae41575ede",
+  "passed": true,
+  "guest_stopped": true,
+  "owned_utm_app_closed": true,
+  "scope": "Native unit tests, complete gallery, four validation profiles and independent LTR/RTL state/relation/clear journeys; actual host reader speech is separately pending",
+  "source_sha256": {
+    "Cargo.toml": "37f2607bf75317453f4d26f065e72ec112515ffdb79b23fc1db85e6e03d37630",
+    "Cargo.lock": "4e7eb967e01f8315439dfade820a706a31f0655252b43fb87074a4eff4a3d1ae",
+    "src/validation.rs": "ff62c65cfc2340c6fe02aeb25284d410179c3b5702c4124b0dc8fa6110b15ec4",
+    "licenses/LICENSE.libloading": "b29f8b01452350c20dd1af16ef83b598fea3053578ccc1c7a0ef40e57be2620f"
+  }
+}

@@ -1,0 +1,3 @@
+PASS: Choice label changes preserve focus, value and event ownership; invalid labels are atomic and selected headings defer replacement
+PASS: choice/toggle feedback preserves focused values, boolean state and event ownership; identical captions retain selection and clearing removes invalid styling
+PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap

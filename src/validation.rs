@@ -19,7 +19,10 @@ mod native {
     // GTK 4.14 added explicit announcements. Resolve the optional symbol from
     // the loaded toolkit so GTK 4.12 consumers retain their existing ABI floor.
     #[cfg(unix)]
-    fn announce_valid(control: &gtk::Widget) {
+    fn announce_feedback(control: &gtk::Widget, message: &str, priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {
+        let focused = control.root().and_then(|root| gtk::prelude::RootExt::focus(&root));
+        if !focused.is_some_and(|focus| focus.has_focus() && (focus == *control || focus.is_ancestor(control))) { return; }
+        let Ok(message) = std::ffi::CString::new(message) else { return; };
         use gtk::glib::translate::ToGlibPtr;
         use std::sync::OnceLock;
         type Announce = unsafe extern "C" fn(
@@ -30,16 +33,16 @@ mod native {
         static PROCESS: OnceLock<libloading::os::unix::Library> = OnceLock::new();
         let process = PROCESS.get_or_init(libloading::os::unix::Library::this);
         // The symbol has GTK's public signature; the widget owns the accessible
-        // object and the static C string remains alive throughout the call.
+        // object and the validated C string remains alive throughout the call.
         unsafe {
             if let Ok(announce) = process.get::<Announce>(b"gtk_accessible_announce\0") {
                 announce(control.upcast_ref::<gtk::Accessible>().to_glib_none().0,
-                         c"Entry valid.".as_ptr(), gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW);
+                         message.as_ptr(), priority);
             }
         }
     }
     #[cfg(not(unix))]
-    fn announce_valid(_control: &gtk::Widget) {}
+    fn announce_feedback(_control: &gtk::Widget, _message: &str, _priority: gtk::ffi::GtkAccessibleAnnouncementPriority) {}
 
     #[derive(Clone)]
     pub struct ValidationFeedback {
@@ -92,15 +95,14 @@ mod native {
                 self.control.add_css_class("seven-invalid");
                 self.control.update_state(&[gtk::accessible::State::Invalid(gtk::AccessibleInvalidState::True)]);
                 self.relate_error();
+                announce_feedback(&self.control, message, gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_HIGH);
             } else {
                 self.control.reset_relation(Self::error_relation());
                 self.control.update_state(&[gtk::accessible::State::Invalid(gtk::AccessibleInvalidState::False)]);
                 self.control.remove_css_class("seven-invalid");
                 self.label.set_visible(false);
                 self.label.set_label("");
-                if self.control.has_focus() || self.control.focus_child().is_some_and(|child| child.has_focus()) {
-                    announce_valid(&self.control);
-                }
+                announce_feedback(&self.control, "Entry valid.", gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW);
             }
             *self.message.borrow_mut() = message.map(str::to_owned);
             Ok(())

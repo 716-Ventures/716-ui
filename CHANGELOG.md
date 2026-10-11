@@ -2,9 +2,9 @@
 
 ## 0.1.0-alpha.40
 
-- Announce “Entry valid.” when focused validation feedback clears, without changing the value, selection or host events.
+- Announce literal focused validation errors and “Entry valid.” when feedback clears, without changing the value, selection or host events.
 - Resolve GTK’s optional announcement API at runtime, retaining GTK 4.12 compatibility; GTK 4.14+ on Unix provides the explicit announcement.
-- Repeated clears and background controls do not request announcements. Native/gallery and consuming-host reader qualification are recorded separately.
+- Repeated identical feedback and background controls do not request announcements. Native/gallery and consuming-host reader qualification are recorded separately.
 
 ## 0.1.0-alpha.39
 
