@@ -1,0 +1,290 @@
+    Finished `test` profile [unoptimized] target(s) in 0.05s
+     Running unittests src/lib.rs (target/debug/deps/seven_sixteen_ui-9d1f4b90e87a9500)
+
+running 9 tests
+test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
+test buttons::tests::default_declaration_retains_text_action_and_schema_choices_parse ... ok
+test catalog::tests::metadata_is_available_without_a_renderer ... ok
+test content::tests::chart_domain_preserves_fractional_and_tiny_values ... ok
+test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
+test content::tests::reading_literals_bound_keys_values_styles_and_unknown_fields ... ok
+test validation::tests::feedback_is_bounded_readable_literal_unicode ... ok
+test catalog::tests::table_literals_have_unique_keys_bounded_cells_and_no_extra_fields ... ok
+test content::editor_tests::replacement_is_literal_unicode_exact_and_bounded_before_allocation ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests seven_sixteen_ui
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling seven-sixteen-ui v0.1.0-alpha.38 (/home/developer/716-ui-verification)
+warning: use of deprecated method `vte4::WidgetExt::style_context`: Since 4.10
+  --> src/icons.rs:41:26
+   |
+41 |         let color = area.style_context().color();
+   |                          ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `vte4::StyleContextExt::color`: Since 4.10
+  --> src/icons.rs:41:42
+   |
+41 |         let color = area.style_context().color();
+   |                                          ^^^^^
+
+warning: `seven-sixteen-ui` (lib) generated 2 warnings
+warning: `seven-sixteen-ui` (lib test) generated 2 warnings (2 duplicates)
+warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:32
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                      ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:48
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                                      ^^^^^
+
+warning: `seven-sixteen-ui` (bin "button-font-reflow" test) generated 2 warnings
+warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
+  --> src/bin/button_icon_metrics.rs:69:20
+   |
+69 |     let color=icon.style_context().color();
+   |                    ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
+  --> src/bin/button_icon_metrics.rs:69:36
+   |
+69 |     let color=icon.style_context().color();
+   |                                    ^^^^^
+
+warning: `seven-sixteen-ui` (bin "button-icon-metrics" test) generated 2 warnings
+    Finished `test` profile [unoptimized] target(s) in 4.09s
+     Running unittests src/lib.rs (target/debug/deps/seven_sixteen_ui-109d4fba0aad755e)
+
+running 11 tests
+test catalog::tests::table_literals_have_unique_keys_bounded_cells_and_no_extra_fields ... ok
+test catalog::tests::metadata_is_available_without_a_renderer ... ok
+test buttons::tests::invalid_names_enum_values_and_dependent_properties_are_rejected ... ok
+test buttons::tests::default_declaration_retains_text_action_and_schema_choices_parse ... ok
+test content::tests::chart_domain_preserves_fractional_and_tiny_values ... ok
+test content::tests::reading_literals_bound_keys_values_styles_and_unknown_fields ... ok
+test native::tests::reading_tokens_pass_both_appearances ... ok
+test validation::tests::feedback_is_bounded_readable_literal_unicode ... ok
+test content::editor_tests::replacement_is_literal_unicode_exact_and_bounded_before_allocation ... ok
+test content::image_tests::images_are_complete_crc_checked_and_bounded_before_decoding ... ok
+test clipboard::tests::bounded_stream_accepts_unicode_and_rejects_overflow_invalid_utf8_and_nul ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_font_reflow.rs (target/debug/deps/button_font_reflow-6f18b7c58f5acddf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_icon_metrics.rs (target/debug/deps/button_icon_metrics-8f468ca6e6fd5016)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_metrics.rs (target/debug/deps/button_metrics-68cc3cb063599a4d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_motion.rs (target/debug/deps/button_motion-1127534eeda6a40d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_reconcile.rs (target/debug/deps/button_reconcile-9ace29e0b4a1d472)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_size_metrics.rs (target/debug/deps/button_size_metrics-8811d50136be8bcc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/button_states.rs (target/debug/deps/button_states-e6cdf543468fd7ca)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/chart_states.rs (target/debug/deps/chart_states-2541f3b2b00cfc42)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/choice_states.rs (target/debug/deps/choice_states-20fe7388a2869680)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/collection_updates.rs (target/debug/deps/collection_updates-7c64d2fd9a77dbf4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/gallery.rs (target/debug/deps/gallery-7a768a2ae62b4f0c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/input_states.rs (target/debug/deps/input_states-dab8772f238f39fd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/input_validation.rs (target/debug/deps/input_validation-c4419c99a8dd1ea7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/outcome_updates.rs (target/debug/deps/outcome_updates-79860af17a181ca6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/table_clipboard.rs (target/debug/deps/table_clipboard-32e98cf4264ec7e9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/table_states.rs (target/debug/deps/table_states-c7bc6250f4f4e5c1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/tabs_states.rs (target/debug/deps/tabs_states-8e5ee205b4d99769)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/text_area_events.rs (target/debug/deps/text_area_events-d163c378f24286e2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/toggle_states.rs (target/debug/deps/toggle_states-ab74c4e5ceb8bf1b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests seven_sixteen_ui
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+warning: use of deprecated method `vte4::WidgetExt::style_context`: Since 4.10
+  --> src/icons.rs:41:26
+   |
+41 |         let color = area.style_context().color();
+   |                          ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `vte4::StyleContextExt::color`: Since 4.10
+  --> src/icons.rs:41:42
+   |
+41 |         let color = area.style_context().color();
+   |                                          ^^^^^
+
+warning: `seven-sixteen-ui` (lib) generated 2 warnings
+   Compiling seven-sixteen-ui v0.1.0-alpha.38 (/home/developer/716-ui-verification)
+warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:32
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                      ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
+  --> src/bin/button_font_reflow.rs:47:48
+   |
+47 | ...   let color=icon.style_context().color();let expected=if current==1{24.0}else{250.0};assert!((color.red() as f64*255.0-expected).abs(...
+   |                                      ^^^^^
+
+warning: `seven-sixteen-ui` (bin "button-font-reflow") generated 2 warnings
+warning: use of deprecated method `gtk4::prelude::WidgetExt::style_context`: Since 4.10
+  --> src/bin/button_icon_metrics.rs:69:20
+   |
+69 |     let color=icon.style_context().color();
+   |                    ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `gtk4::prelude::StyleContextExt::color`: Since 4.10
+  --> src/bin/button_icon_metrics.rs:69:36
+   |
+69 |     let color=icon.style_context().color();
+   |                                    ^^^^^
+
+warning: `seven-sixteen-ui` (bin "button-icon-metrics") generated 2 warnings
+    Finished `dev` profile [unoptimized] target(s) in 5.69s
+dbus-daemon[4063]: [session uid=1000 pid=4063 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.0' (uid=1000 pid=4068 comm="/home/developer/716-ui-verification/target/debug/b")
+dbus-daemon[4063]: [session uid=1000 pid=4063 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[4082]: Activating service name='org.a11y.atspi.Registry' requested by ':1.1' (uid=1000 pid=4068 comm="/home/developer/716-ui-verification/target/debug/b")
+dbus-daemon[4082]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+{"appearance":"light","checks":[{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[24,24,27],"state":"default","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[47,47,50],"painted_rgb":[46,46,49],"state":"hover","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[47,47,50],"painted_rgb":[46,46,49],"state":"pressed","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[140,140,141],"painted_rgb":[139,139,141],"state":"disabled","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[24,24,27],"state":"focus","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"default","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[246,246,247],"painted_rgb":[246,246,247],"state":"hover","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[246,246,247],"painted_rgb":[246,246,247],"state":"pressed","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[250,250,250],"painted_rgb":[249,249,250],"state":"disabled","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"focus","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"hover","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"pressed","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"hover","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[244,244,245],"painted_rgb":[244,244,245],"state":"pressed","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"default","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[192,51,51],"painted_rgb":[192,50,50],"state":"hover","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[192,51,51],"painted_rgb":[192,50,50],"state":"pressed","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[220,142,142],"painted_rgb":[220,141,141],"state":"disabled","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"focus","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"default","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"hover","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"pressed","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"disabled","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[255,255,255],"painted_rgb":[255,255,255],"state":"focus","variant":"link"}],"result":"pass","scope":"rendered state endpoints; pointer delivery, motion and full reference parity unqualified"}
+PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes
+CAPTURE: /home/developer/716-ui-verification/test-output/light-1.png
+PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes
+CAPTURE: /home/developer/716-ui-verification/test-output/light-2.png
+{"appearance":"dark","checks":[{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[250,250,250],"painted_rgb":[250,250,250],"state":"default","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[226,226,226],"painted_rgb":[226,226,226],"state":"hover","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[226,226,226],"painted_rgb":[226,226,226],"state":"pressed","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[130,130,131],"painted_rgb":[129,129,130],"state":"disabled","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[250,250,250],"painted_rgb":[250,250,250],"state":"focus","variant":"primary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[39,39,42],"painted_rgb":[39,39,42],"state":"default","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[33,33,36],"painted_rgb":[33,33,35],"state":"hover","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[33,33,36],"painted_rgb":[33,33,35],"state":"pressed","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[24,24,26],"state":"disabled","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[39,39,42],"painted_rgb":[39,39,42],"state":"focus","variant":"secondary"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[18,18,20],"painted_rgb":[17,17,20],"state":"default","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[23,23,26],"state":"hover","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[23,23,26],"state":"pressed","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[14,14,16],"painted_rgb":[14,14,15],"state":"disabled","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[18,18,20],"painted_rgb":[17,17,20],"state":"focus","variant":"outline"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"default","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[23,23,26],"state":"hover","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[24,24,27],"painted_rgb":[23,23,26],"state":"pressed","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"disabled","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"focus","variant":"ghost"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"default","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[167,26,26],"painted_rgb":[168,26,26],"state":"hover","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[167,26,26],"painted_rgb":[168,26,26],"state":"pressed","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[97,19,20],"painted_rgb":[97,18,19],"state":"disabled","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[185,28,28],"painted_rgb":[185,28,28],"state":"focus","variant":"destructive"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"default","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"hover","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"pressed","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"disabled","variant":"link"},{"border_box_height":40.0,"border_box_width":190.0,"expected_rgb":[9,9,11],"painted_rgb":[9,9,11],"state":"focus","variant":"link"}],"result":"pass","scope":"rendered state endpoints; pointer delivery, motion and full reference parity unqualified"}
+PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes
+CAPTURE: /home/developer/716-ui-verification/test-output/dark-1.png
+PASS: native rendering, selectable Unicode, typed form events, focus-preserved draft, disabled state, accessibility roles, safe link schemes
+CAPTURE: /home/developer/716-ui-verification/test-output/dark-2.png
+PASS: independent AT-SPI choice/toggle invalid state, literal related errors, clear, unchanged boolean and action eligibility
+PASS: independent AT-SPI invalid state, related readable error, clear and exact retained draft
+PASS: independent AT-SPI named icon actions and disabled icon state
+LIMITATION: GTK 4.14 AT-SPI GrabFocus is unsupported; native keyboard focus is checked separately
+PASS: AT-SPI tab roles, Selection interface and mutually exclusive pages
+PASS: AT-SPI names/roles, Unicode editable text, disabled state and toggle action
+PASS: independent AT-SPI choice/toggle invalid state, literal related errors, clear, unchanged boolean and action eligibility
+PASS: independent AT-SPI invalid state, related readable error, clear and exact retained draft
+PASS: independent AT-SPI named icon actions and disabled icon state
+LIMITATION: GTK 4.14 AT-SPI GrabFocus is unsupported; native keyboard focus is checked separately
+PASS: AT-SPI tab roles, Selection interface and mutually exclusive pages
+PASS: AT-SPI names/roles, Unicode editable text, disabled state and toggle action
+PASS: independent native gallery, light/dark captures, display cleanup
+UTM guest started; SSH is forwarded on localhost:22221.
+Guest login and foundation service are ready.
+PASS: choice/toggle validation and complete gallery with LTR and RTL independent AT-SPI journeys
+PASS: choice/toggle feedback preserves focused values, boolean state and event ownership; identical captions retain selection and clearing removes invalid styling
+PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap
+Requested orderly guest shutdown. Check status before restarting.
+Exact owned UTM application exit verified
+{"base_revision": "226806ea02960db00c85d8ac722a7267fe68aa0d", "implementation_diff_sha256": "f6c5df47e116f3715a346149909f297b56e215315de7f72828d139c6b5f1ab0f", "passed": true, "guest_stopped": true, "owned_utm_app_closed": true}

@@ -45,6 +45,20 @@ def verify():
     assert len(errors)==1 and errors[0].getNTargets()==1
     assert errors[0].getTarget(0).name=='Choose a saved workspace.'
     assert text(invalid)=='Keep this draft λ'
+    selections=[(find('Validation choice: Second',pyatspi.ROLE_COMBO_BOX),'Choose a permitted option.'),
+                (find('Validation toggle',pyatspi.ROLE_CHECK_BOX),'Confirm this form requirement.')]
+    for control,message in selections:
+        assert control.getState().contains(pyatspi.STATE_INVALID_ENTRY)
+        related=[r for r in control.getRelationSet() if r.getRelationType()==ERROR_RELATION]
+        assert len(related)==1 and related[0].getNTargets()==1
+        assert related[0].getTarget(0).name==message
+        assert control.getState().contains(pyatspi.STATE_SENSITIVE)
+    assert not selections[1][0].getState().contains(pyatspi.STATE_CHECKED)
+    assert find('Use first validation option',pyatspi.ROLE_PUSH_BUTTON).queryAction().doAction(0)
+    renamed=find('Validation choice: First',pyatspi.ROLE_COMBO_BOX)
+    assert renamed.getState().contains(pyatspi.STATE_INVALID_ENTRY)
+    assert any(r.getRelationType()==ERROR_RELATION and r.getNTargets()==1 and r.getTarget(0).name=='Choose a permitted option.' for r in renamed.getRelationSet())
+    selections[0]=(renamed,selections[0][1])
     assert find('Clear validation',pyatspi.ROLE_PUSH_BUTTON).queryAction().doAction(0)
     deadline=time.monotonic()+3
     while invalid.getState().contains(pyatspi.STATE_INVALID_ENTRY):
@@ -52,6 +66,15 @@ def verify():
         time.sleep(.05)
     assert text(invalid)=='Keep this draft λ'
     assert not any(relation.getRelationType()==ERROR_RELATION for relation in invalid.getRelationSet())
+    for control,_ in selections:
+        deadline=time.monotonic()+3
+        while control.getState().contains(pyatspi.STATE_INVALID_ENTRY):
+            if time.monotonic()>deadline:raise AssertionError('Selection validation did not clear')
+            time.sleep(.05)
+        assert not any(r.getRelationType()==ERROR_RELATION for r in control.getRelationSet())
+        assert control.getState().contains(pyatspi.STATE_SENSITIVE)
+    assert not selections[1][0].getState().contains(pyatspi.STATE_CHECKED)
+    print('PASS: independent AT-SPI choice/toggle invalid state, literal related errors, clear, unchanged boolean and action eligibility')
     print('PASS: independent AT-SPI invalid state, related readable error, clear and exact retained draft')
     for count,name in enumerate(('Add item','Create item λ','Next item'),1):
         button=find(name,pyatspi.ROLE_PUSH_BUTTON)

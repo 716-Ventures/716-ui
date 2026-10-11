@@ -49,7 +49,13 @@ fn main() {
         let invalid=TextField::new("Validation draft","Saved workspace","Keep this draft λ");
         invalid.set_validation_message(Some("Choose a saved workspace.")).unwrap();content.append(&invalid.widget);
         let clear=seven_sixteen_ui::button("Clear validation",ButtonVariant::Outline,false);
-        clear.connect_clicked(move |_|invalid.set_validation_message(None).unwrap());content.append(&clear);
+        let invalid_choice=seven_sixteen_ui::Choice::new("Validation choice", &["First".into(),"Second".into()], "Second").unwrap();
+        invalid_choice.set_validation_message(Some("Choose a permitted option.")).unwrap();content.append(&invalid_choice.widget);
+        let next=seven_sixteen_ui::button("Use first validation option",ButtonVariant::Outline,false);
+        let selection=invalid_choice.control.clone();next.connect_clicked(move |_|selection.set_selected(0));content.append(&next);
+        let invalid_toggle=seven_sixteen_ui::Toggle::new("Validation toggle",false).unwrap();
+        invalid_toggle.set_validation_message(Some("Confirm this form requirement.")).unwrap();content.append(&invalid_toggle.widget);
+        clear.connect_clicked(move |_| {invalid.set_validation_message(None).unwrap();invalid_choice.set_validation_message(None).unwrap();invalid_toggle.set_validation_message(None).unwrap();});content.append(&clear);
         let area=seven_sixteen_ui::TextArea::new("Multiline draft","First line\nSecond line · 日本語");content.append(&area.widget);
         let status=seven_sixteen_ui::status("Ready · no account or network needed");content.append(&status);
         let events=Rc::new(RefCell::new(Vec::new()));let recorded=events.clone();let live=status.clone();

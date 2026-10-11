@@ -149,12 +149,13 @@ pub fn components() -> BTreeMap<&'static str, Component> {
             ("label", Kind(String)),
             ("options", Kind(StringList)),
             ("value", Kind(String)),
+            ("validation_message", Kind(String)),
         ],
         vec!["label", "options", "value"],
     );
     let toggle = component(
         "checkbox",
-        vec![("label", Kind(String)), ("value", Kind(Boolean))],
+        vec![("label", Kind(String)), ("value", Kind(Boolean)), ("validation_message", Kind(String))],
         vec!["label", "value"],
     );
     let rich = component("text", vec![("runs", Kind(RichRuns))], vec!["runs"]);

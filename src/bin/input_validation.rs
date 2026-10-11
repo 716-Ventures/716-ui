@@ -15,7 +15,17 @@ fn main() {
         let field=TextField::new("Workspace","Workspace name","Draft λ 日本語");
         let editor=DocumentEditor::new("Document","Document λ 日本語").unwrap();
         panel.append(&field.widget);panel.append(&editor.widget);
+        let choice=seven_sixteen_ui::Choice::new("Validation choice", &["First".into(),"Second".into()], "Second").unwrap();
+        let toggle=seven_sixteen_ui::Toggle::new("Validation toggle",dark).unwrap();
+        panel.append(&choice.widget);panel.append(&toggle.widget);
         let changes=Rc::new(Cell::new(0));let changed=changes.clone();field.on_event(move |_|changed.set(changed.get()+1));
+        let changed=changes.clone();choice.on_changed(move |_|changed.set(changed.get()+1));
+        let changed=changes.clone();toggle.on_changed(move |_|changed.set(changed.get()+1));
+        for feedback in [&choice.validation,&toggle.validation] {
+            feedback.set_message(Some("Choose a value that meets this form’s requirements.")).unwrap();
+            assert!(feedback.set_message(Some(" ")).is_err());
+            assert_eq!(feedback.label.text(),"Choose a value that meets this form’s requirements.");
+        }
         let window=gtk::ApplicationWindow::builder().application(app).default_width(460).child(&panel).build();window.present();
         assert!(field.entry.grab_focus());field.entry.select_region(0,5);
         let focus=gtk::prelude::RootExt::focus(&window);
@@ -55,6 +65,22 @@ fn main() {
                 field.validation.label.select_region(0,6);let selection=field.validation.label.selection_bounds();
                 field.set_validation_message(Some(&long)).unwrap();assert_eq!(field.validation.label.selection_bounds(),selection);
                 editor.set_validation_message(None).unwrap();assert!(!editor.area.view.has_css_class("seven-invalid"));
+                assert!(choice.control.grab_focus());
+                let focus=gtk::prelude::RootExt::focus(&window);
+                choice.set_validation_message(None).unwrap();choice.set_validation_message(Some("Choose a permitted option.")).unwrap();
+                assert_eq!(gtk::prelude::RootExt::focus(&window),focus);
+                assert_eq!(choice.value().as_deref(),Some("Second"));
+                toggle.control.set_inconsistent(dark);
+                assert!(toggle.control.grab_focus());
+                let focus=gtk::prelude::RootExt::focus(&window);
+                toggle.set_validation_message(None).unwrap();toggle.set_validation_message(Some("Confirm this form requirement.")).unwrap();
+                assert_eq!(gtk::prelude::RootExt::focus(&window),focus);assert_eq!(toggle.control.is_active(),dark);assert_eq!(toggle.control.is_inconsistent(),dark);
+                assert_eq!(changes.get(),0);
+                choice.validation.label.select_region(0,6);let selection=choice.validation.label.selection_bounds();
+                choice.set_validation_message(Some("Choose a permitted option.")).unwrap();assert_eq!(choice.validation.label.selection_bounds(),selection);
+                choice.set_validation_message(None).unwrap();toggle.set_validation_message(None).unwrap();
+                assert!(!choice.control.has_css_class("seven-invalid")&&!toggle.control.has_css_class("seven-invalid"));
+                println!("PASS: choice/toggle feedback preserves focused values, boolean state and event ownership; identical captions retain selection and clearing removes invalid styling");
                 println!("PASS: bounded literal validation feedback preserves focused text, selection and host events; invalid messages are atomic, repeated feedback retains selection, clear recovers state, long errors wrap");quit.quit();
             });
         });

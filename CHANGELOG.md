@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.38
+
+- Add bounded literal validation feedback to Choice and Toggle, retaining selected values, boolean/inconsistent state, focus and host callbacks.
+- Preserve Choice field labels and current options in independent accessibility names after mapping and selection changes.
+- Verify four native validation profiles and independent LTR/RTL error/clear/name journeys. Full reference parity and physical input remain unqualified.
+- Migration: use `Toggle::new` when constructing the control, or supply its new feedback field. Choice accessible names now include `label: option`.
+
+## 0.1.0-alpha.37
+
+- Add TextField/DocumentEditor inline validation with wrapped literal captions, bounded messages, invalid state and related accessible errors.
+- Retain text, logical focus, selection and event ownership. Use DescribedBy on GTK 4.14 because its ErrorMessage relation has an upstream type mismatch; newer GTK uses ErrorMessage.
+
+## 0.1.0-alpha.36
+
+- Add typed declarative button variants, sizes and named icon placement with atomic validation and retained native host actions.
+- Qualify logical RTL icon placement against the pinned browser matrix; named ArrowRight retains its literal direction.
+
+
 ## 0.1.0-alpha.35
 
 - Add `icon_button` and `button_with_icon` with required bounded accessible names, leading/trailing slots and square icon-only sizes. GTK owns local activation and disabled behavior.

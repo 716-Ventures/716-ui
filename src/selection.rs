@@ -10,6 +10,7 @@ fn label(value: &str) -> Result<(), String> {
 pub struct Choice {
     pub widget: gtk::Box,
     pub control: gtk::DropDown,
+    pub validation: crate::ValidationFeedback,
     options: Vec<String>,
 }
 impl Choice {
@@ -35,10 +36,26 @@ impl Choice {
         control.add_css_class("seven-choice");
         control.set_selected(selected as u32);
         control.update_property(&[gtk::accessible::Property::Label(title)]);
+        // The nested GTK trigger can otherwise replace the authored name
+        // with only its selected label. Keep both field identity and value.
+        let title = title.to_owned();
+        let names = options.to_vec();
+        let name = move |control: &gtk::DropDown| {
+            let value = names.get(control.selected() as usize).map(String::as_str).unwrap_or("No option selected");
+            control.reset_relation(gtk::AccessibleRelation::LabelledBy);
+            control.update_property(&[gtk::accessible::Property::Label(&format!("{title}: {value}"))]);
+        };
+        let name = std::rc::Rc::new(name);
+        name(&control);
+        let mapped = name.clone();control.connect_map(move |control| mapped(control));
+        control.connect_selected_notify(move |control| name(control));
         widget.append(&control);
+        let validation = crate::ValidationFeedback::new(&control);
+        widget.append(&validation.label);
         Ok(Self {
             widget,
             control,
+            validation,
             options: options.to_vec(),
         })
     }
@@ -59,6 +76,10 @@ impl Choice {
     pub fn options(&self) -> &[String] {
         &self.options
     }
+    /// Explain an invalid local value without changing it or emitting an event.
+    pub fn set_validation_message(&self, message: Option<&str>) -> Result<(), &'static str> {
+        self.validation.set_message(message)
+    }
     pub fn on_changed(&self, f: impl Fn(String) + 'static) {
         let options = self.options.clone();
         self.control.connect_selected_notify(move |control| {
@@ -71,6 +92,7 @@ impl Choice {
 pub struct Toggle {
     pub widget: gtk::Box,
     pub control: gtk::CheckButton,
+    pub validation: crate::ValidationFeedback,
 }
 impl Toggle {
     pub fn new(title: &str, value: bool) -> Result<Self, String> {
@@ -96,7 +118,9 @@ impl Toggle {
         control.insert_action_group("control", Some(&actions));
         control.update_property(&[gtk::accessible::Property::Label(title)]);
         widget.append(&control);
-        Ok(Self { widget, control })
+        let validation = crate::ValidationFeedback::new(&control);
+        widget.append(&validation.label);
+        Ok(Self { widget, control, validation })
     }
     pub fn reconcile(&self, value: bool) -> bool {
         if self.control.has_focus()
@@ -107,6 +131,10 @@ impl Toggle {
         }
         self.control.set_active(value);
         true
+    }
+    /// Explain an invalid local value without changing it or emitting an event.
+    pub fn set_validation_message(&self, message: Option<&str>) -> Result<(), &'static str> {
+        self.validation.set_message(message)
     }
     pub fn on_changed(&self, f: impl Fn(bool) + 'static) {
         self.control

@@ -120,6 +120,10 @@ pub fn install_theme(
 .seven-ui checkbutton.seven-toggle > check:checked {{background:{primary};border-color:{primary};color:{on_primary};}}
 .seven-ui checkbutton.seven-toggle:disabled {{opacity:.5;}}
 .seven-ui checkbutton.seven-toggle:focus-visible > check {{outline:3px solid {muted};outline-offset:2px;}}
+.seven-ui checkbutton.seven-toggle.seven-invalid > check {{border-color:{invalid};}}
+.seven-ui checkbutton.seven-toggle.seven-invalid:focus-visible > check {{outline-color:{invalid};}}
+.seven-ui dropdown.seven-choice.seven-invalid > button {{border-color:{invalid};}}
+.seven-ui dropdown.seven-choice.seven-invalid:focus-within > button {{outline-color:{invalid};}}
 .seven-ui progressbar {{color:{fg};}}
 .seven-ui progressbar text {{color:{fg};}}
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
