@@ -40,6 +40,8 @@ GTK ColumnView supplies native column headers, selection and column resizing. Th
 
 The ARM64 Linux gallery verifies visible allocated cells for 4,000 rows, bounded cell construction, key-based selection across reordered/updated data, duplicate rejection without mutation, Unicode, light/dark, text scales 1/2 and reduced motion. Programmatic selection is tested; physical keyboard/pointer, screen-reader relationships and reference appearance/motion require further qualification. The pinned shadcn table source is a comparison reference, retained under MIT.
 
+Alpha.27 replaces inherited GTK gray/blue states and duplicated cell padding with scoped Zinc Table paint. At native scale one, the real GTK probe checks 40px headers, 37px rows (36px final row), normal/hover/selected backgrounds within two channel values and bounded horizontal overflow for a 4,096-byte spaced cell. Cell labels explicitly disable wrapping. The unchanged pinned browser Table and its developer-only selection fixture are recorded in `reference/table-observation.json`; upstream global border styling is absent from that harness. Column widths/resizing, selection semantics, physical input, clipboard and motion trajectories are not qualified as reference parity.
+
 ## Button / native variants
 
 `button(label, variant, disabled)` provides Primary, Secondary, Outline, Ghost and Destructive native GTK buttons. Labels are literal; activation emits GTK's local clicked event. Disabled buttons use GTK sensitivity and 50% whole-widget opacity. Enter/Space and accessibility activation follow GTK button semantics. Icon slots, reference size variants, loading and invalid states are not provided by this API.

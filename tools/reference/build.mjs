@@ -6,7 +6,7 @@ import {fileURLToPath} from "node:url"
 const root=fileURLToPath(new URL("../../",import.meta.url))
 const here=fileURLToPath(new URL("./",import.meta.url))
 const profile=JSON.parse(await readFile(`${root}reference/profile.json`,"utf8"))
-for(const name of ["button.tsx","input.tsx","tabs.tsx","checkbox.tsx","select.tsx","zinc.json"]){
+for(const name of ["button.tsx","input.tsx","tabs.tsx","checkbox.tsx","select.tsx","table.tsx","zinc.json"]){
  const bytes=await readFile(`${root}reference/${name}`)
  if(createHash("sha256").update(bytes).digest("hex")!==profile.files[name])throw Error(`Reference checksum changed: ${name}`)
 }
@@ -29,6 +29,7 @@ const css=`@import "tailwindcss";
 @source "../../reference/tabs.tsx";
 @source "../../reference/checkbox.tsx";
 @source "../../reference/select.tsx";
+@source "../../reference/table.tsx";
 @source "./app.tsx";
 @custom-variant dark (&:is(.dark *));
 @theme inline {--font-sans:"716 Reference Inter",sans-serif;${tokens.map(token=>`--color-${token}:var(--${token});`).join("")}}
@@ -42,5 +43,5 @@ await writeFile(`${here}generated.css`,css)
 try{execFileSync(`${here}node_modules/.bin/tailwindcss`,["-i",`${here}generated.css`,"-o",`${out}/style.css`,"--minify"],{cwd:here,stdio:"inherit"})}finally{await import("node:fs/promises").then(fs=>fs.unlink(`${here}generated.css`))}
 await build({entryPoints:[`${here}app.tsx`],bundle:true,nodePaths:[`${here}node_modules`],minify:true,format:"esm",outfile:`${out}/app.js`,jsx:"automatic",define:{"process.env.NODE_ENV":"\"production\""}})
 await writeFile(`${out}/index.html`,"<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>716 UI pinned Button, Input, Tabs, Checkbox and Select reference</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"root\"></div><script type=\"module\" src=\"app.js\"></script></body></html>")
-await writeFile(`${out}/provenance.json`,JSON.stringify({upstream:profile.upstream,revision:profile.revision,files:{button:profile.files["button.tsx"],input:profile.files["input.tsx"],tabs:profile.files["tabs.tsx"],checkbox:profile.files["checkbox.tsx"],select:profile.files["select.tsx"],zinc:profile.files["zinc.json"]},scope:"pinned component source + Zinc tokens; default Tailwind radius/spacing; not upstream website globals",fonts:Object.fromEntries(await Promise.all([400,500,600].map(async weight=>[weight,createHash("sha256").update(await readFile(`${out}/fonts/Inter-${weight}.otf`)).digest("hex")]))),toolchain:JSON.parse(await readFile(`${here}package.json`,"utf8")).dependencies},null,2)+"\n")
+await writeFile(`${out}/provenance.json`,JSON.stringify({upstream:profile.upstream,revision:profile.revision,files:{button:profile.files["button.tsx"],input:profile.files["input.tsx"],tabs:profile.files["tabs.tsx"],checkbox:profile.files["checkbox.tsx"],select:profile.files["select.tsx"],table:profile.files["table.tsx"],zinc:profile.files["zinc.json"]},scope:"pinned component source + Zinc tokens; default Tailwind radius/spacing; not upstream website globals",fonts:Object.fromEntries(await Promise.all([400,500,600].map(async weight=>[weight,createHash("sha256").update(await readFile(`${out}/fonts/Inter-${weight}.otf`)).digest("hex")]))),toolchain:JSON.parse(await readFile(`${here}package.json`,"utf8")).dependencies},null,2)+"\n")
 console.log(out)

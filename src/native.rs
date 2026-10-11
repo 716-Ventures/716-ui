@@ -116,6 +116,14 @@ pub fn install_theme(
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
 .seven-ui progressbar progress {{min-width:2px;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
+.seven-ui columnview.seven-table,.seven-ui columnview.seven-table > listview {{background:{bg};color:{fg};border:0;}}
+.seven-ui columnview.seven-table > header {{background:{bg};border:0;box-shadow:none;}}
+.seven-ui columnview.seven-table > header > button {{color:{fg};background:transparent;background-image:none;border:0;border-bottom:1px solid {table_line};border-radius:0;min-height:{table_header_height}px;padding:0 {table_x}px;box-shadow:none;font-weight:500;}}
+.seven-ui columnview.seven-table > listview > row {{background:{bg};background-image:none;border:0;border-bottom:1px solid {table_line};border-radius:0;min-height:{table_row_height}px;margin:0;padding:0;box-shadow:none;transition:background-color {motion}ms cubic-bezier(.4,0,.2,1);}}
+.seven-ui columnview.seven-table > listview > row > cell {{padding:0;min-height:0;}}
+.seven-ui columnview.seven-table > listview > row:hover {{background:alpha({secondary},.5);}}
+.seven-ui columnview.seven-table > listview > row:selected {{background:{secondary};}}
+.seven-ui columnview.seven-table > listview > row:last-child {{border-bottom:0;}}
 .seven-ui dropdown.seven-choice > button {{background:{outline_bg};background-image:none;color:{fg};font-weight:400;border:1px solid {border};border-radius:6px;min-height:{height}px;padding:{pad_y}px {input_x}px;box-shadow:none;transition:none;}}
 .seven-ui dropdown.seven-choice > button:hover {{background:{choice_hover};}}
 .seven-ui dropdown.seven-choice > button:disabled {{opacity:.5;}}
@@ -129,6 +137,14 @@ pub fn install_theme(
 .seven-ui notebook.seven-tabs > header tabs tab:checked {{background:{outline_bg};border-color:{tabs_border};color:{fg};}}
 .seven-ui notebook.seven-tabs > stack {{background:transparent;border:0;margin-top:{tabs_gap}px;}}
 "#,
+        table_header_height = 40.0 * scale - 1.0,
+        table_row_height = 36.0 * scale,
+        table_x = 8.0 * scale,
+        table_line = if appearance == Appearance::Light {
+            "#e4e4e7"
+        } else {
+            secondary
+        },
         check_size = 14.0 * scale,
         check_border = scale,
         tabs_pad = 3.0 * scale,
@@ -137,14 +153,26 @@ pub fn install_theme(
         tabs_y = 4.0 * scale,
         tabs_height = 19.0 * scale,
         tabs_gap = 8.0 * scale,
-        tabs_inactive = if appearance == Appearance::Light { "alpha(#09090b,.6)" } else { t.muted },
-        tabs_border = if appearance == Appearance::Light { "transparent" } else { secondary },
+        tabs_inactive = if appearance == Appearance::Light {
+            "alpha(#09090b,.6)"
+        } else {
+            t.muted
+        },
+        tabs_border = if appearance == Appearance::Light {
+            "transparent"
+        } else {
+            secondary
+        },
         outline_bg = if appearance == Appearance::Light {
             t.background
         } else {
             "alpha(#27272a,.3)"
         },
-        choice_hover = if appearance == Appearance::Light { t.background } else { "alpha(#27272a,.5)" },
+        choice_hover = if appearance == Appearance::Light {
+            t.background
+        } else {
+            "alpha(#27272a,.5)"
+        },
         accent_hover = if appearance == Appearance::Light {
             secondary
         } else {

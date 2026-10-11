@@ -1,0 +1,261 @@
+{
+  "browser": "154.0.8037.93",
+  "profile": {
+    "upstream": "https://github.com/shadcn-ui/ui",
+    "revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+    "files": {
+      "button": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
+      "input": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+      "tabs": "e1df6e2f95ece373ca909c1d54b8ba8cf4c47dd425c1784bbb9a01c38dd0936b",
+      "checkbox": "ba0ac64064e2d8fa7299d53e9e84b9a4772fef8dd4cf6170c56d3030a1d69941",
+      "select": "962830436bd0b7ee50e556f0747e277d6a86869ed27d167516346b15f26309d8",
+      "table": "bd1a9fc83a5a2149e504038e274bb7e5a0351af59f6896df52ac4d5b439695ac",
+      "zinc": "d2366e81d347beb69dbb04c93432a35769215792c4e1a56e5593d4ffa0c321d5"
+    },
+    "scope": "pinned component source + Zinc tokens; default Tailwind radius/spacing; not upstream website globals",
+    "fonts": {
+      "400": "d4f2b9e148059a15f014cb0f0b8fea8cd11bfa447dd483bedf1b0adc0e2ba799",
+      "500": "6c222ed2c3660524dd0c14fb745e00fee65c5361ab28f60fba6730bf4e648763",
+      "600": "0a4d30778fa2dc239368d90fd854b88b27e7ede737450da72686a90eca66f02c"
+    },
+    "toolchain": {
+      "@tailwindcss/cli": "4.3.0",
+      "class-variance-authority": "0.7.1",
+      "cn": "0.2.2",
+      "esbuild": "0.25.10",
+      "lucide-react": "0.474.0",
+      "radix-ui": "1.4.3",
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "tailwindcss": "4.3.0"
+    }
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 1900,
+    "deviceScaleFactor": 1
+  },
+  "appearances": {
+    "light": {
+      "table": {
+        "width": 360,
+        "height": 150.5,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "0px solid rgb(9, 9, 11)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal"
+      },
+      "header": {
+        "width": 360,
+        "height": 40,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(9, 9, 11)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "head": {
+        "width": 215.15625,
+        "height": 40,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "0px solid rgb(9, 9, 11)",
+        "padding": "0px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "whiteSpace": "nowrap"
+      },
+      "cell": {
+        "width": 215.15625,
+        "height": 37,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "0px solid rgb(9, 9, 11)",
+        "padding": "8px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "nowrap"
+      },
+      "normal": {
+        "width": 360,
+        "height": 37,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(9, 9, 11)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "hover": {
+        "width": 360,
+        "height": 37,
+        "background": "oklab(0.967428 0.000417888 -0.00125271 / 0.5)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(9, 9, 11)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "selected": {
+        "width": 360,
+        "height": 36.5,
+        "background": "rgb(244, 244, 245)",
+        "color": "rgb(9, 9, 11)",
+        "border": "0px solid rgb(9, 9, 11)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "checks": [
+        "read-only HTML table with two column headers and six cells",
+        "literal Unicode cell text",
+        "actual pointer hover endpoint",
+        "controlled selected visual state; selection mechanism is a developer fixture"
+      ]
+    },
+    "dark": {
+      "table": {
+        "width": 360,
+        "height": 150.5,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(250, 250, 250)",
+        "border": "0px solid rgb(250, 250, 250)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal"
+      },
+      "header": {
+        "width": 360,
+        "height": 40,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(250, 250, 250)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "head": {
+        "width": 215.15625,
+        "height": 40,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(250, 250, 250)",
+        "border": "0px solid rgb(250, 250, 250)",
+        "padding": "0px 8px",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px",
+        "whiteSpace": "nowrap"
+      },
+      "cell": {
+        "width": 215.15625,
+        "height": 37,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(250, 250, 250)",
+        "border": "0px solid rgb(250, 250, 250)",
+        "padding": "8px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "nowrap"
+      },
+      "normal": {
+        "width": 360,
+        "height": 37,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(250, 250, 250)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "hover": {
+        "width": 360,
+        "height": 37,
+        "background": "oklab(0.273934 0.00152507 -0.00525855 / 0.5)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(250, 250, 250)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "selected": {
+        "width": 360,
+        "height": 36.5,
+        "background": "rgb(39, 39, 42)",
+        "color": "rgb(250, 250, 250)",
+        "border": "0px solid rgb(250, 250, 250)",
+        "padding": "0px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px",
+        "whiteSpace": "normal",
+        "observed_transition_duration_ms": 150
+      },
+      "checks": [
+        "read-only HTML table with two column headers and six cells",
+        "literal Unicode cell text",
+        "actual pointer hover endpoint",
+        "controlled selected visual state; selection mechanism is a developer fixture"
+      ]
+    }
+  },
+  "component_sha256": "bd1a9fc83a5a2149e504038e274bb7e5a0351af59f6896df52ac4d5b439695ac",
+  "scope": "Read-only two-column Table header/body geometry, literal Unicode, pointer hover and externally controlled selected paint. Native semantics, border globals and motion require separate qualification.",
+  "native_qualification": {
+    "version": "0.1.0-alpha.27",
+    "profile": {
+      "platform": "ARM64 Debian 13 / private Weston Wayland",
+      "gtk": "4.18.6+ds-2",
+      "rustc": "1.85.1",
+      "fonts_inter": "4.1+ds-1"
+    },
+    "qualified": [
+      "40px headers and 37px body rows (36px final row) at scale one, within 1px",
+      "normal/hover/selected light and dark backgrounds within two channel values",
+      "4096-byte spaced cell stays one row with horizontal overflow",
+      "complete gallery, text scales 1/2, reduced motion, independent AT-SPI journeys",
+      "owned VM/display/application cleanup"
+    ],
+    "baseline": [
+      "Inherited GTK gray/blue row states and 50px body rows",
+      "4096-byte spaced cell wrapped with no horizontal overflow"
+    ],
+    "baseline_log_sha256": "445a10fa644e88998fd5e931a3204205cba65ca7f3b9eb0c874603ef4ef3349d",
+    "full_gallery_log_sha256": "240c3aa1e6d013cc6280c812e11385bfc4b21be42e326a59d74d3a04eac5c3bf",
+    "native_reports_sha256": {
+      "light": "80b081a37fb2c72d14fa7ff508f04c6dcfb96e1f1a29502d0788c1b6ea8fa2ef",
+      "dark": "d6ec20d761f3b81adc914c503fc0e71b3d5dea6f198d479c37a72babc643e63c"
+    },
+    "boundary": "Read-only upstream HTML Table has no selection action; its selected endpoint is an external fixture. Native keyboard selection, column distribution/resizing, clipboard, physical input, full accessibility relationships and motion parity remain unqualified. Upstream global border reset is absent from browser harness."
+  }
+}

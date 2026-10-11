@@ -29,8 +29,9 @@ impl DataTable {
         selection.set_autoselect(false);
         selection.set_can_unselect(true);
         let view = gtk::ColumnView::new(Some(selection.clone()));
+        view.add_css_class("seven-table");
         view.update_property(&[gtk::accessible::Property::Label(label)]);
-        view.set_show_column_separators(true);
+        view.set_show_column_separators(false);
         view.set_show_row_separators(true);
         let live_cells = std::rc::Rc::new(std::cell::Cell::new(0usize));
         for (index, title) in columns.iter().enumerate() {
@@ -40,10 +41,11 @@ impl DataTable {
                 let item = object.downcast_ref::<gtk::ListItem>().unwrap();
                 let label = crate::text("", false);
                 label.set_selectable(false);
+                label.set_wrap(false);
                 label.set_margin_top(8);
                 label.set_margin_bottom(8);
-                label.set_margin_start(12);
-                label.set_margin_end(12);
+                label.set_margin_start(8);
+                label.set_margin_end(8);
                 item.set_child(Some(&label));
                 count.set(count.get() + 1);
             });
