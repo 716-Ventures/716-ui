@@ -1,20 +1,8 @@
 //! Native icon adapters. Drawing coordinates are adapted from Lucide 0.474.0
 //! (ISC); see reference/LICENSE.lucide and THIRD_PARTY.md. Original GTK adapter
 //! code is Apache-2.0. No icon name is resolved through the host icon theme.
-use crate::{button_sized, gtk, ButtonSize, ButtonVariant};
+use crate::{button_sized, gtk, ButtonSize, ButtonVariant, Icon, IconPosition};
 use gtk::{prelude::*, AccessibleRole};
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum Icon {
-    Plus,
-    ArrowRight,
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum IconPosition {
-    Leading,
-    Trailing,
-}
 
 pub(crate) fn css(scale: f64) -> String {
     let mut css = format!(

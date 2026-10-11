@@ -92,6 +92,10 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
                 for scale in (1,2):
+                    reconcile=[str(ROOT/'target/debug/button-reconcile')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
+                    result=subprocess.run(reconcile,env=env,capture_output=True,text=True,timeout=15)
+                    (OUTPUT/(f'button-reconcile-{appearance}-{scale}.log')).write_text(result.stdout+result.stderr)
+                    result.check_returncode()
                     for mode in ('leading','trailing','only'):
                         icons=[str(ROOT/'target/debug/button-icon-metrics')]+(['--dark'] if appearance=='dark' else [])+(['--scale-2'] if scale==2 else [])
                         name=f'button-icons-{mode}-{appearance}-{scale}'

@@ -64,7 +64,13 @@ pub fn components() -> BTreeMap<&'static str, Component> {
     status.bindable = vec!["value"];
     let mut button = component(
         "button",
-        vec![("label", Kind(String)), ("disabled", Kind(Boolean))],
+        vec![
+            ("label", Kind(String)), ("disabled", Kind(Boolean)),
+            ("variant", Choices(vec!["default", "secondary", "outline", "ghost", "destructive", "link"])),
+            ("size", Choices(vec!["default", "xs", "sm", "lg"])),
+            ("icon", Choices(vec!["plus", "arrow-right"])),
+            ("icon_position", Choices(vec!["leading", "trailing", "only"])),
+        ],
         vec!["label"],
     );
     button.events = vec!["activate"];

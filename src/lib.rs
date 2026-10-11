@@ -1,5 +1,7 @@
 //! Reusable component schemas can be consumed without a graphics stack.
 pub mod catalog;
+pub mod buttons;
+pub use buttons::{ButtonProps, ButtonVariant, ButtonSize, ButtonContent, Icon, IconPosition, ButtonIconPosition};
 #[cfg(feature = "native")]
 mod native;
 #[cfg(feature = "native")]
@@ -8,7 +10,11 @@ pub use native::*;
 #[cfg(feature = "native")]
 mod icons;
 #[cfg(feature = "native")]
-pub use icons::{button_with_icon, icon_button, Icon, IconPosition};
+mod action_button;
+#[cfg(feature = "native")]
+pub use action_button::ActionButton;
+#[cfg(feature = "native")]
+pub use icons::{button_with_icon, icon_button};
 
 #[cfg(feature = "native")]
 mod collections;

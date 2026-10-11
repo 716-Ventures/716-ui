@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-11T15:03:49.289782+00:00",
+  "platform": "Debian ARM64 GTK 4.18 Wayland",
+  "pure_tests": 8,
+  "native_feature_tests": 10,
+  "complete_gallery": "pass",
+  "mapped_button_reconcile": [
+    "light-1",
+    "light-2",
+    "dark-1",
+    "dark-2"
+  ],
+  "test_dependencies_removed": true,
+  "prior_browser_defaults_restored": true,
+  "owned_guest_stopped_and_utm_closed": true,
+  "scope": "Button declaration validation and mapped identity/focus/action/geometry retention; full shadcn parity remains unqualified",
+  "driver_sha256": "4778c0c74865ec35fc428baecc937690087083115720701c7afef044f96f90bd",
+  "qualified_base_revision": "b6d6a3c90cd791424ad0a2f3744dbd5ec041f049",
+  "qualified_package_version": "0.1.0-alpha.35 with pending ButtonProps/ActionButton changes",
+  "release_package_version": "0.1.0-alpha.36",
+  "post_native_verification_changes": "Version metadata, documentation and retained evidence only; pure tests repeated after version bump",
+  "implementation_diff_sha256": "845bccbae05cccad92e800a6545476113a91a9cb966d32fa505b24a516f7a985"
+}

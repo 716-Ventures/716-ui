@@ -1,5 +1,6 @@
 //! Deterministic native controls. Events carry user data, never application authority.
 pub use gtk;
+use crate::{ButtonSize, ButtonVariant};
 use gtk::{gdk, prelude::*};
 
 thread_local! {static THEMES:std::cell::RefCell<Vec<(gdk::Display,gtk::CssProvider)>>=const {std::cell::RefCell::new(Vec::new())};}
@@ -9,24 +10,6 @@ thread_local! {static BUTTON_LABELS:std::cell::RefCell<Vec<gtk::glib::WeakRef<gt
 pub enum Appearance {
     Light,
     Dark,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum ButtonVariant {
-    Primary,
-    Secondary,
-    Outline,
-    Ghost,
-    Destructive,
-    Link,
-}
-/// Natural text-only button sizes from the pinned reference profile.
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
-pub enum ButtonSize {
-    #[default]
-    Default,
-    ExtraSmall,
-    Small,
-    Large,
 }
 #[derive(Clone, Debug, PartialEq)]
 pub enum InputEvent {
@@ -306,7 +289,7 @@ fn configure_button_label(label: &gtk::Label) {
     });
 }
 
-fn settle_button_fonts(display: &gdk::Display) {
+pub(crate) fn settle_button_fonts(display: &gdk::Display) {
     BUTTON_LABELS.with(|labels| {
         labels.borrow_mut().retain(|weak| {
             let Some(label) = weak.upgrade() else {return false};
