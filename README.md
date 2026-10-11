@@ -4,7 +4,7 @@ Native components with shadcn as their visual and interaction reference.
 
 716 UI is an independent, open-source component library intended for native applications, including agentOS. It aims to reproduce the appearance, interaction states and motion of selected shadcn components through native implementations. Applications can use it without an agent, model provider, account or network connection.
 
-**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.25` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
+**Status: experimental GTK 4 alpha.** Version `v0.1.0-alpha.26` provides working native controls and a standalone gallery verified on ARM64 Ubuntu 24.04 / GTK 4.14 / Wayland. Full shadcn visual, interaction, accessibility, and motion parity is not yet qualified. The private Wayland gallery additionally samples 50 button-state background endpoints; see [the component contract](docs/COMPONENT-CONTRACT.md#button--native-variants) for its scope.
 
 ## Design commitments
 
@@ -76,3 +76,5 @@ The default horizontal Tabs strip now uses the pinned muted palette and measured
 Alpha.24 corrects fractional and very small Chart values: the zero-inclusive domain now uses the measured range rather than a minimum span of one. Both themes have actual paint regressions, including signed, zero and subnormal data; the exact accessible table remains available.
 
 Alpha.25 aligns native Toggle checkbox state backgrounds and 16px geometry with the pinned Checkbox reference, with both-theme painted regressions and disabled action checks. Stronger borders, native focus and GTK check glyphs remain documented differences.
+
+Alpha.26 aligns Choice trigger backgrounds, regular-weight text and 36px height with the pinned Select reference. Both-theme paint checks cover normal, hover and disabled states; actual native focus verifies all four painted ring edges. Native strengthened borders, focus treatment, GTK arrow, popup and keyboard behavior remain distinct; full Select appearance/interaction/motion parity is unqualified.

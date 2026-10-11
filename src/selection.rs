@@ -32,6 +32,7 @@ impl Choice {
         widget.append(&crate::text(title, false));
         let strings = options.iter().map(String::as_str).collect::<Vec<_>>();
         let control = gtk::DropDown::from_strings(&strings);
+        control.add_css_class("seven-choice");
         control.set_selected(selected as u32);
         control.update_property(&[gtk::accessible::Property::Label(title)]);
         widget.append(&control);

@@ -28,6 +28,12 @@ with tempfile.TemporaryDirectory(prefix='716-wayland-') as runtime:
                     (OUTPUT/('chart-states-'+appearance+'-'+case+'.json')).write_text(result.stdout)
                     if result.stderr:print(result.stderr)
                     result.check_returncode()
+                choices=[str(ROOT/'target/debug/choice-states')]
+                if appearance=='dark':choices.append('--dark')
+                result=subprocess.run(choices,env={**env,'CHOICE_STATE_OUTPUT':str(OUTPUT/('choice-states-'+appearance))},capture_output=True,text=True,timeout=15)
+                (OUTPUT/('choice-states-'+appearance+'.json')).write_text(result.stdout)
+                if result.stderr:print(result.stderr)
+                result.check_returncode()
                 toggles=[str(ROOT/'target/debug/toggle-states')]
                 if appearance=='dark':toggles.append('--dark')
                 result=subprocess.run(toggles,env={**env,'TOGGLE_STATE_OUTPUT':str(OUTPUT/('toggle-states-'+appearance))},capture_output=True,text=True,timeout=15)

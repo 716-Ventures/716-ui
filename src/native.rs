@@ -116,6 +116,10 @@ pub fn install_theme(
 .seven-ui button.link {{background:transparent;color:{link};border:none;}}
 .seven-ui progressbar trough {{min-height:8px;background:{secondary};border-radius:6px;}}
 .seven-ui progressbar progress {{min-width:2px;min-height:8px;background:{primary};border-radius:6px;border:none;box-shadow:none;}}
+.seven-ui dropdown.seven-choice > button {{background:{outline_bg};background-image:none;color:{fg};font-weight:400;border:1px solid {border};border-radius:6px;min-height:{height}px;padding:{pad_y}px {input_x}px;box-shadow:none;transition:none;}}
+.seven-ui dropdown.seven-choice > button:hover {{background:{choice_hover};}}
+.seven-ui dropdown.seven-choice > button:disabled {{opacity:.5;}}
+.seven-ui dropdown.seven-choice:focus-within > button {{outline:3px solid {muted};outline-offset:2px;}}
 .seven-ui notebook.seven-tabs {{background:transparent;border:0;box-shadow:none;}}
 .seven-ui notebook.seven-tabs > header {{background:{secondary};background-image:none;border:0;box-shadow:none;border-radius:8px;padding:{tabs_pad}px;min-height:{tabs_strip}px;}}
 .seven-ui notebook.seven-tabs > header tabs {{background:transparent;border:0;min-height:{tabs_strip}px;}}
@@ -140,6 +144,7 @@ pub fn install_theme(
         } else {
             "alpha(#27272a,.3)"
         },
+        choice_hover = if appearance == Appearance::Light { t.background } else { "alpha(#27272a,.5)" },
         accent_hover = if appearance == Appearance::Light {
             secondary
         } else {

@@ -14,7 +14,8 @@
   },
   "primitives": {
     "button_slot": "radix-ui/1.4.3 (reference only)",
-    "input": "native HTML input in reference; GTK Entry in implementation"
+    "input": "native HTML input in reference; GTK Entry in implementation",
+    "select": "radix-ui/1.4.3 reference; GTK DropDown implementation"
   },
   "files": {
     "LICENSE.shadcn": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",

@@ -1,0 +1,203 @@
+{
+  "browser": "154.0.8037.93",
+  "profile": {
+    "upstream": "https://github.com/shadcn-ui/ui",
+    "revision": "2d3f1cd436b18ea12f24130de4df781355925b08",
+    "files": {
+      "button": "79dd6f75f8136394442202d6b8b922fb269eaad0a5dba579397c9d5b41f893bb",
+      "input": "0c9457181f6ddc80969bcf854e92c362903a55b6e889fbef3fd85343ecc4af5b",
+      "tabs": "e1df6e2f95ece373ca909c1d54b8ba8cf4c47dd425c1784bbb9a01c38dd0936b",
+      "checkbox": "ba0ac64064e2d8fa7299d53e9e84b9a4772fef8dd4cf6170c56d3030a1d69941",
+      "select": "962830436bd0b7ee50e556f0747e277d6a86869ed27d167516346b15f26309d8",
+      "zinc": "d2366e81d347beb69dbb04c93432a35769215792c4e1a56e5593d4ffa0c321d5"
+    },
+    "scope": "pinned component source + Zinc tokens; default Tailwind radius/spacing; not upstream website globals",
+    "fonts": {
+      "400": "d4f2b9e148059a15f014cb0f0b8fea8cd11bfa447dd483bedf1b0adc0e2ba799",
+      "500": "6c222ed2c3660524dd0c14fb745e00fee65c5361ab28f60fba6730bf4e648763",
+      "600": "0a4d30778fa2dc239368d90fd854b88b27e7ede737450da72686a90eca66f02c"
+    },
+    "toolchain": {
+      "@tailwindcss/cli": "4.3.0",
+      "class-variance-authority": "0.7.1",
+      "cn": "0.2.2",
+      "esbuild": "0.25.10",
+      "lucide-react": "0.474.0",
+      "radix-ui": "1.4.3",
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "tailwindcss": "4.3.0"
+    }
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 1500,
+    "deviceScaleFactor": 1
+  },
+  "appearances": {
+    "light": {
+      "normal": {
+        "width": 190,
+        "height": 36,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(228, 228, 231)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "disabled": {
+        "width": 190,
+        "height": 36,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(228, 228, 231)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "0.5",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "hover": {
+        "width": 190,
+        "height": 36,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(228, 228, 231)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "popup": {
+        "width": 190,
+        "height": 106,
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(9, 9, 11)",
+        "border": "1px solid rgb(9, 9, 11)",
+        "borderRadius": "6px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "all"
+      },
+      "interactions": [
+        "Space opens",
+        "End/Enter selects last enabled choice",
+        "Home/Enter selects first choice",
+        "ArrowDown/Escape cancels without mutation",
+        "dismissal restores trigger focus"
+      ],
+      "disabled_semantics": true
+    },
+    "dark": {
+      "normal": {
+        "width": 190,
+        "height": 36,
+        "background": "oklab(0.273934 0.00152507 -0.00525855 / 0.3)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(39, 39, 42)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "disabled": {
+        "width": 190,
+        "height": 36,
+        "background": "oklab(0.273934 0.00152507 -0.00525855 / 0.3)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(39, 39, 42)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "0.5",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "hover": {
+        "width": 190,
+        "height": 36,
+        "background": "oklab(0.273934 0.00152507 -0.00525855 / 0.5)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(39, 39, 42)",
+        "borderRadius": "6px",
+        "padding": "8px 12px",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+      },
+      "popup": {
+        "width": 190,
+        "height": 106,
+        "background": "rgb(9, 9, 11)",
+        "color": "rgb(250, 250, 250)",
+        "border": "1px solid rgb(250, 250, 250)",
+        "borderRadius": "6px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "fontFamily": "\"716 Reference Inter\", sans-serif",
+        "opacity": "1",
+        "transition": "all"
+      },
+      "interactions": [
+        "Space opens",
+        "End/Enter selects last enabled choice",
+        "Home/Enter selects first choice",
+        "ArrowDown/Escape cancels without mutation",
+        "dismissal restores trigger focus"
+      ],
+      "disabled_semantics": true
+    }
+  },
+  "component_sha256": "962830436bd0b7ee50e556f0747e277d6a86869ed27d167516346b15f26309d8",
+  "scope": "Pinned Select trigger and basic local keyboard behavior; popup placement, native parity, physical input, RTL and motion remain unqualified. Headless Chromium inspection.",
+  "native_qualification": {
+    "version": "0.1.0-alpha.26",
+    "profile": {
+      "platform": "ARM64 Debian 13 / Wayland private Weston display",
+      "gtk": "4.18.6+ds-2",
+      "fonts_inter": "4.1+ds-1",
+      "rustc": "1.85.1",
+      "weston": "14.0.2-1"
+    },
+    "qualified": [
+      "190x36 trigger geometry and regular Inter 14px text",
+      "normal/hover/disabled backgrounds in light and dark within two channel values",
+      "actual native control focus and all four painted native outline edges",
+      "complete standalone gallery at text scales 1/2, both themes and reduced motion",
+      "independent AT-SPI gallery names/roles/edits/toggle/tab actions",
+      "owned display/VM/application cleanup"
+    ],
+    "baseline": [
+      "Original light normal/hover background 248,247,247 / 232,230,227; expected white",
+      "Original dark normal/hover background 56,56,56 / 49,49,49; expected input/30 and input/50",
+      "Original trigger inherited Inter Medium rather than regular weight"
+    ],
+    "baseline_log_sha256": "81900d69a2ce0d084b1a2f70adfb89e6c74c3ed5152f9db1493da7e68d2a3ee2",
+    "full_gallery_log_sha256": "61172814e825f3e1ff71c39998e41041731c633543bd7ff54d7f601d978f0b61",
+    "native_reports_sha256": {
+      "light": "ed04609d58244f6c7a3edab044cddea08c0ee9b60736b29f05c12a21d6d227df",
+      "dark": "19f31ad6ea00b173fd06396f162412f883f582f9b86e674fa1e9c4bb959a5e94"
+    },
+    "boundary": "Trigger endpoint/geometry/focus checks only. Native popup, keyboard parity, exact arrow/typography, RTL, physical input and reference motion remain unqualified."
+  }
+}
