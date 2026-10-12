@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0-alpha.43",
+  "scope": "Explicit host announcement policy; unchanged default reconcile API",
+  "profile": "ARM64 Debian 13 / GTK 4.18 / private Weston",
+  "qualification": {
+    "started_at": "2026-10-12T00:23:14.600431+00:00",
+    "source_revision": "7997f4d800d7169d2bcdc51bea0431f618968d81",
+    "source_changes": [
+      " M Cargo.lock",
+      " M Cargo.toml",
+      " M README.md",
+      " M src/bin/status_updates.rs",
+      " M src/status.rs"
+    ],
+    "source_archive_sha256": "0fa9881bc039703a7752bcadab1c03695cf90b6a0193ecd17be2592810036433",
+    "passed": true,
+    "owned_utm_identity": [
+      16985,
+      "Sun Oct 11 20:23:14 2026"
+    ],
+    "owned_utm_closed": true,
+    "finished_at": "2026-10-12T00:25:08.706806+00:00"
+  },
+  "gallery_log_sha256": "c9698d597a79257c2c410adc07c807be4d0f87968f10f69c55beb0f199a84039",
+  "status_profile_logs": {
+    "test-output/status-updates-light-2-ltr.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-dark-2-ltr.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-light-2-rtl.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-light-1-ltr.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-dark-2-rtl.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-light-1-rtl.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-dark-1-ltr.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1",
+    "test-output/status-updates-dark-1-rtl.log": "0434692d486a387e212bf92401f15593f557b323c37f8c0c4b9ed71798d963e1"
+  },
+  "qualified": [
+    "Complete standalone gallery and all-feature deterministic tests",
+    "Eight light/dark, scale 1/2 and LTR/RTL Status profiles",
+    "Quiet selected Unicode observations retain selection, focus and latest notice; invalid quiet text is atomic; deselection adopts current text"
+  ],
+  "boundaries": [
+    "Actual announcement delivery and foreground policy require consuming-host screen-reader qualification.",
+    "No new appearance, motion, physical input or full reference parity claim."
+  ]
+}

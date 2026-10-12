@@ -41,15 +41,25 @@ impl StatusView {
     /// observation remains visible beside it and is announced once when mapped.
     /// Invalid observations leave both representations unchanged.
     pub fn reconcile(&self, value: &str) -> Result<bool, String> {
+        self.reconcile_with_announcement(value, true)
+    }
+
+    /// Update the same selection-protected observation, optionally speaking it.
+    /// Hosts can silence inactive or duplicate projections without hiding or
+    /// replacing widgets. Quiet observations still advance the remembered value;
+    /// enabling speech later never replays an unchanged background observation.
+    pub fn reconcile_with_announcement(&self, value: &str, announce: bool) -> Result<bool, String> {
         if !valid(value) {
             return Err("Status requires bounded literal text".into());
         }
         if self.observed.borrow().as_str() != value {
             *self.observed.borrow_mut() = value.to_owned();
-            crate::announcement::announce_bounded(
-                &self.widget, value,
-                gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW,
-            );
+            if announce {
+                crate::announcement::announce_bounded(
+                    &self.widget, value,
+                    gtk::ffi::GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW,
+                );
+            }
         }
         if self.value.selection_bounds().is_some() {
             let changed = self.value.text() != value;

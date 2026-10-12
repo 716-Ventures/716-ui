@@ -65,8 +65,15 @@ fn main() {
             assert!(!status.reconcile("stopped Ελληνικά").unwrap());
             assert_eq!(status.current.text(), "Current value:\nstopped Ελληνικά");
             assert_eq!(status.value.selection_bounds(), selection);
+            assert!(!status.reconcile_with_announcement("quiet 日本語", false).unwrap());
+            assert_eq!(status.value.text(), "running λ");
+            assert_eq!(status.value.selection_bounds(), selection);
+            assert_eq!(status.current.text(), "Current value:\nquiet 日本語");
+            assert!(!status.reconcile("quiet 日本語").unwrap());
+            assert!(status.reconcile_with_announcement("bad\0value", false).is_err());
+            assert_eq!(status.current.text(), "Current value:\nquiet 日本語");
             status.value.select_region(0, 0);
-            assert!(status.reconcile("stopped Ελληνικά").unwrap());
+            assert!(status.reconcile_with_announcement("stopped Ελληνικά", false).unwrap());
             glib::timeout_future(Duration::from_millis(100)).await;
             assert_eq!(status.value.text(), "stopped Ελληνικά");
             assert!(!status.current.is_mapped());
